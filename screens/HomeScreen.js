@@ -6,12 +6,15 @@ import {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
+  Dimensions
 } from 'react-native';
 import { Container, Header, View, Button, Icon, Fab, Text } from 'native-base';
 
 import { MonoText } from '../components/StyledText';
 import CardSlider from '../components/CardSlider';
+import FeaturedCardSlider from '../components/CardSlider/featured';
 import pColours from '../constants/Colors' ;
+const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window');
 
 export default function HomeScreen() {
   const [ fabPanicActive, setFabPanicActive ] = React.useState(false);
@@ -22,15 +25,23 @@ export default function HomeScreen() {
         contentContainerStyle={styles.container}
       >
         <View style={styles.container}>
-          <CardSlider />
+          <Image 
+            source={ require('../assets/images/pixels/featuredCard.png')} 
+            style = {{
+              flex:1,
+              width: viewportWidth,
+              alignSelf: 'center'
+            }}
+              resizeMode="contain"
+          />
         </View>
        
 
         <View style={styles.container2}>
           <CardSlider />
-        </View>
-       
+          <CardSlider />
 
+      </View>
       </ScrollView>
 
         <View>
@@ -189,7 +200,7 @@ function handleHelpPress() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 2,
+    flex: 1,
     backgroundColor: '#fff',
   },
   container2: {

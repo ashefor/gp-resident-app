@@ -63,3 +63,12 @@ export const ENTRIES2 = [
         illustration: 'https://i.imgur.com/l49aYS3l.jpg'
     }
 ];
+
+export const ENTRIES3 = [
+    {
+        title: 'House D2',
+        number: 3,
+        subtitle: 'Incoming Guests',
+        illustration: 'https://i.imgur.com/SsJmZ9jl.jpg'
+    },
+];
