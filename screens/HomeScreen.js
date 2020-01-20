@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   Dimensions
 } from 'react-native';
-import { Container, Header, View, Button, Icon, Fab, Text } from 'native-base';
+import { Container, Header, View, Button, Icon, Fab, Text, Left, Body, Right, Title } from 'native-base';
 
 import { MonoText } from '../components/StyledText';
 import CardSlider from '../components/CardSlider';
@@ -20,9 +20,34 @@ export default function HomeScreen() {
   const [ fabPanicActive, setFabPanicActive ] = React.useState(false);
   const [ fabChatActive, setFabChatActive ] = React.useState(false);
   return (
-    <View style={styles.container}>
+    <Container style={styles.container}>
+     <Header transparent>
+          <Left>
+            <Button transparent>
+              <Icon name='menu' 
+                style={{
+                  color: pColours.pBlueDark
+                }} 
+              />
+            </Button>
+          </Left>
+          <Body>
+            <Title>
+              Demo Estate
+            </Title>
+          </Body>
+          <Right>
+            <Button transparent>
+              <Icon name='md-person' 
+                style={{
+                  color: pColours.pBlueDark
+                }} 
+              />
+            </Button>
+          </Right>
+        </Header>
       <ScrollView
-        contentContainerStyle={styles.container}
+        contentContainerStyle={styles.container2}
       >
         <View style={styles.container}>
           <Image 
@@ -38,8 +63,9 @@ export default function HomeScreen() {
        
 
         <View style={styles.container2}>
+          <Text style={styles.tabBarInfoText}>Community Spotlight</Text>
           <CardSlider />
-          <CardSlider />
+          <Text style={styles.tabBarInfoText}>Community Centre Coming Soon</Text>
 
       </View>
       </ScrollView>
@@ -184,7 +210,7 @@ export default function HomeScreen() {
           
         </View>
 
-    </View>
+    </Container>
   );
 }
 
@@ -202,6 +228,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    paddingHorizontal: 16,
   },
   container2: {
     flex: 1,
@@ -268,12 +295,14 @@ const styles = StyleSheet.create({
     }),
     alignItems: 'center',
     backgroundColor: '#fbfbfb',
-    paddingVertical: 20,
+    paddingVertical: 4,
   },
   tabBarInfoText: {
-    fontSize: 17,
+    fontSize: 14,
+    fontFamily: 'Poppins-Medium',
     color: 'rgba(96,100,109, 1)',
-    textAlign: 'center',
+    textAlign: 'left',
+    paddingHorizontal: 4,
   },
   navigationFilename: {
     marginTop: 5,

@@ -123,8 +123,7 @@ function Login(props) {
               alignSelf: 'center'
             }}
               resizeMode="contain"
-              
-              />
+          />
             <Text style={styles.title}>
               Login
             </Text>
