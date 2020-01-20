@@ -4,6 +4,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 
 import TabBarIcon from '../components/TabBarIcon';
+import CardSlider from '../components/CardSlider/examples';
 import HomeScreen from '../screens/HomeScreen';
 import Login from '../screens/pLogin/Login';
 
@@ -37,13 +38,13 @@ HomeStack.path = '';
 
 const LoginStack = createStackNavigator(
   {
-    Login: Login,
+    CardSlider: CardSlider,
   },
   config
 );
 
 LoginStack.navigationOptions = {
-  tabBarLabel: 'Login',
+  tabBarLabel: 'Demos',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}

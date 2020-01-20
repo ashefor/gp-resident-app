@@ -11,9 +11,11 @@ import { Container, Header, View, Button, Icon, Fab, Text } from 'native-base';
 
 import { MonoText } from '../components/StyledText';
 import CardSlider from '../components/CardSlider';
+import pColours from '../constants/Colors' ;
 
 export default function HomeScreen() {
-  const [ fabActive, setFabActive ] = React.useState(false);
+  const [ fabPanicActive, setFabPanicActive ] = React.useState(false);
+  const [ fabChatActive, setFabChatActive ] = React.useState(false);
   return (
     <View style={styles.container}>
       <ScrollView
@@ -33,12 +35,12 @@ export default function HomeScreen() {
 
         <View>
           <Fab
-            active={fabActive}
+            active={fabChatActive}
             direction="up"
             containerStyle={{ }}
-            style={{ backgroundColor: '#5067FF' }}
+            style={{ backgroundColor: pColours.pBlueDark }}
             position="bottomLeft"
-            onPress={() => setFabActive(!fabActive)}>
+            onPress={() => setFabChatActive(!fabChatActive)}>
               <Icon name="share" />
               <Button style={{ backgroundColor: '#34A34F' }}>
                 <Icon name="logo-whatsapp" />
@@ -52,12 +54,12 @@ export default function HomeScreen() {
           </Fab>
 
           <Fab
-            active={fabActive}
+            active={fabPanicActive}
             direction="up"
             containerStyle={{ }}
-            style={{ backgroundColor: '#5067FF' }}
+            style={{ backgroundColor: 'red' }}
             position="bottomRight"
-            onPress={() => setFabActive(!fabActive)}>
+            onPress={() => setFabPanicActive(!fabPanicActive)}>
               <Icon name="share" />
               <Button style={{ backgroundColor: '#34A34F' }}>
                 <View

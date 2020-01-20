@@ -35,7 +35,7 @@ export default StyleSheet.create({
         fontFamily: 'Poppins-Medium',
         paddingHorizontal: 30,
         backgroundColor: 'transparent',
-        color: 'rgba(255, 255, 255, 0.9)',
+        color: '#d3d3d3',
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'center'
@@ -49,7 +49,7 @@ export default StyleSheet.create({
         marginTop: 5,
         paddingHorizontal: 30,
         backgroundColor: 'transparent',
-        color: 'rgba(255, 255, 255, 0.75)',
+        color: '#d3d3d3',
         fontSize: 13,
         fontStyle: 'italic',
         textAlign: 'center'
