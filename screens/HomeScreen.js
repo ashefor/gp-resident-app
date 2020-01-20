@@ -54,7 +54,7 @@ export default function HomeScreen() {
             source={ require('../assets/images/pixels/featuredCard.png')} 
             style = {{
               flex:1,
-              width: viewportWidth,
+              width: viewportWidth*0.96,
               alignSelf: 'center'
             }}
               resizeMode="contain"
@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingHorizontal: 16,
+    paddingHorizontal: 20,
   },
   container2: {
     flex: 1,
