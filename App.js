@@ -61,7 +61,10 @@ async function loadResourcesAsync() {
       'Poppins-Medium': require('./assets/fonts/Poppins-Medium.ttf'),
       'Poppins-Bold': require('./assets/fonts/Poppins-Bold.ttf'),
       'Poppins-SemiBold': require('./assets/fonts/Poppins-SemiBold.ttf'),
-      // pFonts END      
+      // pFonts END  
+
+      'antoutline': require('@ant-design/icons-react-native/fonts/antoutline.ttf'),
+      'antfill': require('@ant-design/icons-react-native/fonts/antfill.ttf'),    
 
       // This is the font that we are using for our tab bar
       ...Ionicons.font,

@@ -54,21 +54,20 @@ function Login(props) {
   const onSubmit = async data => {
     setLoading(true);
     const { email, password } = data;
+    await firebase.auth().signInWithEmailAndPassword(email, password)
+      .then(function(res) {
+        console.log(res);
+        Toast.success('Logged In');
         props.navigation.navigate('Main');
-    // await firebase.auth().signInWithEmailAndPassword(email, password)
-    //   .then(function(res) {
-    //     console.log(res);
-    //     Toast.success('Logged In');
-    //     props.navigation.navigate('Main');
-    //   })
-    //   .catch(function(error) {
-    //     // Handle Errors here.
-    //     var errorCode = error.code;
-    //     var errorMessage = error.message;
-    //     Toast.fail(errorMessage);
-          
-    //   });
-    setLoading(false);
+      })
+      .catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        Toast.fail(errorMessage);
+        props.navigation.navigate('Main');
+      });
+
   };
 
   // useEffect( () => {
@@ -143,6 +142,7 @@ function Login(props) {
                   name="email"
                   ref={register({ name: 'email'}, { required: true })}
                   onChangeText={text => setValue('email', text, true)}
+                  style={styles.text}
                 />
                 {errors.email && <Text style={{color: 'red'}}>Required</Text>}
               
@@ -158,6 +158,7 @@ function Login(props) {
                   name="password"
                   ref={register({ name: 'password'}, { required: true })}
                   onChangeText={text => setValue('password', text, true)}
+                  style={styles.text}
                 />
                 {errors.password && <Text style={{color: 'red'}}>Required</Text>}
               
@@ -245,10 +246,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   text: {
+    fontSize: 16,
     fontFamily: 'Poppins-Regular',
-    textAlign: 'center',
-    margin: 10,
-    height: 75
+    color: pColours.pTextDark,
   },
   instructions: {
     textAlign: 'center',
