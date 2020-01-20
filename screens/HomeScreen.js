@@ -5,15 +5,15 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
-  Text,
   TouchableOpacity,
-  View,
 } from 'react-native';
+import { Container, Header, View, Button, Icon, Fab, Text } from 'native-base';
 
 import { MonoText } from '../components/StyledText';
 import CardSlider from '../components/CardSlider';
 
 export default function HomeScreen() {
+  const [ fabActive, setFabActive ] = React.useState(false);
   return (
     <View style={styles.container}>
       <ScrollView
@@ -30,6 +30,147 @@ export default function HomeScreen() {
        
 
       </ScrollView>
+
+        <View>
+          <Fab
+            active={fabActive}
+            direction="up"
+            containerStyle={{ }}
+            style={{ backgroundColor: '#5067FF' }}
+            position="bottomLeft"
+            onPress={() => setFabActive(!fabActive)}>
+              <Icon name="share" />
+              <Button style={{ backgroundColor: '#34A34F' }}>
+                <Icon name="logo-whatsapp" />
+              </Button>
+              <Button style={{ backgroundColor: '#3B5998' }}>
+                <Icon name="logo-facebook" />
+              </Button>
+              <Button disabled style={{ backgroundColor: '#DD5144' }}>
+                <Icon name="mail" />
+              </Button>
+          </Fab>
+
+          <Fab
+            active={fabActive}
+            direction="up"
+            containerStyle={{ }}
+            style={{ backgroundColor: '#5067FF' }}
+            position="bottomRight"
+            onPress={() => setFabActive(!fabActive)}>
+              <Icon name="share" />
+              <Button style={{ backgroundColor: '#34A34F' }}>
+                <View
+                  style={{
+                    position: 'absolute',
+                    alignItems: 'center',
+                    right: 48,
+                    width:160,
+                    backgroundColor: '#fff',
+                    borderColor: '#fff',
+                    padding: 2,
+                    borderWidth: 1,
+                    borderRadius: 4
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: '#000',
+                      fontSize: 12,
+                      fontFamily: 'Poppins-Light',
+                    }}
+                  >
+                    Fire
+                  </Text>
+                </View>
+                <Icon name="logo-whatsapp" />
+              </Button>
+
+               <Button style={{ backgroundColor: '#34A34F' }}>
+                <View
+                  style={{
+                    position: 'absolute',
+                    alignItems: 'center',
+                    right: 48,
+                    width:160,
+                    backgroundColor: '#fff',
+                    borderColor: '#fff',
+                    padding: 2,
+                    borderWidth: 1,
+                    borderRadius: 4
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: '#000',
+                      fontSize: 12,
+                      fontFamily: 'Poppins-Light',
+                    }}
+                  >
+                    Domestic Violence
+                  </Text>
+                </View>
+                <Icon name="logo-whatsapp" />
+              </Button>
+
+               <Button style={{ backgroundColor: '#34A34F' }}>
+                <View
+                  style={{
+                    position: 'absolute',
+                    alignItems: 'center',
+                    right: 48,
+                    width:160,
+                    backgroundColor: '#fff',
+                    borderColor: '#fff',
+                    padding: 2,
+                    borderWidth: 1,
+                    borderRadius: 4
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: '#000',
+                      fontSize: 12,
+                      fontFamily: 'Poppins-Light',
+                    }}
+                  >
+                    Health
+                  </Text>
+                </View>
+                <Icon name="logo-whatsapp" />
+              </Button>
+
+               <Button style={{ backgroundColor: '#34A34F' }}>
+                <View
+                  style={{
+                    position: 'absolute',
+                    alignItems: 'center',
+                    right: 48,
+                    width:160,
+                    backgroundColor: '#fff',
+                    borderColor: '#fff',
+                    padding: 2,
+                    borderWidth: 1,
+                    borderRadius: 4
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: '#000',
+                      fontSize: 12,
+                      fontFamily: 'Poppins-Light',
+                    }}
+                  >
+                    Crime
+                  </Text>
+                </View>
+                <Icon name="logo-whatsapp" />
+              </Button>
+             
+          </Fab>
+          
+        </View>
+
     </View>
   );
 }

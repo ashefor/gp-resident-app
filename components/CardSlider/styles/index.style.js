@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 export const colors = {
     black: '#1a1917',
     gray: '#888888',
-    background1: '#B721FF',
+    background1: '#f5f7f7',
     background2: '#21D4FD'
 };
 
@@ -32,6 +32,7 @@ export default StyleSheet.create({
         backgroundColor: 'white'
     },
     title: {
+        fontFamily: 'Poppins-Medium',
         paddingHorizontal: 30,
         backgroundColor: 'transparent',
         color: 'rgba(255, 255, 255, 0.9)',
@@ -40,9 +41,11 @@ export default StyleSheet.create({
         textAlign: 'center'
     },
     titleDark: {
+        fontFamily: 'Poppins-Medium',
         color: colors.black
     },
     subtitle: {
+        fontFamily: 'Poppins-Medium',
         marginTop: 5,
         paddingHorizontal: 30,
         backgroundColor: 'transparent',
