@@ -1,31 +1,23 @@
 {
+  "name": "gateapp",
+  "displayName": "GatePass",
   "expo": {
-    "name": "GP App Resident",
-    "slug": "gp-app-resident",
-    "privacy": "public",
+    "name": "gatepass-app-resident",
+    "slug": "gatepass-app-resident",
+    "privacy": "unlisted",
     "sdkVersion": "36.0.0",
+    "version": "1.0.0",
+    "splash": {
+      "image": "./src/assets/images/splashscreen.png",
+      "resizeMode": "cover"
+    },
+    "entryPoint": "node_modules/expo/AppEntry.js",
     "platforms": [
       "ios",
       "android",
       "web"
     ],
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "splash": {
-      "image": "./assets/images/splash.png",
-      "resizeMode": "cover",
-      "backgroundColor": "#ffffff"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true
-    },
-    "description": ""
+    "description": "",
+    "githubUrl": "https://github.com/ashefor/gatepass-app"
   }
 }
