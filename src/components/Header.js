@@ -41,7 +41,7 @@ const CancelButton = ({ navigation, route, textColor }) => (
     </TouchableOpacity>
 )
 const SkipButton = ({ navigation }) => (
-    <TouchableOpacity onPress={() => { navigation.navigate('Home') }} style={styles.skipBtn}>
+    <TouchableOpacity onPress={() => { navigation.navigate('Auth') }} style={styles.skipBtn}>
         <Text style={styles.skipBtnText}>Skip</Text>
     </TouchableOpacity>
 )

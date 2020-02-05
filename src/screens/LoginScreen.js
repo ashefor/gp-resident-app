@@ -42,7 +42,7 @@ export default class LoginScreen extends Component {
                             </TouchableOpacity>
                         </View>
                         <View style={styles.bottomContainer}>
-                            <TouchableOpacity style={styles.customBtn} onPress={() => this.props.navigation.navigate('Start')}>
+                            <TouchableOpacity style={styles.customBtn} onPress={() => this.props.navigation.navigate('Home')}>
                                 <Text allowFontScaling={false} style={styles.btnText}>Login</Text>
                             </TouchableOpacity>
 

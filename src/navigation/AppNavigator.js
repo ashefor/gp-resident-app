@@ -9,11 +9,11 @@ import { Transition } from 'react-native-reanimated';
 import createAnimatedSwitchNavigator from 'react-navigation-animated-switch';
 
 export default createAppContainer(createAnimatedSwitchNavigator({
-    Auth: {
-        screen: AuthStack
-    },
     'Get Started': {
         screen: GetStartedStack
+    },
+    Auth: {
+        screen: AuthStack
     },
     Main: {
         screen: DrawerNavigation
