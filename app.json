@@ -2,8 +2,8 @@
   "name": "gateapp",
   "displayName": "GatePass",
   "expo": {
-    "name": "gatepass-app-resident",
-    "slug": "gatepass-app-resident",
+    "name": "gp-resident-2020",
+    "slug": "gp-resident-2020",
     "privacy": "unlisted",
     "sdkVersion": "36.0.0",
     "version": "1.0.0",
@@ -17,7 +17,6 @@
       "android",
       "web"
     ],
-    "description": "",
-    "githubUrl": "https://github.com/ashefor/gatepass-app"
+    "description": ""
   }
 }
