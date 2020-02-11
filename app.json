@@ -2,8 +2,8 @@
   "name": "gateapp",
   "displayName": "GatePass",
   "expo": {
-    "name": "gp-resident-2020",
-    "slug": "gp-resident-2020",
+    "name": "GatePass",
+    "slug": "gatepass",
     "privacy": "unlisted",
     "sdkVersion": "36.0.0",
     "version": "1.0.0",
