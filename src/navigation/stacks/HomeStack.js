@@ -3,6 +3,7 @@ import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 
 import HomeScreen from '../../screens/home/HomeScreen';
 import CreateGatePass from '../../screens/home/CreateGatePass';
+import GuestLists from '../../screens/guestlist/GuestLists';
 
 const HomeStack = createStackNavigator({
     Home: {
@@ -12,6 +13,13 @@ const HomeStack = createStackNavigator({
             headerShown: false,
         }
     }, 
+    'Guests': {
+        screen: GuestLists,
+        navigationOptions: {
+            headerTransparent: true,
+            headerShown: false,
+        }
+    },
     'Create Gatepass' : {
         screen: CreateGatePass,
         navigationOptions: {
@@ -26,4 +34,4 @@ const HomeStack = createStackNavigator({
     }
 })
 
-export default HomeStack
+export default HomeStack;

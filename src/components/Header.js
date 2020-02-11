@@ -53,7 +53,8 @@ const CloseButton = ({ navigation }) => (
 class Header extends Component {
     handleCustomHeader = () => {
         const { title, navigation, history, Cancel, textColor, backColor } = this.props;
-        const { routeName } = navigation.state;
+        const { routeName, params } = navigation.state;
+        const goBack =  params && params.back || false;
 
         switch (routeName) {
             case 'Verify Code':
@@ -174,6 +175,21 @@ class Header extends Component {
                         rightStyle={styles.rightStyle}
                         style={styles.headerStyle}
                         left={<MenuButton navigation={navigation} />}
+                        title={title ? title : routeName}
+                        right={<HistoryButton navigation={navigation} route={history} />} />
+                )
+            case 'Guests':
+                return (
+                    <NavBar
+                        transparent={true}
+                        titleStyle={styles.pageTitle}
+                        rightStyle={styles.rightStyle}
+                        style={styles.headerStyle}
+                        left={ goBack ? (
+                            <BackButton navigation={navigation} textColor={backColor}/>
+                            ) : (
+                            <MenuButton navigation={navigation} />
+                        )}
                         title={title ? title : routeName}
                         right={<HistoryButton navigation={navigation} route={history} />} />
                 )

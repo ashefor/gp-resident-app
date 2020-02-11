@@ -32,45 +32,58 @@ class HomeScreen extends Component {
 
                         <View style={[styles.page]}>
                             <Header navigation={navigation} title='House D2' />
-                            <View style={styles.container}>
-                                <View
-                                    style={{
-                                        flex:3
-                                    }}
-                                >
-                                <ImageBackground source={require('../../assets/images/homeImg.png')}
-                                    imageStyle={{ borderRadius: 5 }}
-                                    style={styles.imgBckGd}>
-                                    <LinearGradient style={styles.imgOverlay} colors={['rgba(45, 45, 45, 0.45)', 'rgba(17, 17, 17, 0.7)',]}>
-                                        <View style={{ flex: 1, width: '50%', margin: resHeight(3) }}>
-                                            <View style={{ flex: 0.5, justifyContent: 'flex-start' }}>
-                                                <Text allowFontScaling={false} style={styles.house}
-                                                >
-                                                    Guests
-                                                </Text>
-                                            </View>
-                                            <View style={{ flex: 0.5, justifyContent: 'flex-end', }}>
-                                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                                    <View style={styles.guestNum}>
-                                                        <Text allowFontScaling={false} style={styles.guestNumText} >3</Text>
+                                <View style={styles.container}>
+                                 <TouchableWithoutFeedback onPress={() => {
+                                        this.props.navigation.navigate("Guests", {
+                                            previous: 'Home',
+                                            back: true,
+                                        })
+                                    }}>
+                                    <View
+                                        style={{
+                                            flex:3
+                                        }}
+                                    >
+                                        <ImageBackground source={require('../../assets/images/homeImg.png')}
+                                            imageStyle={{ borderRadius: 5 }}
+                                            style={styles.imgBckGd}
+                                            
+                                            >
+                                            <LinearGradient style={styles.imgOverlay} colors={['rgba(45, 45, 45, 0.6)', 'rgba(17, 17, 17, 0.7)',]}>
+
+                                                <View style={{ flex: 1, width: '50%', margin: resHeight(3) }}>
+                                                    <View style={{ flex: 0.5, justifyContent: 'flex-start' }}>
+                                                        <Text allowFontScaling={false} style={styles.house}
+                                                        >
+                                                            Guests
+                                                        </Text>
                                                     </View>
-                                                    <View style={{ marginLeft: 5, alignSelf: 'center' }}>
-                                                        <Text allowFontScaling={false} style={styles.guest}>Incoming</Text>
-                                                        <Text allowFontScaling={false} style={styles.guest}>Guests</Text>
+                                                    <View style={{ flex: 0.5, justifyContent: 'flex-end', }}>
+                                                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                            <View style={styles.guestNum}>
+                                                                <Text allowFontScaling={false} style={styles.guestNumText} 
+                                                                >
+                                                                    3
+                                                                </Text>
+                                                            </View>
+                                                            <View style={{ marginLeft: 5, alignSelf: 'center' }}>
+                                                                <Text allowFontScaling={false} style={styles.guest}>Incoming</Text>
+                                                                <Text allowFontScaling={false} style={styles.guest}>Guests</Text>
+                                                            </View>
+                                                        </View>
                                                     </View>
                                                 </View>
+                                            </LinearGradient>
+                                            <View style={{ position: 'absolute', right: resWidth(4), bottom: resHeight(2.4) }}>
+                                                <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate("Create Gatepass", { previous: 'Home' })}>
+                                                    <View style={[styles.addActionBtns, { backgroundColor: '#34D881', }]}>
+                                                        <Feather name='user-plus' color='#fff' size={resFont(25)} />
+                                                    </View>
+                                                </TouchableWithoutFeedback>
                                             </View>
-                                        </View>
-                                    </LinearGradient>
-                                    <View style={{ position: 'absolute', right: resWidth(4), bottom: resHeight(2.4) }}>
-                                        <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate("Create Gatepass", { previous: 'Home' })}>
-                                            <View style={[styles.addActionBtns, { backgroundColor: '#34D881', }]}>
-                                                <Feather name='user-plus' color='#fff' size={resFont(25)} />
-                                            </View>
-                                        </TouchableWithoutFeedback>
+                                        </ImageBackground>
                                     </View>
-                                </ImageBackground>
-                                </View>
+                                    </TouchableWithoutFeedback>
                                 <View
                                     style={{
                                         flex:3
