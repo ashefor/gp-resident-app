@@ -94,12 +94,16 @@ class CommunitySpotlightCarousel extends Component {
     }
     render() {
         return (
-            <View style={{ justifyContent: 'center' }}>
+            <View 
+                style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                }}>
                 <Carousel
                     ref={this.carouselRef}
                     data={this.state.images}
                     sliderWidth={resWidth(89)}
-                    itemWidth={resWidth(60)}
+                    itemWidth={resWidth(72)}
                     renderItem={this._renderItems}
                     onSnapToItem={(index) => this.setState({ activeSlide: index })}
                     contentContainerCustomStyle={styles.content}
@@ -109,8 +113,6 @@ class CommunitySpotlightCarousel extends Component {
                     inactiveSlideScale={1}
                 />
                 {this.pagination}
-                <View>
-                </View>
             </View>
         )
     }
@@ -125,7 +127,7 @@ class CommunityCentre extends Component {
             data: [
                 {
                     url: require('../assets/images/noticeboard.png'),
-                    title: 'Noticeboard',
+                    title: 'Notices',
                     color1: 'rgba(255, 70, 101, .75)',
                     color2: 'rgba(190, 2, 154, .75)',
                 },
@@ -134,23 +136,17 @@ class CommunityCentre extends Component {
                     title: 'Complaints',
                     color1: 'rgba(134, 158, 214, .9)',
                     color2: 'rgba(153, 139, 205, .9)',
-                }, {
-                    url: require('../assets/images/bills.png'),
-                    title: 'Bills',
-                    color1: 'rgba(255, 70, 101, .75)',
-                    color2: 'rgba(2, 103, 190, .75)',
-                },
+                }, 
                 {
                     url: require('../assets/images/staff.png'),
-                    title: 'Staff Directory',
+                    title: 'Staff',
                     color1: 'rgba(0, 173, 255, .9)',
                     color2: 'rgba(3, 196, 208, .9)',
                 },
                 {
-                    url: require('../assets/images/events.png'),
-                    title: 'Events',
-                    color1: 'rgba(255, 108, 0, .9)',
-                    color2: 'rgba(234, 124, 149, .9)',
+                    title: '',
+                    color1: 'rgba(255,255,255, 0)',
+                    color2: 'rgba(255,255,255, 0)',
                 },
             ],
             communityCentreData: [],
@@ -233,7 +229,9 @@ class CommunityCentre extends Component {
     render() {
         const {navigation} = this.props
         return (
-            <View style={{ justifyContent: 'center' }}>
+            <View style={{ 
+                justifyContent: 'center', 
+            }}>
                 {/* {this.pageSplitter()} */}
                 <Carousel
                     ref={this.carouselRef}
@@ -249,8 +247,6 @@ class CommunityCentre extends Component {
                     inactiveSlideScale={1}
                 />
                 {this.pagination}
-                <View>
-                </View>
             </View>
         )
     }
@@ -267,26 +263,27 @@ const styles = StyleSheet.create({
         shadowRadius: 2,
         paddingLeft: 1,
         elevation: 1,
-        height: resHeight(15),
+        height: resHeight(24),
         justifyContent: 'center',
         alignItems: 'flex-start',
     },
     imageContainer: {
         marginBottom: Platform.select({ ios: 0, android: 1 }), // Prevent a random Android rendering issue
-        backgroundColor: 'white',
+        backgroundColor: 'blue',
     },
     image: {
-        resizeMode: 'cover',
+        flex: 1,
+        resizeMode: 'contain',
         borderRadius: 5,
-        width: resWidth(50),
-        height: resHeight(13)
+        width: resWidth(66),
+        // height: resHeight(13),
     },
     containerCustomStyle: {
         alignSelf: 'center',
     },
     content: {
         alignItems: 'center',
-        height: resHeight(15),
+        height: resHeight(24),
     },
     containerCustomStyle2: {
         alignSelf: 'center',

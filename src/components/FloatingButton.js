@@ -171,9 +171,9 @@ const styles = StyleSheet.create({
     },
     button: {
         // position: 'absolute',
-        width: resHeight(7),
-        height: resHeight(7),
-        borderRadius: resHeight(7) / 2,
+        width: resHeight(8),
+        height: resHeight(8),
+        borderRadius: resHeight(8) / 2,
         alignItems: 'center',
         justifyContent: 'center',
         shadowRadius: 2,
