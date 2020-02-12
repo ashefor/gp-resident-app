@@ -41,15 +41,11 @@ class HomeScreen extends Component {
                                     }}>
                                     <View
                                         style={{
-                                            flex:3
+                                            flex:2
                                         }}
                                     >
-                                        <ImageBackground source={require('../../assets/images/homeImg.png')}
-                                            imageStyle={{ borderRadius: 5 }}
-                                            style={styles.imgBckGd}
-                                            
-                                            >
-                                            <LinearGradient style={styles.imgOverlay} colors={['rgba(45, 45, 45, 0.6)', 'rgba(17, 17, 17, 0.7)',]}>
+                                        
+                                            <LinearGradient style={styles.imgOverlay} colors={['rgba(21, 21, 21, 0.03)', 'rgba(17, 17, 17, 0.02)',]}>
 
                                                 <View style={{ flex: 1, width: '50%', margin: resHeight(3) }}>
                                                     <View style={{ flex: 0.5, justifyContent: 'flex-start' }}>
@@ -68,7 +64,6 @@ class HomeScreen extends Component {
                                                             </View>
                                                             <View style={{ marginLeft: 5, alignSelf: 'center' }}>
                                                                 <Text allowFontScaling={false} style={styles.guest}>Incoming</Text>
-                                                                <Text allowFontScaling={false} style={styles.guest}>Guests</Text>
                                                             </View>
                                                         </View>
                                                     </View>
@@ -76,12 +71,11 @@ class HomeScreen extends Component {
                                             </LinearGradient>
                                             <View style={{ position: 'absolute', right: resWidth(4), bottom: resHeight(2.4) }}>
                                                 <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate("Create Gatepass", { previous: 'Home' })}>
-                                                    <View style={[styles.addActionBtns, { backgroundColor: '#34D881', }]}>
+                                                    <View style={[styles.addActionBtns, { backgroundColor: '#5766BA', }]}>
                                                         <Feather name='user-plus' color='#fff' size={resFont(25)} />
                                                     </View>
                                                 </TouchableWithoutFeedback>
                                             </View>
-                                        </ImageBackground>
                                     </View>
                                     </TouchableWithoutFeedback>
                                 <View
@@ -154,7 +148,7 @@ const styles = StyleSheet.create({
         borderRadius: 5
     },
     house: {
-        color: '#fff',
+        color: '#5766BA',
         fontSize: resFont(23),
         fontFamily: 'josefin-sans-bold'
     },
@@ -162,7 +156,7 @@ const styles = StyleSheet.create({
         color: 'white',
         borderWidth: 2,
         borderRadius: resHeight(8) / 2,
-        borderColor: 'white',
+        borderColor: '#5766BA',
         justifyContent: 'center',
         alignItems: 'center',
         width: resHeight(8),
@@ -171,13 +165,13 @@ const styles = StyleSheet.create({
         paddingTop: Platform.OS === 'ios' ? resHeight(.5) : 0
     },
     guestNumText: {
-        color: '#fff',
+        color: '#5766BA',
         fontSize: resFont(33),
         fontFamily: 'josefin-sans-bold'
     },
     guest: {
         fontSize: resFont(16),
-        color: '#fff',
+        color: '#5766BA',
         fontFamily: 'josefin-sans-semi-bold'
     },
     addActionBtns: {
@@ -195,7 +189,7 @@ const styles = StyleSheet.create({
         marginBottom: resHeight(1)
     },
     spotlightText: {
-        fontSize: resFont(20),
+        fontSize: resFont(16),
         color: '#222455',
         fontFamily: 'josefin-sans-semi-bold'
     },
