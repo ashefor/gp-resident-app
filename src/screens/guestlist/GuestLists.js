@@ -10,8 +10,23 @@ import { withNavigationFocus } from 'react-navigation';
 import { scaleValue, translateX } from '../../functions/toggleDrawer'
 import Header from '../../components/Header';
 import { resHeight, resFont, resWidth } from '../../utils/utils';
+import * as firebase from "firebase/app";
 
-const { width, height } = Dimensions.get('window')
+const { width, height } = Dimensions.get('window');
+
+function snapshotToArray(snapshot) {
+    var returnArr = [];
+
+    snapshot.forEach(function(childSnapshot) {
+        var item = childSnapshot.val();
+        item.key = childSnapshot.key;
+
+        returnArr.push(item);
+    });
+
+    return returnArr;
+};
+
 class GuestLists extends Component {
     constructor(props) {
         super(props)
@@ -68,12 +83,28 @@ class GuestLists extends Component {
         }
     }
     componentDidUpdate(prevProps) {
+        const topThis = this;
+        var incomingGuests = [];
         if (prevProps.isFocused !== this.props.isFocused) {
             this.setState({
                 activeTab: 'Guest'
             })
         }
+        firebase.database().ref()
+            .once('value', (snapshot) => {
+                console.log('Getting Guestlist');
+                snapshot.forEach(function(childSnapshot) {
+                    var childKey = childSnapshot.key;
+                    var childData = childSnapshot.val();
+                    // childData['_id'] = childKey;
+                    incomingGuests.push(childData);
+                    // ...
+                });
+                return incomingGuests;
+            })
+        
     }
+
     currentItem = (index) => {
         this.setState({
             contentHeight: index

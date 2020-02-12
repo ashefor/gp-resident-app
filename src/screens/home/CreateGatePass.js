@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Dimensions } from 'react-native';
+import { View, StyleSheet, Dimensions, ActivityIndicator, } from 'react-native';
 import Input from '../../components/Input';
 import { CheckBox } from 'react-native-elements'
 import ButtonWithIcon from '../../components/ButtonWithIcon';
@@ -11,23 +11,16 @@ import { resWidth, resFont, resHeight } from '../../utils/utils';
 
 import { Controller, useForm } from 'react-hook-form'
 
-// Firebase App (the core Firebase SDK) is always required and
-// must be listed before other Firebase SDKs
 import * as firebase from "firebase/app";
 
-const { width } = Dimensions.get('window')
+const { width } = Dimensions.get('window');
+
 const CreateGatePass = props => {
     const { navigation } = props;
     const { register, handleSubmit, watch, control, errors, setValue } = useForm();
     const [ checked, setChecked ] = React.useState(false);
+    const [ loading, setLoading ] = React.useState(false);
     const userId = 'alphaId';
-    const handleAddUserToFav = () => {
-        console.log(checked);
-        const newChecked = !checked;
-        setChecked(newChecked);
-        setValue('favorite',newChecked);
-        console.log(newChecked);
-    }
 
     const onChange = args => {
         return {
@@ -36,30 +29,29 @@ const CreateGatePass = props => {
     };
 
     const onSubmit = async data => { 
+        setLoading(true);
         let dateCode = Date.now()+'';
-        let docId = userId+dateCode;
+        let docId = userId+'GP'+dateCode;
+        data['_id'] = docId;
+        data['userId'] = userId;
         data['code'] = dateCode.substring(7,);
         data['status'] = 'Pending';
         data['checkedIn'] = false;
         data['revoked'] = false;
 
-        console.log('data');
-        console.log(data);
-
-        // let setDoc = firebase.database().ref('gatepasses/' + docId).set(data)
-        // .then( () => {
-        //     alert('GatePass Created');
-        // })
-        // .catch( e => {
-        //     console.log(e);
-        //     throw e;
-        // })
-
+        let setDoc = await firebase.database().ref('gatepasses/' + docId).set({...data})
+        .then( () => {
+            alert('GatePass Created');
+        })
+        .catch( e => {
+            console('GatePass Creation error');
+            console.log(e);
+            throw e;
+        });
+            setLoading(false);
+            props.navigation.navigate('Home');
     }
 
-    console.log(watch('favorite')) // watch input value by passing the name of it
-
-    
     return (
         <LinearGradient colors={['#fff', '#fff']} style={[StyleSheet.absoluteFillObject]}>
             <SafeAreaView style={StyleSheet.absoluteFillObject}>
@@ -122,7 +114,7 @@ const CreateGatePass = props => {
 
                         <View style={styles.bottomContainer}>
                             <ButtonWithIcon
-                                title='Create Gatepass'
+                                title={loading ? <ActivityIndicator /> : 'Create Gatepass'}
                                 textColor='#fff'
                                 icon='user-plus'
                                 iconColor='#fff'
