@@ -53,6 +53,7 @@ class HomeScreen extends Component {
                                         <Card
                                           flex
                                           borderless
+                                          shadow={true}
                                           style={styles.imgOverlay}
                                           
                                         >
