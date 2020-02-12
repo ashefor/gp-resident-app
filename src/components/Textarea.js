@@ -7,10 +7,13 @@ export default class Textarea extends Component {
         super(props)
     }
     render() {
-        const { style, placeholder } = this.props
+        const { style, placeholder, onChange, control, name } = this.props
         return (
             <View style={[styles.inputStyle, styles.inputContainer, style]}>
                 <TextInput
+                    name={name}
+                    control={control}
+                    onChange={onChange}
                     underlineColorAndroid="transparent"
                     style={styles.input}
                     placeholder={placeholder}

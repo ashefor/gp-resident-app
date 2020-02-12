@@ -7,17 +7,19 @@ export default class Input extends Component {
         super(props)
     }
     render() {
-        const {style, children, value, onChangeText} = this.props;
+        const {style, name, children, value, onChangeText} = this.props;
         return (
             <View style={[styles.inputStyle, styles.inputContainer, style]}>
                 {children}
                 <TextInput 
-                clearButtonMode='while-editing'
-                onChangeText={onChangeText}
-                value={value}
-                style={styles.input} 
-                placeholder={this.props.placeholder}
-                    placeholderTextColor='#000' />
+                    name={name}
+                    clearButtonMode='while-editing'
+                    onChangeText={onChangeText}
+                    value={value}
+                    style={styles.input} 
+                    placeholder={this.props.placeholder}
+                    placeholderTextColor='#000' 
+                />
             </View>
         )
     }
