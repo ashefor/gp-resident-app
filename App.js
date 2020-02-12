@@ -1,6 +1,9 @@
 import 'react-native-gesture-handler';
 import React, { Component } from 'react';
 import { StyleSheet, Platform, View, ActivityIndicator, ImageBackground } from 'react-native';
+import { theme, withGalio, GalioProvider } from 'galio-framework'
+
+
 import AppNavigation from './src/navigation/AppNavigator'
 import * as Font from 'expo-font';
 import firebase from 'firebase';
@@ -19,7 +22,7 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-export default class App extends Component {
+class App extends Component {
   constructor(props) {
     super(props)
   }
@@ -41,22 +44,24 @@ export default class App extends Component {
     const { fontLoaded } = this.state
     if (fontLoaded) {
       return (
-        <View style={{flex: 1}}>
-       <ImageBackground 
-       style={styles.imgBckgd}
-       source={require('./src/assets/images/housing.png')}>
-          <AppNavigation />
-       </ImageBackground>
-        </View>
+          <View style={{flex: 1}}>
+            <ImageBackground 
+              style={styles.imgBckgd}
+              source={require('./src/assets/images/housing.png')}>
+              <AppNavigation />
+            </ImageBackground>
+          </View>
       )
     }
     return (
       <View style={{flex: 1, justifyContent:'center', alignItems: 'center'}}>
-      <ActivityIndicator color='white' size='large' />
+        <ActivityIndicator color='white' size='large' />
       </View>
     );
   }
 }
+
+export default withGalio(App);
 
 const styles = StyleSheet.create({
   imgBckgd: {

@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { View, Text, SafeAreaView, TouchableWithoutFeedback, Image, StyleSheet, StatusBar, Dimensions, Animated, Easing, ImageBackground, Platform } from 'react-native';
 import { withNavigationFocus } from 'react-navigation';
 import { Feather } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient'
+import { LinearGradient } from 'expo-linear-gradient';
+import { Card } from 'galio-framework';
+
 import FloatingButton from '../../components/FloatingButton';
 import { CommunitySpotlightCarousel, CommunityCentre } from '../../components/Carousel';
 import { scaleValue, translateX } from '../../functions/toggleDrawer';
@@ -33,54 +35,80 @@ class HomeScreen extends Component {
                         <View style={[styles.page]}>
                             <Header navigation={navigation} title='House D2' />
                                 <View style={styles.container}>
-                                 <TouchableWithoutFeedback onPress={() => {
+                                 <View
+                                    style={{
+                                        flex:2,
+                                    }}
+                                >
+                                 <TouchableWithoutFeedback 
+                                    onPress={() => {
                                         this.props.navigation.navigate("Guests", {
                                             previous: 'Home',
                                             back: true,
                                         })
-                                    }}>
-                                    <View
-                                        style={{
-                                            flex:2
-                                        }}
-                                    >
-                                        
-                                            <LinearGradient style={styles.imgOverlay} colors={['rgba(21, 21, 21, 0.03)', 'rgba(17, 17, 17, 0.02)',]}>
+                                    }}
 
-                                                <View style={{ flex: 1, width: '50%', margin: resHeight(3) }}>
-                                                    <View style={{ flex: 0.5, justifyContent: 'flex-start' }}>
-                                                        <Text allowFontScaling={false} style={styles.house}
+                                    >
+                                   
+                                        <Card
+                                          flex
+                                          borderless
+                                          style={styles.imgOverlay}
+                                          
+                                        >
+                                            <View 
+                                                style={{ 
+                                                    top: -resHeight(4),
+                                                    justifyContent: 'flex-start',
+                                                    marginHorizontal: resHeight(3) 
+
+                                                }}
+                                            >
+                                                <Text 
+                                                    allowFontScaling={false} 
+                                                    style={styles.house}
+                                                >
+                                                    Guests
+                                                </Text>
+                                            </View>
+                                            <View 
+                                                style={{ 
+                                                    flex: 1, 
+                                                    justifyContent: 'flex-end', 
+                                                    margin: resHeight(3) 
+                                                }}
+                                            >
+                                                <View 
+                                                    style={{ 
+                                                        flexDirection: 'row', 
+                                                        alignItems: 'center' 
+                                                    }}
+                                                >
+                                                    <View style={styles.guestNum}>
+                                                        <Text allowFontScaling={false} style={styles.guestNumText} 
                                                         >
-                                                            Guests
+                                                            3
                                                         </Text>
                                                     </View>
-                                                    <View style={{ flex: 0.5, justifyContent: 'flex-end', }}>
-                                                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                                            <View style={styles.guestNum}>
-                                                                <Text allowFontScaling={false} style={styles.guestNumText} 
-                                                                >
-                                                                    3
-                                                                </Text>
-                                                            </View>
-                                                            <View style={{ marginLeft: 5, alignSelf: 'center' }}>
-                                                                <Text allowFontScaling={false} style={styles.guest}>Incoming</Text>
-                                                            </View>
-                                                        </View>
+                                                    <View style={{ marginLeft: 5, alignSelf: 'center' }}>
+                                                        <Text allowFontScaling={false} style={styles.guest}>Incoming</Text>
                                                     </View>
                                                 </View>
-                                            </LinearGradient>
+                                            </View>
+
                                             <View style={{ position: 'absolute', right: resWidth(4), bottom: resHeight(2.4) }}>
                                                 <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate("Create Gatepass", { previous: 'Home' })}>
-                                                    <View style={[styles.addActionBtns, { backgroundColor: '#5766BA', }]}>
+                                                    <View style={[styles.addActionBtns, { backgroundColor: '#34D881', }]}>
                                                         <Feather name='user-plus' color='#fff' size={resFont(25)} />
                                                     </View>
                                                 </TouchableWithoutFeedback>
                                             </View>
+                                        </Card>
+                                </TouchableWithoutFeedback>
                                     </View>
-                                    </TouchableWithoutFeedback>
                                 <View
                                     style={{
-                                        flex:3
+                                        flex:4
                                     }}
                                 >
                                     <View style={styles.spotlight}>
@@ -126,7 +154,7 @@ const styles = StyleSheet.create({
     container: {
         width: resWidth(89),
         alignSelf: 'center',
-        flex: 1
+        flex: 1,
     },
     animatedContainer: {
         flex: 1,
@@ -143,13 +171,15 @@ const styles = StyleSheet.create({
         marginBottom: resHeight(1)
     },
     imgOverlay: {
+        flex: 1,
+        justifyContent: 'space-between',
         width: '100%',
         height: '100%',
-        borderRadius: 5
+        backgroundColor: '#fff',
     },
     house: {
         color: '#5766BA',
-        fontSize: resFont(23),
+        fontSize: resFont(21),
         fontFamily: 'josefin-sans-bold'
     },
     guestNum: {
