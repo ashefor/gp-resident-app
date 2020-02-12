@@ -102,8 +102,8 @@ class CommunitySpotlightCarousel extends Component {
                 <Carousel
                     ref={this.carouselRef}
                     data={this.state.images}
-                    sliderWidth={resWidth(89)}
-                    itemWidth={resWidth(72)}
+                    sliderWidth={resWidth(100)}
+                    itemWidth={resWidth(88)}
                     renderItem={this._renderItems}
                     onSnapToItem={(index) => this.setState({ activeSlide: index })}
                     contentContainerCustomStyle={styles.content}
@@ -263,7 +263,7 @@ const styles = StyleSheet.create({
         shadowRadius: 2,
         paddingLeft: 1,
         elevation: 1,
-        height: resHeight(24),
+        height: resHeight(26),
         justifyContent: 'center',
         alignItems: 'flex-start',
     },
@@ -275,7 +275,7 @@ const styles = StyleSheet.create({
         flex: 1,
         resizeMode: 'contain',
         borderRadius: 5,
-        width: resWidth(66),
+        width: resWidth(92),
         // height: resHeight(13),
     },
     containerCustomStyle: {
@@ -283,7 +283,7 @@ const styles = StyleSheet.create({
     },
     content: {
         alignItems: 'center',
-        height: resHeight(24),
+        height: resHeight(26),
     },
     containerCustomStyle2: {
         alignSelf: 'center',
