@@ -18,27 +18,25 @@ const CreateGatePass = props => {
     const [ checked, setChecked ] = React.useState(false);
 
     const handleAddUserToFav = () => {
-        setChecked(!checked)
+        console.log(checked);
+        const newChecked = !checked;
+        setChecked(newChecked);
+        setValue('favorite',newChecked);
+        console.log(newChecked);
     }
 
     const onChange = args => {
-        console.log(args[0].nativeEvent.text);
         return {
           value: args[0].nativeEvent.text,
         };
     };
 
-    const onChangeText = (args, vals) => {
-        console.log(args);
-        console.log(vals);
-        // setValue();
-    }
-
     const onSubmit = data => { 
-        console.log(data) 
+        console.log('data');
+        console.log(data);
     }
 
-    console.log(watch('fullName')) // watch input value by passing the name of it
+    console.log(watch('favorite')) // watch input value by passing the name of it
 
     
     return (
@@ -76,17 +74,28 @@ const CreateGatePass = props => {
                                 defaultValue=""
                             />
                             <View style={{ width: '100%' }}>
-                                <CheckBox
-                                    control={control}
-                                    name="favorite"
+                                 <Controller 
+                                as={(
+                                    <CheckBox
                                     title='Add User as favorites'
                                     checked={checked}
                                     checkedColor='#222455'
                                     textStyle={styles.checkboxLabel}
                                     containerStyle={styles.checkbox}
-                                    onIconPress={handleAddUserToFav}
-                                    onPress={handleAddUserToFav}
+                                    onIconPress={() => {
+                                        setValue('favorite',!checked);
+                                        setChecked(!checked);
+                                    }}
+                                    onPress={() => {
+                                        setValue('favorite',!checked);
+                                        setChecked(!checked);
+                                    }}
                                 />
+                                )}
+                                name="favorite"
+                                control={control}
+                                defaultValue={false}
+                            />
                             </View>
                         </View>
 
