@@ -3,6 +3,21 @@ import React, { Component } from 'react';
 import { StyleSheet, Platform, View, ActivityIndicator, ImageBackground } from 'react-native';
 import AppNavigation from './src/navigation/AppNavigator'
 import * as Font from 'expo-font';
+import firebase from 'firebase';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyC9zbuOoPvhV9YgK5rV5kFkaIc1xjltODs",
+  authDomain: "gatepass-228e2.firebaseapp.com",
+  databaseURL: "https://gatepass-228e2.firebaseio.com",
+  projectId: "gatepass-228e2",
+  storageBucket: "gatepass-228e2.appspot.com",
+  messagingSenderId: "475186389568",
+  appId: "1:475186389568:web:89683aebd868afdcc2f5a5",
+  measurementId: "G-ZK3QZ877WR"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
 
 export default class App extends Component {
   constructor(props) {

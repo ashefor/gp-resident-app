@@ -11,12 +11,16 @@ import { resWidth, resFont, resHeight } from '../../utils/utils';
 
 import { Controller, useForm } from 'react-hook-form'
 
+// Firebase App (the core Firebase SDK) is always required and
+// must be listed before other Firebase SDKs
+import * as firebase from "firebase/app";
+
 const { width } = Dimensions.get('window')
 const CreateGatePass = props => {
     const { navigation } = props;
     const { register, handleSubmit, watch, control, errors, setValue } = useForm();
     const [ checked, setChecked ] = React.useState(false);
-
+    const userId = 'alphaId';
     const handleAddUserToFav = () => {
         console.log(checked);
         const newChecked = !checked;
@@ -31,9 +35,26 @@ const CreateGatePass = props => {
         };
     };
 
-    const onSubmit = data => { 
+    const onSubmit = async data => { 
+        let dateCode = Date.now()+'';
+        let docId = userId+dateCode;
+        data['code'] = dateCode.substring(7,);
+        data['status'] = 'Pending';
+        data['checkedIn'] = false;
+        data['revoked'] = false;
+
         console.log('data');
         console.log(data);
+
+        // let setDoc = firebase.database().ref('gatepasses/' + docId).set(data)
+        // .then( () => {
+        //     alert('GatePass Created');
+        // })
+        // .catch( e => {
+        //     console.log(e);
+        //     throw e;
+        // })
+
     }
 
     console.log(watch('favorite')) // watch input value by passing the name of it
