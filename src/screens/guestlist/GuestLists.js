@@ -11,6 +11,9 @@ import { scaleValue, translateX } from '../../functions/toggleDrawer'
 import Header from '../../components/Header';
 import { resHeight, resFont, resWidth } from '../../utils/utils';
 
+import firebase from "firebase";
+import firestore from "firebase/firestore";
+
 const { width, height } = Dimensions.get('window');
 
 class GuestLists extends Component {
@@ -25,37 +28,14 @@ class GuestLists extends Component {
                 {
                     checkedIn: 'January 21, 2014 10:30am',
                 },
-                {
-                    checkedIn: 'January 22, 2014 10:30am',
-                },
-                {
-                    checkedIn: 'January 23, 2014 10:30am',
-                },
-                {
-                    checkedIn: 'January 24, 2014 10:30am',
-                }
             ],
             modalVisible: false,
             checkedInGuests: [
                 {
                     name: 'Martin Kenneth',
                 },
-                {
-                    name: 'Brandon Keeper',
-                },
-                {
-                    name: 'Will Parry',
-                }
             ],
             incomingGuests: [
-                {
-                    name: 'Will Smith',
-                    type: 'Guest'
-                },
-                {
-                    name: 'David Adeleke',
-                    type: 'Guest'
-                },
                 {
                     name: 'John Legend',
                     type: 'Guest'
@@ -95,21 +75,8 @@ class GuestLists extends Component {
         });
         console.log(incomingGuests.length);
         console.log(incomingGuests);
+        this.setState({ incomingGuests });
 
-        // Get a single doc with query
-        // var docRef = db.collection("gatepasses").doc('8vyZa7vKf9w31WyEuEEj');
-
-        // docRef.get().then(function(doc) {
-        //     if (doc.exists) {
-        //         console.log("Document data:", doc.data());
-        //     } else {
-        //         // doc.data() will be undefined in this case
-        //         console.log("No such document!");
-        //     }
-        // }).catch(function(error) {
-        //     console.log("Error getting document:", error);
-        // });
-                
     }
 
     currentItem = (index) => {

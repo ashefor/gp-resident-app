@@ -17,6 +17,7 @@ export default class IncomingGuest extends Component {
     }
     render() {
         const { guest } = this.props
+        const { fullName, name, type, code, status } = guest;
         return (
             <Fragment>
                 <Modal transparent={true} visible={this.state.modalVisible}>
@@ -26,10 +27,14 @@ export default class IncomingGuest extends Component {
             </Modal>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: resHeight(1.5) }}>
                 <View>
-                    <Text allowFontScaling={false}    style={styles.guestName}>{guest.name}</Text>
-                    <Text allowFontScaling={false}    style={styles.guestType}>{guest.type}</Text>
+                    <Text allowFontScaling={false}    style={styles.guestFullName}>
+                        {fullName || name} | {type || 'Guest'}
+                    </Text>
+                    <Text allowFontScaling={false}    style={styles.guestCode}>
+                        {code}
+                    </Text>
                 </View>
-                {guest.type === 'Staff' ? <TouchableOpacity style={styles.revokeBtn} onPress={this.toggleModal}>
+                {type === 'Staff' ? <TouchableOpacity style={styles.revokeBtn} onPress={this.toggleModal}>
                     <Text allowFontScaling={false}    style={styles.revokeBtnText}>Details</Text>
                 </TouchableOpacity> : <TouchableOpacity style={styles.revokeBtn}>
                         <Text allowFontScaling={false}    style={styles.revokeBtnText}>Revoke</Text>
@@ -41,7 +46,7 @@ export default class IncomingGuest extends Component {
 }
 
 const styles = StyleSheet.create({
-    guestName: {
+    guestFullName: {
         color: '#3E3F68',
         fontSize: resFont(15),
         fontFamily: 'josefin-sans-semi-bold',
@@ -50,6 +55,11 @@ const styles = StyleSheet.create({
     guestType: {
         color: '#6E7FAA',
         fontSize: resFont(14),
+        fontFamily: 'josefin-sans-semi-bold'
+    },
+    guestCode: {
+        color: '#6E7FAA',
+        fontSize: resFont(16),
         fontFamily: 'josefin-sans-semi-bold'
     },
     revokeBtn: {

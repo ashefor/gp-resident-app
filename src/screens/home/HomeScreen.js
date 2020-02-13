@@ -60,6 +60,7 @@ class HomeScreen extends Component {
     render() {
         const { navigation } = this.props;
         const { incomingGuestsCount } = this.state;
+        
         return (
             <Animated.View
                 style={[
