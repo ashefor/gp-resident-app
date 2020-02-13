@@ -40,7 +40,6 @@ const BottomButtonsCommunityCentre = props => {
   const button0 = () => {
     const thisIndex = 0;
     const { title, color1, color2, url } = data[thisIndex];
-    console.log(title, color1, color2, url);
     return (
       <View style={{justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
             <TouchableWithoutFeedback onPress={()=> props.navigation.navigate(title)}>
@@ -51,8 +50,9 @@ const BottomButtonsCommunityCentre = props => {
                <Image source={require('../assets/images/noticeboard.png')}  
                style={{
                 width:resFont(25),
-height:resFont(25),
-resizeMode: 'contain'
+                  height:resFont(25),
+                  resizeMode: 'contain'
+
 }}/>
                </LinearGradient>
             </View>
@@ -68,7 +68,6 @@ resizeMode: 'contain'
   const button1 = () => {
     const thisIndex = 1;
     const { title, color1, color2, url } = data[thisIndex];
-    console.log(title, color1, color2, url);
     return (
       <View style={{justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
             <TouchableWithoutFeedback onPress={()=> props.navigation.navigate(title)}>
@@ -76,9 +75,13 @@ resizeMode: 'contain'
                <LinearGradient 
                style={styles.comCenImg}
                colors={[color1, color2]}>
-               <Image source={require('../assets/images/complaints.png')}  style={{width:resFont(25), 
-height:resFont(25),
-resizeMode: 'contain'}}/>
+               <Image 
+               source={require('../assets/images/complaints.png')}  
+               style={{width:resFont(25), 
+                  height:resFont(25),
+                  resizeMode: 'contain'
+                }}
+                />
                </LinearGradient>
             </View>
             </TouchableWithoutFeedback>
@@ -93,7 +96,6 @@ resizeMode: 'contain'}}/>
   const button2 = () => {
     const thisIndex = 2;
     const { title, color1, color2, url } = data[thisIndex];
-    console.log(title, color1, color2, url);
     return (
       <View style={{justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
             <TouchableWithoutFeedback onPress={()=> props.navigation.navigate(title)}>
@@ -101,9 +103,13 @@ resizeMode: 'contain'}}/>
                <LinearGradient 
                style={styles.comCenImg}
                colors={[color1, color2]}>
-               <Image source={require('../assets/images/staff.png')}  style={{width:resFont(25), 
-height:resFont(25),
-resizeMode: 'contain'}}/>
+               <Image 
+               source={require('../assets/images/staff.png')}  
+               style={{width:resFont(25), 
+                  height:resFont(25),
+                  resizeMode: 'contain'
+                }}
+                />
                </LinearGradient>
             </View>
             </TouchableWithoutFeedback>

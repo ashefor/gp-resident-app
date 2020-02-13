@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Dimensions, ActivityIndicator, } from 'react-native';
 import Input from '../../components/Input';
-import { CheckBox } from 'react-native-elements'
+import { CheckBox, Text } from 'react-native-elements'
 import ButtonWithIcon from '../../components/ButtonWithIcon';
 import { LinearGradient } from 'expo-linear-gradient'
 import { SafeAreaView } from 'react-navigation';
@@ -29,6 +29,10 @@ const CreateGatePass = props => {
     };
 
     const onSubmit = async data => { 
+        if (errors) {
+            console.log('errors');
+            console.log(errors);
+        }
         setLoading(true);
         let dateCode = Date.now()+'';
         let docId = userId+'GP'+dateCode;
@@ -64,6 +68,7 @@ const CreateGatePass = props => {
                                 name="fullName"
                                 onChangeText={text => setValue('fullName', text, true)}
                                 placeholder='Full Name' style={{ marginTop: resHeight(1.5) }} />
+                            {errors.fullName && <Text>This is required.</Text>}    
                             <Input
                                 ref={ register({ name: 'phone'},{ required: true}) }
                                 name="phone"

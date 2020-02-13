@@ -93,6 +93,7 @@ class GuestLists extends Component {
         firebase.database().ref()
             .once('value', (snapshot) => {
                 console.log('Getting Guestlist');
+                console.log(snapshot.val());
                 snapshot.forEach(function(childSnapshot) {
                     var childKey = childSnapshot.key;
                     var childData = childSnapshot.val();
