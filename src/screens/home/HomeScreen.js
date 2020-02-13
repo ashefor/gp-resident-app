@@ -7,6 +7,7 @@ import { Card } from 'galio-framework';
 
 import FloatingButton from '../../components/FloatingButton';
 import { CommunitySpotlightCarousel, CommunityCentre } from '../../components/Carousel';
+import BottomButtonsCommunityCentre from '../../components/BottomButtonsCommunityCentre';
 import { scaleValue, translateX } from '../../functions/toggleDrawer';
 import Header from '../../components/Header';
 import { resFont, resWidth, resHeight } from '../../utils/utils'
@@ -131,8 +132,13 @@ class HomeScreen extends Component {
                                             Community Centre
                                         </Text>
                                     </View>
+                                    <View>
+                                        <BottomButtonsCommunityCentre />
+                                    {/* 
                                     <CommunityCentre navigation={navigation} />
                                     <FloatingButton style={{ top: resHeight(6.6), alignSelf: 'center', right: 0 }} />
+                                    */}
+                                    </View>
                                 </View>
 
                             </View>

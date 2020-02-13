@@ -283,7 +283,6 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
     },
     content: {
-        flex:1,
         alignItems: 'center',
     },
     containerCustomStyle2: {
