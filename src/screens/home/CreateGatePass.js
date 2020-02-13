@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Dimensions, ActivityIndicator, } from 'react-native';
+import { View, StyleSheet, Dimensions, ActivityIndicator, TouchableOpacity, Share, Clipboard, } from 'react-native';
 import Input from '../../components/Input';
-import { CheckBox, Text } from 'react-native-elements'
+import { CheckBox, Text  } from 'react-native-elements'
+import Button from '../../components/Button';
 import ButtonWithIcon from '../../components/ButtonWithIcon';
 import { LinearGradient } from 'expo-linear-gradient'
 import { SafeAreaView } from 'react-navigation';
@@ -12,6 +13,7 @@ import {
   Toast,
 } from '@ant-design/react-native';
 import { Controller, useForm } from 'react-hook-form'
+import Modal from "react-native-modal";
 
 import firebase from "firebase";
 import firestore from "firebase/firestore";
@@ -33,13 +35,72 @@ function loadingToast() {
   });
 }
 
+function successToastCopied() {
+  Toast.success('Code copied to your clipboard', 2);
+}
+
 const CreateGatePass = props => {
     var db = firebase.firestore();
     const { navigation } = props;
     const { register, handleSubmit, watch, control, errors, setValue } = useForm();
     const [ checked, setChecked ] = React.useState(false);
     const [ loading, setLoading ] = React.useState(false);
+    const [ guestData, setGuestData ] = React.useState({});
+    const [ showSucessModal, setShowSucessModal ] = React.useState(false);
     const userId = 'alphaId';
+
+    const openSuccessModal = () => {
+        setShowSucessModal(true);
+    }
+
+    const closeSuccessModal = () => {
+        setShowSucessModal(false);
+    }
+
+    const onFinish = () => {
+        closeSuccessModal();
+        navigation.navigate('Home');
+
+    }
+
+   const onShare = async () => {
+        try {
+            console.log(guestData);
+            const {fullName, code} = guestData;
+            const message = `Code for ${fullName} is: ${code}`;
+            const result = await Share.share({
+                message,
+            });
+
+          if (result.action === Share.sharedAction) {
+            if (result.activityType) {
+              // shared with activity type of result.activityType
+            } else {
+              // shared
+            }
+          } else if (result.action === Share.dismissedAction) {
+            // dismissed
+            setTimeout(() => {
+                props.navigation.navigate('Home');
+            } ,1616)
+          }
+        } catch (error) {
+          alert(error.message);
+        }
+    };
+
+    const onCopy = async () => {
+        try {
+            console.log(guestData);
+            const {fullName, code} = guestData;
+            const message = `Code for ${fullName} is: ${code}`;
+            Clipboard.setString(message);
+            const result = await Clipboard.getString();
+        } catch (error) {
+          alert(error.message);
+        }
+        successToastCopied();
+    };
 
     const onChange = args => {
         return {
@@ -62,7 +123,8 @@ const CreateGatePass = props => {
 
         let addDoc = await db.collection('gatepasses').add(data)
         .then( () => {
-            successToast();
+            setGuestData(data);
+            openSuccessModal();
         })
         .catch( e => {
             console('GatePass Creation error');
@@ -81,9 +143,7 @@ const CreateGatePass = props => {
         //     throw e;
         // });
             setLoading(false);
-            setTimeout(() => {
-                props.navigation.navigate('Home');
-            } ,1616)
+            
     }
 
     return (
@@ -163,6 +223,67 @@ const CreateGatePass = props => {
                         </View>
                     </View>
                 </View>
+                <Modal
+                    testID={'modal'}
+                    isVisible={showSucessModal}
+                    onBackdropPress={closeSuccessModal}
+                    swipeDirection={['up', 'left', 'right', 'down']}
+                    style={styles.modal}
+                    backdropColor="#000000"
+                >
+                    <View 
+                        style={{ 
+                            flex:1,
+                            width:resWidth(89), 
+                            alignSelf: 'center',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}
+                    >
+                <View style={[styles.customCard, { backgroundColor: '#5766BA' }]}>
+                <View
+                style={{ 
+                    flex:1,
+                    alignItems: 'center',
+                    justifyContent: 'space-around',
+                 }}
+                >
+                    <Text allowFontScaling={false} style={styles.cardTitle}>{`Done!`}</Text>
+                    <Text allowFontScaling={false} style={styles.cardSubtitle}>{`A GatePass has been created for`}</Text>
+                    <Text allowFontScaling={false} style={styles.cardTitle}>{guestData.fullName}</Text>
+                
+                    <Text allowFontScaling={false} style={[styles.cardContent,styles.title, styles.codeShare]}
+                        onPress={onCopy}
+                    >{guestData.code}</Text>
+                </View>
+           
+                    
+                </View>
+                 <View style={styles.shareContainer}>
+                           
+                 <Button
+                    title={'Share Code'}
+                    textColor='#fff'
+                    backgroundColor='#5766BA' 
+                    onPress={onShare}
+                />
+
+            </View>
+             <View style={styles.shareContainer}>
+                           
+                 <Button
+                    title={'Close'}
+                    textColor='#5766BA'
+                    backgroundColor='#eaeaea' 
+                    onPress={() => {
+                        closeSuccessModal();
+                        props.navigation.navigate('Home');
+                    }}
+                />
+                
+            </View>
+            </View>
+                </Modal>
             </SafeAreaView>
         </LinearGradient>
     )
@@ -192,6 +313,10 @@ const styles = StyleSheet.create({
         marginTop: resHeight(5),
         width: resWidth(55),
     },
+    shareContainer: {
+        marginTop: resHeight(5),
+        width: resWidth(55),
+    },
     checkboxLabel: {
         fontSize: resFont(13),
         fontFamily: 'josefin-sans-light',
@@ -209,5 +334,95 @@ const styles = StyleSheet.create({
     },
     errorMessage: {
         color: '#cd3f3f',
-    }
+    },
+      content: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    padding: 8,
+  },
+
+   modal: {
+    justifyContent: 'flex-end',
+    margin: 0,
+  },
+
+   customCard: {
+        // backgroundColor: '#222455',
+        // width: width * 0.8,
+        height: resHeight(40),
+        width: '100%',
+        borderRadius: 5,
+        padding: 20,
+        // marginTop: 10,
+    },
+    cardHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: resHeight(9),
+        alignItems: 'center'
+    },
+    cardTitle: {
+        fontSize: resFont(24),
+        fontFamily: 'josefin-sans-semi-bold',
+        color: '#fff',
+        marginTop: resHeight(1.5)
+    },
+    cardSubtitle: {
+        fontSize: resFont(14),
+        fontFamily: 'josefin-sans-reg',
+        color: '#fff',
+        opacity: 0.8,
+        marginTop: resHeight(1.5)
+
+    },
+    cardBody: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginTop: resHeight(1.25)
+    },
+    cardContent: {
+        fontSize: resFont(21),
+        fontFamily: 'josefin-sans-semi-bold',
+        color: '#fff',
+        marginTop: resHeight(1.5)
+    },
+      title: {
+    fontSize: 42,
+    marginBottom: 4,
+    textTransform: 'uppercase',
+  },
+    cardAction: {
+        backgroundColor: '#fff',
+        borderRadius: 5,
+        height: resHeight(4.5),
+        width: resWidth(25),
+    },
+    cardBtnText: {
+        color: '#65658A',
+        fontFamily: 'josefin-sans-reg',
+        fontSize: resFont(12),
+    },
+    chid_children: {
+        width: '50%',
+        marginBottom: resHeight(1.25)
+    },
+    chid_children_header: {
+        fontSize: resFont(13),
+        color: '#fff',
+        fontFamily: 'josefin-sans-bold'
+    },
+    chid_children_subheader: {
+        textAlign: 'center',
+        color: '#fff',
+        fontSize: resFont(11),
+        fontFamily: 'josefin-sans-reg',
+        marginTop: resHeight(0.65)
+    },
+      codeShare: { 
+    marginTop: resHeight(0.65), 
+  backgroundColor: '#6474CE', 
+  padding: 12, 
+        borderRadius: 24,
+    },
 })

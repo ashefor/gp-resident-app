@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ScrollView, Dimensions, Animated, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Dimensions, Animated, SafeAreaView, ActivityIndicator } from 'react-native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import Accordion from '../../components/Accordion';
 import ButtonWithIcon from '../../components/ButtonWithIcon';
@@ -30,22 +30,14 @@ class GuestLists extends Component {
                 },
             ],
             modalVisible: false,
-            checkedInGuests: [
-                {
-                    name: 'Martin Kenneth',
-                },
-            ],
-            incomingGuests: [
-                {
-                    name: 'John Legend',
-                    type: 'Guest'
-                }
-            ],
+            checkedInGuests: [],
+            incomingGuests: [],
             scale: scaleValue,
             opacity: new Animated.Value(1),
             translateY: new Animated.Value(1),
             translateX: translateX,
             contentHeight: 0,
+            loading: true,
         }
     }
     async componentDidUpdate(prevProps) {
@@ -73,9 +65,10 @@ class GuestLists extends Component {
         .catch(function(error) {
             console.log("Error getting documents: ", error);
         });
-        console.log(incomingGuests.length);
-        console.log(incomingGuests);
-        this.setState({ incomingGuests });
+        this.setState({ 
+            incomingGuests,
+            loading: false,
+         });
 
     }
 
@@ -104,17 +97,28 @@ class GuestLists extends Component {
                 </View>
                 <View style={{ paddingRight: 10, height: resHeight(18.5) }}>
                     <ScrollView showsVerticalScrollIndicator={false}>
-                        {this.state.incomingGuests.map((guest, index) => <IncomingGuest key={index} guest={guest} />)}
+                        {this.state.loading ? (
+                            <ActivityIndicator />
+                        ) : this.state.incomingGuests.map((guest, index) => (
+                            <IncomingGuest key={index} guest={guest} />
+                            )
+                        )}
                     </ScrollView>
                 </View>
             </View>
+
             <View style={{ flex: 3 }}>
                 <View style={[styles.tabsContainer, { justifyContent: 'center', marginTop: resHeight(1.25), }]}>
                     <Text allowFontScaling={false} style={styles.sectionText}>Checked In</Text>
                 </View>
                 <View style={{ height: resHeight(33) }}>
                     <ScrollView showsVerticalScrollIndicator={false}>
-                        {this.state.checkedInGuests.map((guest, index) => <CheckedInGuest key={index} guest={guest} />)}
+                        {this.state.loading ? (
+                            <ActivityIndicator />
+                        ) : this.state.checkedInGuests.map((guest, index) => (
+                                <CheckedInGuest key={index} guest={guest} />
+                            )
+                        )}
                     </ScrollView>
                 </View>
             </View>

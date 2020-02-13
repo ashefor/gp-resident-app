@@ -28,10 +28,10 @@ export default class IncomingGuest extends Component {
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: resHeight(1.5) }}>
                 <View>
                     <Text allowFontScaling={false}    style={styles.guestFullName}>
-                        {fullName || name} | {type || 'Guest'}
+                        {type || 'Guest'}: {fullName || name}
                     </Text>
                     <Text allowFontScaling={false}    style={styles.guestCode}>
-                        {code}
+                         {code ? `Code: ${code}` : `-`}
                     </Text>
                 </View>
                 {type === 'Staff' ? <TouchableOpacity style={styles.revokeBtn} onPress={this.toggleModal}>
