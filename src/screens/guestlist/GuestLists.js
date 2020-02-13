@@ -11,25 +11,7 @@ import { scaleValue, translateX } from '../../functions/toggleDrawer'
 import Header from '../../components/Header';
 import { resHeight, resFont, resWidth } from '../../utils/utils';
 
-
-import firebase from "firebase";
-import firestore from "firebase/firestore";
-console.log(firestore);
-
 const { width, height } = Dimensions.get('window');
-
-function snapshotToArray(snapshot) {
-    var returnArr = [];
-
-    snapshot.forEach(function(childSnapshot) {
-        var item = childSnapshot.val();
-        item.key = childSnapshot.key;
-
-        returnArr.push(item);
-    });
-
-    return returnArr;
-};
 
 class GuestLists extends Component {
     constructor(props) {
@@ -86,29 +68,48 @@ class GuestLists extends Component {
             contentHeight: 0,
         }
     }
-    componentDidUpdate(prevProps) {
-        const topThis = this;
+    async componentDidUpdate(prevProps) {
+        var db = firebase.firestore();
         var incomingGuests = [];
         if (prevProps.isFocused !== this.props.isFocused) {
             this.setState({
                 activeTab: 'Guest'
             })
         }
-        console.log(firebase);
-        firebase.database().ref()
-            .on('value', snapshot => {
-                console.log('Getting Guestlist');
-                // console.log(snapshot.toJSON());
-                snapshot.forEach(function(childSnapshot) {
-                    var childKey = childSnapshot.key;
-                    var childData = childSnapshot.val();
-                    // childData['_id'] = childKey;
-                    incomingGuests.push(childData);
-                    // ...
+
+        await db.collection("gatepasses")
+        // .where("revoked", "==", false)
+        .get()
+        .then(function(querySnapshot) {
+            querySnapshot.forEach(function(doc) {
+                // doc.data() is never undefined for query doc snapshots
+                // console.log(doc.id, " => ", doc.data());
+                incomingGuests.push({
+                    id: doc.id,
+                    ...doc.data(),
                 });
-                return incomingGuests;
-            })
-        
+            });
+        })
+        .catch(function(error) {
+            console.log("Error getting documents: ", error);
+        });
+        console.log(incomingGuests.length);
+        console.log(incomingGuests);
+
+        // Get a single doc with query
+        // var docRef = db.collection("gatepasses").doc('8vyZa7vKf9w31WyEuEEj');
+
+        // docRef.get().then(function(doc) {
+        //     if (doc.exists) {
+        //         console.log("Document data:", doc.data());
+        //     } else {
+        //         // doc.data() will be undefined in this case
+        //         console.log("No such document!");
+        //     }
+        // }).catch(function(error) {
+        //     console.log("Error getting document:", error);
+        // });
+                
     }
 
     currentItem = (index) => {

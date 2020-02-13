@@ -10,7 +10,11 @@ import { CommunitySpotlightCarousel, CommunityCentre } from '../../components/Ca
 import BottomButtonsCommunityCentre from '../../components/BottomButtonsCommunityCentre';
 import { scaleValue, translateX } from '../../functions/toggleDrawer';
 import Header from '../../components/Header';
-import { resFont, resWidth, resHeight } from '../../utils/utils'
+import { resFont, resWidth, resHeight } from '../../utils/utils';
+
+import firebase from "firebase";
+import firestore from "firebase/firestore";
+
 const { height, width } = Dimensions.get('screen')
 
 class HomeScreen extends Component {
@@ -21,10 +25,41 @@ class HomeScreen extends Component {
             opacity: new Animated.Value(1),
             translateY: new Animated.Value(1),
             translateX: translateX,
+            incomingGuestsCount: '',
         }
     }
+    async componentDidUpdate(prevProps) {
+        var db = firebase.firestore();
+        var incomingGuests = [];
+        if (prevProps.isFocused !== this.props.isFocused) {
+            this.setState({
+                activeTab: 'Guest'
+            })
+        }
+
+        await db.collection("gatepasses")
+        .where("revoked", "==", false)
+        .get()
+        .then(function(querySnapshot) {
+           querySnapshot.forEach(function(doc) {
+                // doc.data() is never undefined for query doc snapshots
+                // console.log(doc.id, " => ", doc.data());
+                incomingGuests.push({
+                    id: doc.id,
+                    ...doc.data(),
+                });
+            });
+        })
+        .catch(function(error) {
+            console.log("Error getting documents: ", error);
+        });
+
+        const incomingGuestsCount =  incomingGuests.length;
+        this.setState({ incomingGuestsCount });
+    }
     render() {
-        const { navigation } = this.props
+        const { navigation } = this.props;
+        const { incomingGuestsCount } = this.state;
         return (
             <Animated.View
                 style={[
@@ -85,7 +120,7 @@ class HomeScreen extends Component {
                                                         <View style={styles.guestNum}>
                                                             <Text allowFontScaling={false} style={styles.guestNumText} 
                                                             >
-                                                                3
+                                                                {incomingGuestsCount}
                                                             </Text>
                                                         </View>
                                                         <View style={{ marginLeft: 5, alignSelf: 'center' }}>
