@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
         elevation: 3
     },
     menu: {
-        backgroundColor: 'red'
+        backgroundColor: '#cd3f3f'
     },
     secondary: {
         position: 'absolute',

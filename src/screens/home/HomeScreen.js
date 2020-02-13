@@ -132,13 +132,11 @@ class HomeScreen extends Component {
                                             Community Centre
                                         </Text>
                                     </View>
-                                    <View>
                                         <BottomButtonsCommunityCentre />
                                     {/* 
                                     <CommunityCentre navigation={navigation} />
                                     <FloatingButton style={{ top: resHeight(6.6), alignSelf: 'center', right: 0 }} />
                                     */}
-                                    </View>
                                 </View>
 
                             </View>
