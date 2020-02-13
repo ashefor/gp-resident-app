@@ -126,7 +126,7 @@ const BottomButtonsCommunityCentre = props => {
       <View style={{}}>
       <FloatingButton 
         style={{ 
-          top: resHeight(2), 
+          top: resHeight(3), 
         }} 
       />
 

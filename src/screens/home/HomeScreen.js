@@ -143,7 +143,7 @@ class HomeScreen extends Component {
 
                                 <View
                                     style={{
-                                        flex:4,
+                                        flex:3,
                                         justifyContent: 'space-between',
                                     }}
                                 >

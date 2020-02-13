@@ -104,7 +104,7 @@ class CommunitySpotlightCarousel extends Component {
                     ref={this.carouselRef}
                     data={this.state.images}
                     sliderWidth={resWidth(100)}
-                    itemWidth={resWidth(88)}
+                    itemWidth={resWidth(74)}
                     renderItem={this._renderItems}
                     onSnapToItem={(index) => this.setState({ activeSlide: index })}
                     contentContainerCustomStyle={styles.content}
@@ -186,7 +186,7 @@ class CommunityCentre extends Component {
                                style={styles.comCenImg}
                                colors={[item.color1, item.color2]}>
                                <Image source={item.url}  style={{width:resFont(25), 
-        height:resFont(25),
+        height:resFont(22),
         resizeMode: 'contain'}}/>
                                </LinearGradient>
                             </View>
@@ -266,7 +266,7 @@ const styles = StyleSheet.create({
         shadowRadius: 2,
         paddingLeft: 1,
         elevation: 1,
-        height: resHeight(26),
+        height: resHeight(22),
         justifyContent: 'center',
         alignItems: 'flex-start',
     },
