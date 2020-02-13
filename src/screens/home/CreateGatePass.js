@@ -15,7 +15,6 @@ import { Controller, useForm } from 'react-hook-form'
 
 import firebase from "firebase";
 import firestore from "firebase/firestore";
-console.log(firestore);
 
 const { width } = Dimensions.get('window');
 
@@ -35,6 +34,7 @@ function loadingToast() {
 }
 
 const CreateGatePass = props => {
+    var db = firebase.firestore();
     const { navigation } = props;
     const { register, handleSubmit, watch, control, errors, setValue } = useForm();
     const [ checked, setChecked ] = React.useState(false);
@@ -60,7 +60,7 @@ const CreateGatePass = props => {
         data['revoked'] = false;
         data['phone'] = data['phone'] ? data['phone'] : '234' ;
 
-        let addDoc = await firebase.firestore().collection('gatepasses').add(data)
+        let addDoc = await db.collection('gatepasses').add(data)
         .then( () => {
             successToast();
         })
