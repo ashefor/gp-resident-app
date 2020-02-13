@@ -1,12 +1,14 @@
 import 'react-native-gesture-handler';
 import React, { Component } from 'react';
 import { StyleSheet, Platform, View, ActivityIndicator, ImageBackground } from 'react-native';
-import { theme, withGalio, GalioProvider } from 'galio-framework'
+import { withGalio, GalioProvider } from 'galio-framework'
+import { Provider, theme } from '@ant-design/react-native';
 
 
 import AppNavigation from './src/navigation/AppNavigator'
 import * as Font from 'expo-font';
-import firebase from 'firebase';
+import firebase from "firebase";
+import firestore from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyC9zbuOoPvhV9YgK5rV5kFkaIc1xjltODs",
@@ -21,6 +23,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
+var db = firebase.firestore();
 
 class App extends Component {
   constructor(props) {
@@ -37,6 +40,8 @@ class App extends Component {
       'josefin-sans-reg': require('./src/assets/fonts/Josefin_Sans/JosefinSans-Regular.ttf'),
       'josefin-sans-light': require('./src/assets/fonts/Josefin_Sans/JosefinSans-Light.ttf'),
       'josefin-sans-bold': require('./src/assets/fonts/Josefin_Sans/JosefinSans-Bold.ttf'),
+      'antoutline': require('@ant-design/icons-react-native/fonts/antoutline.ttf'),
+      'antfill': require('@ant-design/icons-react-native/fonts/antfill.ttf'),
     });
     this.setState({ fontLoaded: true });
   }
@@ -44,6 +49,7 @@ class App extends Component {
     const { fontLoaded } = this.state
     if (fontLoaded) {
       return (
+        <Provider theme={theme}>
           <View style={{flex: 1}}>
             <ImageBackground 
               style={styles.imgBckgd}
@@ -51,6 +57,7 @@ class App extends Component {
               <AppNavigation />
             </ImageBackground>
           </View>
+        </Provider>
       )
     }
     return (

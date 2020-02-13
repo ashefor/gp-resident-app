@@ -8,12 +8,31 @@ import { SafeAreaView } from 'react-navigation';
 import Header from '../../components/Header';
 import Textarea from '../../components/Textarea';
 import { resWidth, resFont, resHeight } from '../../utils/utils';
-
+import {
+  Toast,
+} from '@ant-design/react-native';
 import { Controller, useForm } from 'react-hook-form'
 
-import * as firebase from "firebase/app";
+import firebase from "firebase";
+import firestore from "firebase/firestore";
+console.log(firestore);
 
 const { width } = Dimensions.get('window');
+
+function successToast() {
+  Toast.success('Guest has been added', 2);
+}
+function failToast() {
+  Toast.fail('Something failed! Please try again or contact an admin',3);
+}
+function offline() {
+  Toast.offline('Network connection seems to be having issues!',3);
+}
+function loadingToast() {
+  Toast.loading('Loading...', 2, () => {
+    console.log('Load complete!');
+  });
+}
 
 const CreateGatePass = props => {
     const { navigation } = props;
@@ -29,10 +48,7 @@ const CreateGatePass = props => {
     };
 
     const onSubmit = async data => { 
-        if (errors) {
-            console.log('errors');
-            console.log(errors);
-        }
+        loadingToast();
         setLoading(true);
         let dateCode = Date.now()+'';
         let docId = userId+'GP'+dateCode;
@@ -42,18 +58,32 @@ const CreateGatePass = props => {
         data['status'] = 'Pending';
         data['checkedIn'] = false;
         data['revoked'] = false;
+        data['phone'] = data['phone'] ? data['phone'] : '234' ;
 
-        let setDoc = await firebase.database().ref('gatepasses/' + docId).set({...data})
+        let addDoc = await firebase.firestore().collection('gatepasses').add(data)
         .then( () => {
-            alert('GatePass Created');
+            successToast();
         })
         .catch( e => {
             console('GatePass Creation error');
             console.log(e);
+            failToast();
             throw e;
         });
+        // let setDoc = await firebase.database().ref('gatepasses').add({...data})
+        // .then( () => {
+        //     successToast();
+        // })
+        // .catch( e => {
+        //     console('GatePass Creation error');
+        //     console.log(e);
+        //     failToast();
+        //     throw e;
+        // });
             setLoading(false);
-            props.navigation.navigate('Home');
+            setTimeout(() => {
+                props.navigation.navigate('Home');
+            } ,1616)
     }
 
     return (
@@ -70,10 +100,13 @@ const CreateGatePass = props => {
                                 placeholder='Full Name' style={{ marginTop: resHeight(1.5) }} />
                             {errors.fullName && <Text style={styles.errorMessage}>Full Name is required.</Text>}    
                             <Input
-                                ref={ register({ name: 'phone'},{ required: true}) }
+                                ref={ register({ name: 'phone'},{ required: false}) }
                                 name="phone"
                                 onChangeText={text => setValue('phone', text, true)}
-                             placeholder='Phone Number (Optional)' style={{ marginTop: resHeight(1.5) }} />
+                                 placeholder='Phone Number (Optional)' 
+                                 style={{ marginTop: resHeight(1.5) }} 
+                                 defaultValue={234}
+                             />
                             <Input
                                 ref={ register({ name: 'arrivalDate'},{ required: true}) }
                                 name="arrivalDate"
@@ -120,7 +153,7 @@ const CreateGatePass = props => {
 
                         <View style={styles.bottomContainer}>
                             <ButtonWithIcon
-                                title={loading ? <ActivityIndicator /> : 'Create Gatepass'}
+                                title={loading ? <ActivityIndicator style={{ marginLeft: 8}} color="#fff" /> : 'Create Gatepass'}
                                 textColor='#fff'
                                 icon='user-plus'
                                 iconColor='#fff'
@@ -155,6 +188,7 @@ const styles = StyleSheet.create({
         elevation: 3,
     },
     bottomContainer: {
+        flex:1,
         marginTop: resHeight(5),
         width: resWidth(55),
     },

@@ -10,7 +10,11 @@ import { withNavigationFocus } from 'react-navigation';
 import { scaleValue, translateX } from '../../functions/toggleDrawer'
 import Header from '../../components/Header';
 import { resHeight, resFont, resWidth } from '../../utils/utils';
-import * as firebase from "firebase/app";
+
+
+import firebase from "firebase";
+import firestore from "firebase/firestore";
+console.log(firestore);
 
 const { width, height } = Dimensions.get('window');
 
@@ -90,10 +94,11 @@ class GuestLists extends Component {
                 activeTab: 'Guest'
             })
         }
+        console.log(firebase);
         firebase.database().ref()
-            .once('value', (snapshot) => {
+            .on('value', snapshot => {
                 console.log('Getting Guestlist');
-                console.log(snapshot.val());
+                // console.log(snapshot.toJSON());
                 snapshot.forEach(function(childSnapshot) {
                     var childKey = childSnapshot.key;
                     var childData = childSnapshot.val();
