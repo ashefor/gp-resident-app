@@ -99,6 +99,7 @@ class CommunitySpotlightCarousel extends Component {
                     flex: 1,
                     justifyContent: 'center',
                 }}>
+                
                 <Carousel
                     ref={this.carouselRef}
                     data={this.state.images}
@@ -282,8 +283,8 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
     },
     content: {
+        flex:1,
         alignItems: 'center',
-        height: resHeight(26),
     },
     containerCustomStyle2: {
         alignSelf: 'center',
@@ -325,7 +326,18 @@ const styles = StyleSheet.create({
         marginTop: resHeight(1),
         fontFamily: 'josefin-sans-reg',
         paddingHorizontal: resWidth(1.5)
-    }
+    },
+     spotlight: {
+        width: '100%',
+        alignSelf: 'center',
+        marginTop: resHeight(2),
+        marginBottom: resHeight(1)
+    },
+    spotlightText: {
+        fontSize: resFont(16),
+        color: '#222455',
+        fontFamily: 'josefin-sans-semi-bold'
+    },
 })
 
 export { CommunitySpotlightCarousel, CommunityCentre }

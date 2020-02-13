@@ -30,7 +30,7 @@ class HomeScreen extends Component {
                     { transform: [{ scale: this.state.scale }, { translateX: this.state.translateX }], opacity: this.state.opacity },
                     styles.animatedContainer]}>
                 <LinearGradient colors={['#fff', '#fff']} style={[StyleSheet.absoluteFill]}>
-                    <SafeAreaView style={{ flex: 4 }}>
+                    <SafeAreaView style={{ flex: 1 }}>
 
                         <View style={[styles.page]}>
                             <Header navigation={navigation} title='House D2' />
@@ -40,76 +40,74 @@ class HomeScreen extends Component {
                                         flex:2,
                                     }}
                                 >
-                                 <TouchableWithoutFeedback 
-                                    onPress={() => {
-                                        this.props.navigation.navigate("Guests", {
-                                            previous: 'Home',
-                                            back: true,
-                                        })
-                                    }}
-
-                                    >
-                                   
-                                        <Card
-                                          flex
-                                          borderless
-                                          shadow={true}
-                                          style={styles.imgOverlay}
-                                          
+                                    <TouchableWithoutFeedback 
+                                        onPress={() => {
+                                            this.props.navigation.navigate("Guests", {
+                                                previous: 'Home',
+                                                back: true,
+                                            })
+                                        }}
                                         >
-                                            <View 
-                                                style={{ 
-                                                    top: -resHeight(4),
-                                                    justifyContent: 'flex-start',
-                                                    marginHorizontal: resHeight(3) 
-
-                                                }}
-                                            >
-                                                <Text 
-                                                    allowFontScaling={false} 
-                                                    style={styles.house}
-                                                >
-                                                    Guests
-                                                </Text>
-                                            </View>
-                                            <View 
-                                                style={{ 
-                                                    flex: 1, 
-                                                    justifyContent: 'flex-end', 
-                                                    margin: resHeight(3) 
-                                                }}
+                                            <Card
+                                              flex
+                                              borderless
+                                              shadow={true}
+                                              style={styles.imgOverlay}
                                             >
                                                 <View 
                                                     style={{ 
-                                                        flexDirection: 'row', 
-                                                        alignItems: 'center' 
+                                                        top: -resHeight(4),
+                                                        justifyContent: 'flex-start',
+                                                        marginHorizontal: resHeight(3) 
                                                     }}
                                                 >
-                                                    <View style={styles.guestNum}>
-                                                        <Text allowFontScaling={false} style={styles.guestNumText} 
-                                                        >
-                                                            3
-                                                        </Text>
-                                                    </View>
-                                                    <View style={{ marginLeft: 5, alignSelf: 'center' }}>
-                                                        <Text allowFontScaling={false} style={styles.guest}>Incoming</Text>
+                                                    <Text 
+                                                        allowFontScaling={false} 
+                                                        style={styles.house}
+                                                    >
+                                                        Guests
+                                                    </Text>
+                                                </View>
+                                                <View 
+                                                    style={{ 
+                                                        flex: 1, 
+                                                        justifyContent: 'flex-end', 
+                                                        margin: resHeight(3) 
+                                                    }}
+                                                >
+                                                    <View 
+                                                        style={{ 
+                                                            flexDirection: 'row', 
+                                                            alignItems: 'center' 
+                                                        }}
+                                                    >
+                                                        <View style={styles.guestNum}>
+                                                            <Text allowFontScaling={false} style={styles.guestNumText} 
+                                                            >
+                                                                3
+                                                            </Text>
+                                                        </View>
+                                                        <View style={{ marginLeft: 5, alignSelf: 'center' }}>
+                                                            <Text allowFontScaling={false} style={styles.guest}>Incoming</Text>
+                                                        </View>
                                                     </View>
                                                 </View>
-                                            </View>
 
-                                            <View style={{ position: 'absolute', right: resWidth(4), bottom: resHeight(2.4) }}>
-                                                <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate("Create Gatepass", { previous: 'Home' })}>
-                                                    <View style={[styles.addActionBtns, { backgroundColor: '#34D881', }]}>
-                                                        <Feather name='user-plus' color='#fff' size={resFont(25)} />
-                                                    </View>
-                                                </TouchableWithoutFeedback>
-                                            </View>
-                                        </Card>
-                                </TouchableWithoutFeedback>
-                                    </View>
+                                                <View style={{ position: 'absolute', right: resWidth(4), bottom: resHeight(2.4) }}>
+                                                    <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate("Create Gatepass", { previous: 'Home' })}>
+                                                        <View style={[styles.addActionBtns, { backgroundColor: '#34D881', }]}>
+                                                            <Feather name='user-plus' color='#fff' size={resFont(25)} />
+                                                        </View>
+                                                    </TouchableWithoutFeedback>
+                                                </View>
+                                            </Card>
+                                    </TouchableWithoutFeedback>
+                                </View>
+
                                 <View
                                     style={{
-                                        flex:4
+                                        flex:4,
+                                        justifyContent: 'space-between',
                                     }}
                                 >
                                     <View style={styles.spotlight}>
@@ -121,6 +119,7 @@ class HomeScreen extends Component {
                                     <CommunitySpotlightCarousel />
                                     
                                 </View>
+
                                 <View
                                     style={{
                                         flex:2
@@ -135,6 +134,7 @@ class HomeScreen extends Component {
                                     <CommunityCentre navigation={navigation} />
                                     <FloatingButton style={{ top: resHeight(6.6), alignSelf: 'center', right: 0 }} />
                                 </View>
+
                             </View>
                         </View>
 
@@ -216,10 +216,10 @@ const styles = StyleSheet.create({
     spotlight: {
         width: '100%',
         alignSelf: 'center',
-        marginTop: resHeight(2),
-        marginBottom: resHeight(1)
+        marginTop: resHeight(3),
     },
     spotlightText: {
+        marginVertical: resHeight(1),
         fontSize: resFont(16),
         color: '#222455',
         fontFamily: 'josefin-sans-semi-bold'
