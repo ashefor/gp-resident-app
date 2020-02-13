@@ -1,10 +1,10 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": null,
-  "packagerPort": null,
-  "packagerPid": null,
+  "expoServerPort": 19000,
+  "packagerPort": 19001,
+  "packagerPid": 8413,
   "expoServerNgrokUrl": "https://tn-rr8.sargent.gp-app-resident.exp.direct",
   "packagerNgrokUrl": "https://packager.tn-rr8.sargent.gp-app-resident.exp.direct",
-  "ngrokPid": 6761,
+  "ngrokPid": 8433,
   "webpackServerPort": null
 }

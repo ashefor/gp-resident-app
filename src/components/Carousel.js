@@ -112,6 +112,8 @@ class CommunitySpotlightCarousel extends Component {
                     containerCustomStyle={styles.containerCustomStyle}
                     activeSlideAlignment={'start'}
                     inactiveSlideScale={1}
+                    autoplay={true}
+                    loop={true}
                 />
                 {this.pagination}
             </View>
