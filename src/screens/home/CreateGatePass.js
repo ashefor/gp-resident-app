@@ -68,7 +68,7 @@ const CreateGatePass = props => {
                                 name="fullName"
                                 onChangeText={text => setValue('fullName', text, true)}
                                 placeholder='Full Name' style={{ marginTop: resHeight(1.5) }} />
-                            {errors.fullName && <Text>This is required.</Text>}    
+                            {errors.fullName && <Text style={styles.errorMessage}>Full Name is required.</Text>}    
                             <Input
                                 ref={ register({ name: 'phone'},{ required: true}) }
                                 name="phone"
@@ -79,6 +79,7 @@ const CreateGatePass = props => {
                                 name="arrivalDate"
                                 onChangeText={text => setValue('arrivalDate', text, true)}
                              placeholder='Arrival Date' style={{ marginTop: resHeight(1.5) }} />
+                            {errors.arrivalDate && <Text style={styles.errorMessage}>Arrival Date is required.</Text>}    
                              <Controller 
                                 as={(
                                     <Textarea
@@ -172,4 +173,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 0,
         alignItems: 'flex-start'
     },
+    errorMessage: {
+        color: '#cd3f3f',
+    }
 })
