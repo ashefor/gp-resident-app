@@ -52,21 +52,32 @@ function LoginScreen(props){
         setLoading(true);
         console.log(data);
         const { email, password } = data;
-        await firebase.auth().signInWithEmailAndPassword(email, password)
-          .then(function(res) {
-            console.log(res);
-            console.log('Logged In');
-            props.navigation.navigate('Home');
-          })
-          .catch(function(error) {
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            // ...
-            alert(errorMessage);
-              
-          });
-        setLoading(false);
+        await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+            .then(function() {
+                return firebase.auth().signInWithEmailAndPassword(email, password)
+                  .then(function(res) {
+                    console.log(res);
+                    console.log('Logged In');
+                    props.navigation.navigate('Home');
+                  })
+                  .catch(function(error) {
+                    // Handle Errors here.
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    // ...
+                    alert(errorMessage);
+                    setLoading(false);
+                  })
+            .catch(function(error) {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                // ...
+                alert(errorMessage);
+                setLoading(false);
+            });
+        })
+        
       };
         return (
             <LinearGradient colors={['#7c93cd', '#8473b7']} style={[StyleSheet.absoluteFillObject]}>
