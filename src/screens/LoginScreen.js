@@ -3,18 +3,71 @@ import { StyleSheet, Dimensions, View, Text, TextInput, TouchableOpacity, Image 
 import { LinearGradient } from 'expo-linear-gradient'
 import SafeAreaView from 'react-native-safe-area-view';
 import { resFont, resHeight, resWidth } from '../utils/utils';
+import { useForm } from 'react-hook-form';
+import { Flex, Button, Toast, Modal } from '@ant-design/react-native/lib';
+
+import firebase from 'firebase/app';
+import 'firebase/auth';
 
 const { width } = Dimensions.get('window')
 
-export default class LoginScreen extends Component {
-    constructor(props) {
-        super(props)
+async function resetPassword(emailToReset) {
+  await firebase.auth().sendPasswordResetEmail(emailToReset)
+    .then(function() {
+      // Password reset email sent.
+      Toast.success(`An email has been sent to ${emailToReset} with instructions.`);
+    })
+    .catch(function(error) {
+      // Error occurred. Inspect error.code.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      Toast.fail(errorMessage);
+    });
+}
+
+function LoginScreen(props){
+    const { register, setValue, handleSubmit, errors } = useForm();
+    const [ loading, setLoading ] = React.useState(false);
+
+    const goToForgotPassword = () => {
+        props.navigation.navigate('Forgot Password')
     }
 
-    goToForgotPassword = () => {
-        this.props.navigation.navigate('Forgot Password')
-    }
-    render() {
+    const forgotPassword = () => {
+        Modal.prompt(
+          'Reset Password', //title
+          'Enter your email address', //message
+          [
+            { text: 'Cancel', onPress: () => console.log('Reset Password Cancelled')},
+            { text: 'Reset', onPress: (emailReset) => resetPassword(emailReset.replace(/\s/g,'').toLowerCase()) },
+          ],
+          'default', //type
+          null, //defaultValue
+          [null] //value handlers
+          // onBackHandler
+        );
+    };
+
+    const onSubmit = async data => {
+        setLoading(true);
+        console.log(data);
+        const { email, password } = data;
+        await firebase.auth().signInWithEmailAndPassword(email, password)
+          .then(function(res) {
+            console.log(res);
+            console.log('Logged In');
+            props.navigation.navigate('Home');
+          })
+          .catch(function(error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // ...
+            alert(errorMessage);
+              
+          });
+        setLoading(false);
+      };
         return (
             <LinearGradient colors={['#7c93cd', '#8473b7']} style={[StyleSheet.absoluteFillObject]}>
                 <SafeAreaView style={{ flex: 1, alignItems: 'center' }}>
@@ -29,20 +82,30 @@ export default class LoginScreen extends Component {
                                                     height: resFont(25),
                                                     resizeMode: 'contain'}}/>
                                 <TextInput style={styles.customInput} placeholder='Email'
-                                    placeholderTextColor='#000' />
+                                    placeholderTextColor='#000' 
+                                    name="email"
+                                      ref={register({ name: 'email'}, { required: true })}
+                                      onChangeText={text => setValue('email', text, true)}
+                                    />
+                                    {errors.email && <Text style={{color: 'red', marginHorizontal: 4}}>Required</Text>}
                             </View>
                             <View style={[styles.inputBorders, styles.SectionStyle]}>
                                 <Image source={require('../assets/images/lock.png')} style={{width: resFont(25),
                                                     height: resFont(25),
                                                     resizeMode: 'contain'}}/>
-                                <TextInput style={styles.customInput} placeholder='Password' placeholderTextColor='#000' />
+                                <TextInput style={styles.customInput} placeholder='Password' placeholderTextColor='#000'
+                                    name="password"
+                                      ref={register({ name: 'password'}, { required: true })}
+                                      onChangeText={text => setValue('password', text, true)}
+                                    />
+                                    {errors.password && <Text style={{color: 'red', marginHorizontal: 4}}>Required</Text>}
                             </View>
-                            <TouchableOpacity onPress={this.goToForgotPassword}>
+                            <TouchableOpacity onPress={forgotPassword}>
                                 <Text allowFontScaling={false} style={styles.forgotPwd}>Forgot Password?</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styles.bottomContainer}>
-                            <TouchableOpacity style={styles.customBtn} onPress={() => this.props.navigation.navigate('Home')}>
+                            <TouchableOpacity style={styles.customBtn} onPress={handleSubmit(onSubmit)}>
                                 <Text allowFontScaling={false} style={styles.btnText}>Login</Text>
                             </TouchableOpacity>
 
@@ -54,8 +117,9 @@ export default class LoginScreen extends Component {
                 </SafeAreaView>
             </LinearGradient>
         )
-    }
 }
+
+export default LoginScreen; 
 
 const styles = StyleSheet.create({
     wrapper: {
