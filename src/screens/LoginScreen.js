@@ -85,7 +85,7 @@ function LoginScreen(props){
                                     placeholderTextColor='#000' 
                                     name="email"
                                       ref={register({ name: 'email'}, { required: true })}
-                                      onChangeText={text => setValue('email', text, true)}
+                                      onChangeText={text => setValue('email', text.replace(/\s/g,''), true)}
                                     />
                                     {errors.email && <Text style={{color: 'red', marginHorizontal: 4}}>Required</Text>}
                             </View>
