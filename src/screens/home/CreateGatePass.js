@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Dimensions, ActivityIndicator, TouchableOpacity, Share, Clipboard, } from 'react-native';
+import { View, ScrollView, StyleSheet, Dimensions, ActivityIndicator, TouchableOpacity, Share, Clipboard, } from 'react-native';
 import Input from '../../components/Input';
+import DateInput from '../../components/DateInput';
 import { CheckBox, Text  } from 'react-native-elements'
 import Button from '../../components/Button';
 import ButtonWithIcon from '../../components/ButtonWithIcon';
@@ -14,6 +15,8 @@ import {
 } from '@ant-design/react-native';
 import { Controller, useForm } from 'react-hook-form'
 import Modal from "react-native-modal";
+
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 import firebase from "firebase";
 import firestore from "firebase/firestore";
@@ -42,12 +45,16 @@ function successToastCopied() {
 const CreateGatePass = props => {
     var db = firebase.firestore();
     const { navigation } = props;
-    const { register, handleSubmit, watch, control, errors, setValue } = useForm();
+    const { register, handleSubmit, watch, control, errors, setValue, getValues  } = useForm();
     const [ checked, setChecked ] = React.useState(false);
     const [ loading, setLoading ] = React.useState(false);
     const [ guestData, setGuestData ] = React.useState({});
     const [ currentUser, setCurrentUser ] = React.useState(null);
     const [ showSucessModal, setShowSucessModal ] = React.useState(false);
+    // date
+      const [date, setDate] = React.useState(new Date(1598051730000));
+  const [mode, setMode] = React.useState('date');
+  const [showDate, setShowDate] = React.useState(false);
 
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
@@ -71,6 +78,34 @@ const CreateGatePass = props => {
         navigation.navigate('Home');
 
     }
+
+      const onChangeDate = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+
+    setDate(currentDate);
+    setValue('start_date', currentDate, true)
+    setShowDate(Platform.OS === 'ios' ? true : false);
+  };
+
+  const showMode = currentMode => {
+    setShowDate(true);
+    setMode(currentMode);
+  };
+
+  const showDatepicker = () => {
+    showMode('date');
+  };
+  const closeDatepicker = () => {
+    setShowDate(false);
+  };
+
+  const toggleDatepicker = () => {
+    setMode('date');
+    setShowDate(!showDate);
+  };
+  const showTimepicker = () => {
+    showMode('time');
+  };
 
    const onShare = async () => {
         try {
@@ -159,7 +194,8 @@ const CreateGatePass = props => {
             <SafeAreaView style={StyleSheet.absoluteFillObject}>
                 <View style={{ flex: 1, backgroundColor: 'transparent' }}>
                     <Header navigation={navigation} Cancel='Home' textColor='#8A98BA' />
-                    <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
+                    <ScrollView 
+                        contentContainerStyle={{ justifyContent: 'flex-start', alignItems: 'center' }}>
                         <View style={styles.middleBlock}>
                             <Input
                                 ref={ register({ name: 'name'},{ required: true}) }
@@ -175,11 +211,47 @@ const CreateGatePass = props => {
                                  style={{ marginTop: resHeight(1.5) }} 
                                  defaultValue={234}
                              />
-                            <Input
-                                ref={ register({ name: 'start_date'},{ required: true}) }
-                                name="start_date"
-                                onChangeText={text => setValue('start_date', text, true)}
-                             placeholder='Start Date' style={{ marginTop: resHeight(1.5) }} />
+                               <View
+                                    style={{
+                                        flex:1,
+                                        width: '100%',
+                                    }}
+                                >
+                                    <TouchableOpacity 
+                                        onPress={toggleDatepicker} 
+                                        style={{
+                                            flex:1,
+                                            height: '100%',
+                                            width: '100%',
+                                        }}
+                                    >
+
+                                        <DateInput
+                                            ref={ register({ name: 'start_date'},{ required: true}) }
+                                            name="start_date"
+                                            value={getValues()['start_date'] && new Date(getValues()['start_date']).toDateString()}
+                                            onFocus={showDatepicker}
+                                            onBlur={closeDatepicker}
+                                            onChangeText={text => setValue('start_date', text, true)}
+                                         placeholder='Start Date' 
+                                         style={{ marginTop: resHeight(1.5) }} 
+                                         showDate={showDate}
+                                         />
+
+                                    </TouchableOpacity>
+      
+                                  {showDate && (
+                                    <DateTimePicker
+                                      testID="dateTimePicker"
+                                      timeZoneOffsetInMinutes={0}
+                                      value={date}
+                                      mode={mode}
+                                      is24Hour={true}
+                                      display="default"
+                                      onChange={onChangeDate}
+                                    />
+                                  )}
+                                </View>
                             {errors.start_date && <Text style={styles.errorMessage}>Start Date is required.</Text>}    
                              <Controller 
                                 as={(
@@ -229,7 +301,7 @@ const CreateGatePass = props => {
                                 onPress={handleSubmit(onSubmit)}
                                 />
                         </View>
-                    </View>
+                    </ScrollView>
                 </View>
                 <Modal
                     testID={'modal'}

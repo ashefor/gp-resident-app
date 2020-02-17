@@ -12,9 +12,9 @@ export default createAppContainer(createAnimatedSwitchNavigator({
     // 'Get Started': {
     //     screen: GetStartedStack
     // },
-    Auth: {
-        screen: AuthStack
-    },
+    // Auth: {
+    //     screen: AuthStack
+    // },
     Main: {
         screen: DrawerNavigation
     }
