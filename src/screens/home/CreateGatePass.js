@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { View, ScrollView, StyleSheet, Dimensions, ActivityIndicator, TouchableOpacity, Share, Clipboard, } from 'react-native';
+import { View, ScrollView, StyleSheet, Dimensions, ActivityIndicator, TouchableOpacity, Share, Clipboard, Picker } from 'react-native';
 import Input from '../../components/Input';
 import DateInput from '../../components/DateInput';
+import SelectInput from '../../components/SelectInput';
 import { CheckBox, Text  } from 'react-native-elements'
 import Button from '../../components/Button';
 import ButtonWithIcon from '../../components/ButtonWithIcon';
@@ -53,8 +54,11 @@ const CreateGatePass = props => {
     const [ showSucessModal, setShowSucessModal ] = React.useState(false);
     // date
       const [date, setDate] = React.useState(new Date(1598051730000));
-  const [mode, setMode] = React.useState('date');
-  const [showDate, setShowDate] = React.useState(false);
+      const [mode, setMode] = React.useState('date');
+      const [showDate, setShowDate] = React.useState(false);
+
+        const [type, setType] = React.useState('Type of Guest');
+      const [showType, setShowType] = React.useState(false);
 
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
@@ -79,33 +83,52 @@ const CreateGatePass = props => {
 
     }
 
-      const onChangeDate = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
+    const onChangeDate = (event, selectedDate) => {
+        const currentDate = selectedDate || date;
 
-    setDate(currentDate);
-    setValue('start_date', currentDate, true)
-    setShowDate(Platform.OS === 'ios' ? true : false);
-  };
+        setDate(currentDate);
+        setValue('start_date', currentDate, true)
+        setShowDate(Platform.OS === 'ios' ? true : false);
+    };
 
-  const showMode = currentMode => {
-    setShowDate(true);
-    setMode(currentMode);
-  };
+    const onChangeType = (itemValue, itemIndex) => {
+        console.log(itemValue);
+        const currentType = itemValue || type;
 
-  const showDatepicker = () => {
-    showMode('date');
-  };
-  const closeDatepicker = () => {
-    setShowDate(false);
-  };
+        setType(currentType);
+        setValue('type', currentType, true);
+    };
 
-  const toggleDatepicker = () => {
-    setMode('date');
-    setShowDate(!showDate);
-  };
-  const showTimepicker = () => {
-    showMode('time');
-  };
+    const showMode = currentMode => {
+        setShowDate(true);
+        setMode(currentMode);
+    };
+
+    const showDatepicker = () => {
+        showMode('date');
+    };
+    const closeDatepicker = () => {
+        setShowDate(false);
+    };
+
+    const toggleDatepicker = () => {
+        setMode('date');
+        setShowDate(!showDate);
+    };
+
+    const showTypepicker = () => {
+        setShowType(true);
+    };
+    const closeTypepicker = () => {
+        setShowType(false);
+    };
+
+    const toggleTypepicker = () => {
+        setShowType(!type)
+    };
+  // const showTimepicker = () => {
+  //   showMode('time');
+  // };
 
    const onShare = async () => {
         try {
@@ -211,6 +234,48 @@ const CreateGatePass = props => {
                                  style={{ marginTop: resHeight(1.5) }} 
                                  defaultValue={234}
                              />
+                                <View
+                                    style={{
+                                        flex:1,
+                                        width: '100%',
+                                    }}
+                                >
+                                    <TouchableOpacity 
+                                        onPress={toggleTypepicker} 
+                                        style={{
+                                            flex:1,
+                                            height: '100%',
+                                            width: '100%',
+                                        }}
+                                    >
+
+                                        <SelectInput
+                                            ref={ register({ name: 'type'},{ required: true}) }
+                                            name="type"
+                                            value={type}
+                                            onFocus={showTypepicker}
+                                            onBlur={closeTypepicker}
+                                            onChangeText={text => console.log(text)}
+                                         placeholder='Type' 
+                                         style={{ marginTop: resHeight(1.5) }} 
+                                         showType={showType}
+                                         />
+
+                                    </TouchableOpacity>
+      
+                                  {showType && (
+                                    <Picker
+                                      selectedValue={type}
+                                      style={{
+                                      }}
+                                      onValueChange={onChangeType}>
+                                      <Picker.Item label="Family/Friends" value="Family/Friends" />
+                                      <Picker.Item label="Staff" value="Staff" />
+                                      <Picker.Item label="Contractor" value="Contractor" />
+                                    </Picker>
+                                  )}
+                                </View>
+
                                <View
                                     style={{
                                         flex:1,
@@ -232,7 +297,7 @@ const CreateGatePass = props => {
                                             value={getValues()['start_date'] && new Date(getValues()['start_date']).toDateString()}
                                             onFocus={showDatepicker}
                                             onBlur={closeDatepicker}
-                                            onChangeText={text => setValue('start_date', text, true)}
+                                            onChangeText={text => console.log(text)}
                                          placeholder='Start Date' 
                                          style={{ marginTop: resHeight(1.5) }} 
                                          showDate={showDate}
