@@ -174,8 +174,8 @@ const CreateGatePass = props => {
     };
 
     const onSubmit = async data => { 
-        loadingToast();
         setLoading(true);
+        loadingToast();
         const { uid } = currentUser;
         let dateCode = Date.now()+'';
         let docId = dateCode+'GP'+uid;

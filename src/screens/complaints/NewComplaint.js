@@ -42,8 +42,8 @@ const NewComplaint = props => {
     const [ loading, setLoading ] = React.useState(false);
 
     const onSubmit = async data => { 
-        loadingToast();
         setLoading(true);
+        loadingToast();
         const { uid } = currentUser;
         let dateCode = Date.now()+'';
         let docId = dateCode.substring(5,)+'GPComplaint'+uid;
@@ -107,7 +107,7 @@ const NewComplaint = props => {
                         </View>
                         <View style={styles.bottomContainer}>
                             <Button
-                                title='Submit'
+                                title={loading ? <ActivityIndicator style={{ marginLeft: 8}} color="#fff" /> : 'Submit'}
                                 textColor='#fff'
                                 backgroundColor='#5766BA' 
                                 onPress={handleSubmit(onSubmit)}
