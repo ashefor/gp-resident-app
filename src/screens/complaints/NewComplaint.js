@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Dimensions } from 'react-native';
+import { View, StyleSheet, Dimensions, ActivityIndicator } from 'react-native';
 import Input from '../../components/Input';
 import Textarea from '../../components/Textarea';
 import Button from '../../components/Button';
@@ -8,6 +8,7 @@ import { SafeAreaView } from 'react-navigation';
 import Header from '../../components/Header';
 import { resWidth, resHeight } from '../../utils/utils';
 
+import { CheckBox, Text  } from 'react-native-elements'
 import { Toast, } from '@ant-design/react-native';
 import { Controller, useForm } from 'react-hook-form'
 import firebase from "firebase";
@@ -40,8 +41,25 @@ const NewComplaint = props => {
     const { navigation } = props;
     const { register, handleSubmit, watch, control, errors, setValue, getValues  } = useForm();
     const [ loading, setLoading ] = React.useState(false);
+    const [ currentUser, setCurrentUser ] = React.useState(null);
+
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        // User is signed in.
+        setCurrentUser(user);
+      } else {
+        // No user is signed in.
+      }
+    });
+
+    const onChange = args => {
+        return {
+          value: args[0].nativeEvent.text,
+        };
+    };
 
     const onSubmit = async data => { 
+        const db = firebase.firestore();
         setLoading(true);
         loadingToast();
         const { uid } = currentUser;
@@ -49,7 +67,7 @@ const NewComplaint = props => {
         let docId = dateCode.substring(5,)+'GPComplaint'+uid;
         data['_id'] = docId;
         data['uid'] = uid;
-        data['status'] = 'Pending';
+        data['status'] = 'pending';
         data['resolved'] = false;
         data['issueDate'] = new Date();
         data['completionDate'] = null;
@@ -57,16 +75,15 @@ const NewComplaint = props => {
 
         let addDoc = await db.collection('complaints').add(data)
         .then( () => {
-            setGuestData(data);
-            openSuccessModal();
+            successToast();
         })
         .catch( e => {
             console('GatePass Creation error');
             console.log(e);
             failToast();
-            throw e;
+            setLoading(false);
         });
-        setLoading(false);
+        props.navigation.goBack();
     }
 
     return (
@@ -83,6 +100,7 @@ const NewComplaint = props => {
                                 onChangeText={text => setValue('category', text, true)}
                                 style={{ marginTop: resHeight(1.5) }} 
                             />
+                            {errors.category && <Text style={styles.errorMessage}>Required.</Text>}    
                             <Input 
                                 placeholder='Subject' 
                                 style={{ marginVertical: resHeight(2.5) }} 
@@ -90,6 +108,7 @@ const NewComplaint = props => {
                                 name="subject"
                                 onChangeText={text => setValue('subject', text, true)}
                             />
+                            {errors.subject && <Text style={styles.errorMessage}>Required.</Text>}    
                             <Input 
                                 placeholder='Select Property' 
                                 style={{ marginVertical: resHeight(2.5) }} 
@@ -97,13 +116,20 @@ const NewComplaint = props => {
                                 name="property"
                                 onChangeText={text => setValue('property', text, true)}
                             />
-                            <Textarea 
-                                placeholder='Description' 
-                                style={{ marginVertical: resHeight(2.5) }} 
-                                ref={ register({ name: 'description'},{ required: true}) }
+                            {errors.property && <Text style={styles.errorMessage}>Required.</Text>} 
+                            <Controller 
+                                as={(
+                                    <Textarea
+                                        placeholder='Description' 
+                                        style={{ marginTop: resHeight(2.5) }} 
+                                    />
+                                )}
                                 name="description"
-                                onChangeText={text => setValue('description', text, true)}
-                            />
+                                control={control}
+                                onChange={onChange}
+                                defaultValue=""
+                            />   
+                            {errors.description && <Text style={styles.errorMessage}>Required.</Text>}    
                         </View>
                         <View style={styles.bottomContainer}>
                             <Button
@@ -142,6 +168,9 @@ const styles = StyleSheet.create({
     bottomContainer: {
         marginTop: resHeight(6),
         width: resWidth(55),
+    },
+    errorMessage: {
+        color: '#cd3f3f',
     },
 })
 

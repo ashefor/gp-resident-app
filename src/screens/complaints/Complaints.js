@@ -10,15 +10,18 @@ import Header from '../../components/Header';
 import { resWidth, resHeight, resFont } from '../../utils/utils';
 
 
-const CardElement = ({ title, content, status, pressed }) => (
+import firebase from "firebase";
+import firestore from "firebase/firestore";
+
+const CardElement = ({ subject, category, issueDate, status, pressed }) => (
     <View style={styles.card}>
         <View style={styles.cardHeader}>
             <View style={{ marginRight: resWidth(5) }}>
                 <Text allowFontScaling={false} style={styles.cardTitle}>
-                    {title}
+                    {subject}
                 </Text>
                 <Text allowFontScaling={false} style={styles.cardSubtitle}>
-                    {content}
+                    {category}
                 </Text>
             </View>
             <View
@@ -29,7 +32,7 @@ const CardElement = ({ title, content, status, pressed }) => (
         <View style={styles.cardFooter}>
             <View>
                 <Text allowFontScaling={false} style={[styles.cardTime, styles.cardSubtitle]}>
-                    Jan. 2, 2020
+                    {new Date(issueDate).toDateString()}
         </Text>
             </View>
             <View style={styles.cardBody}>
@@ -100,12 +103,46 @@ class Complaints extends Component {
             activeTab: tabName
         })
     }
-    componentDidUpdate(prevProps) {
+        
+    async componentDidUpdate(prevProps) {
+        const pThis = this;
+        var db = firebase.firestore();
+        var complaints = [];
         if (prevProps.isFocused !== this.props.isFocused) {
             this.setState({
                 activeTab: 'Pending'
             })
         }
+
+        const user = await firebase.auth().onAuthStateChanged(async function(user) {
+          if (user) {
+            // User is signed in.
+            const { uid } = user;
+             await db.collection("complaints")
+                .where("uid", "==", uid)
+                .get()
+                .then(function(querySnapshot) {
+                    querySnapshot.forEach(function(doc) {
+                        // doc.data() is never undefined for query doc snapshots
+                        // console.log(doc.id, " => ", doc.data());
+                        complaints.push({
+                            id: doc.id,
+                            ...doc.data(),
+                        });
+                    });
+                })
+                .catch(function(error) {
+                    console.log("Error getting documents: ", error);
+                });
+                pThis.setState({ 
+                    complaints,
+                    loading: false,
+             });
+          } else {
+            // No user is signed in.
+          }
+        });
+
     }
     updateSearch = search => {
         this.setState({ search });
