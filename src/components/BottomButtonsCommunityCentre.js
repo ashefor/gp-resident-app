@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, TouchableOpacity, Image, StyleSheet, Dimensions, Platform } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient'
 
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
@@ -44,9 +43,9 @@ const BottomButtonsCommunityCentre = props => {
       <View style={{justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
             <TouchableWithoutFeedback onPress={()=> props.navigation.navigate(title)}>
             <View style={styles.imgBkg}>
-               <LinearGradient 
+               <View 
                style={styles.comCenImg}
-               colors={[color1, color2]}>
+               >
                <Image source={require('../assets/images/noticeboard.png')}  
                style={{
                 width:resFont(25),
@@ -54,7 +53,7 @@ const BottomButtonsCommunityCentre = props => {
                   resizeMode: 'contain'
 
 }}/>
-               </LinearGradient>
+            </View>
             </View>
             </TouchableWithoutFeedback>
             <Text allowFontScaling={false}   
@@ -72,9 +71,9 @@ const BottomButtonsCommunityCentre = props => {
       <View style={{justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
             <TouchableWithoutFeedback onPress={()=> props.navigation.navigate(title)}>
             <View style={styles.imgBkg}>
-               <LinearGradient 
-               style={styles.comCenImg}
-               colors={[color1, color2]}>
+               <View 
+                style={styles.comCenImg}
+               >
                <Image 
                source={require('../assets/images/complaints.png')}  
                style={{width:resFont(25), 
@@ -82,7 +81,7 @@ const BottomButtonsCommunityCentre = props => {
                   resizeMode: 'contain'
                 }}
                 />
-               </LinearGradient>
+               </View>
             </View>
             </TouchableWithoutFeedback>
             <Text allowFontScaling={false}   
@@ -100,9 +99,9 @@ const BottomButtonsCommunityCentre = props => {
       <View style={{justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
             <TouchableWithoutFeedback onPress={()=> props.navigation.navigate(title)}>
             <View style={styles.imgBkg}>
-               <LinearGradient 
-               style={styles.comCenImg}
-               colors={[color1, color2]}>
+               <View 
+                style={styles.comCenImg}
+               >
                <Image 
                source={require('../assets/images/staff.png')}  
                style={{width:resFont(25), 
@@ -110,7 +109,7 @@ const BottomButtonsCommunityCentre = props => {
                   resizeMode: 'contain'
                 }}
                 />
-               </LinearGradient>
+               </View>
             </View>
             </TouchableWithoutFeedback>
             <Text allowFontScaling={false}   
@@ -126,7 +125,7 @@ const BottomButtonsCommunityCentre = props => {
       <View style={{}}>
       <FloatingButton 
         style={{ 
-          top: resHeight(3), 
+          top: resHeight(4.4), 
         }} 
       />
 
@@ -193,6 +192,7 @@ const styles = StyleSheet.create({
         height: resHeight(12),
     },
     comCenImg: {
+      backgroundColor: '#fff',
         width: resHeight(8), 
         height: resHeight(8), 
         marginBottom: resHeight(1),
