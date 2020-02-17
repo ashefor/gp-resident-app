@@ -3,10 +3,18 @@
   "displayName": "GatePass",
   "expo": {
     "name": "GatePass",
+    "icon": "src/assets/images/logo.png",
     "slug": "gatepass",
     "privacy": "unlisted",
-    "sdkVersion": "36.0.0",
     "version": "1.0.0",
+    "sdkVersion": "36.0.0",
+    "ios": {
+      "bundleIdentifier": "com.gatepass.resident"
+    },
+    "android": {
+      "package": "com.gatepass.resident",
+      "versionCode": 1
+    },
     "splash": {
       "image": "./src/assets/images/splashscreen.png",
       "resizeMode": "cover"

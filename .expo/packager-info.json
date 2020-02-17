@@ -3,8 +3,8 @@
   "expoServerPort": null,
   "packagerPort": null,
   "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
+  "expoServerNgrokUrl": "https://d2-pt5.sargent.gp-app-resident.exp.direct",
+  "packagerNgrokUrl": "https://packager.d2-pt5.sargent.gp-app-resident.exp.direct",
+  "ngrokPid": 17447,
   "webpackServerPort": null
 }
