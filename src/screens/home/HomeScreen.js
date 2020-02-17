@@ -28,15 +28,19 @@ class HomeScreen extends Component {
             incomingGuestsCount: '',
         }
     }
-    async componentDidUpdate(prevProps) {
-        const pThis = this;
-        var db = firebase.firestore();
-        var incomingGuests = [];
+
+    componentDidUpdate(prevProps) {
         if (prevProps.isFocused !== this.props.isFocused) {
             this.setState({
                 activeTab: 'Guest'
             })
         }
+    }
+
+    async componentDidMount() {
+        const pThis = this;
+        var db = firebase.firestore();
+        var incomingGuests = [];
         const user = await firebase.auth().onAuthStateChanged(async function(user) {
           if (user) {
             // User is signed in.
@@ -65,8 +69,8 @@ class HomeScreen extends Component {
             // No user is signed in.
           }
         });
-        
     }
+    
     render() {
         const { navigation } = this.props;
         const { incomingGuestsCount } = this.state;

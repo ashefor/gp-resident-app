@@ -103,17 +103,19 @@ class Complaints extends Component {
             activeTab: tabName
         })
     }
-        
-    async componentDidUpdate(prevProps) {
-        const pThis = this;
-        var db = firebase.firestore();
-        var complaints = [];
+    
+    componentDidUpdate(prevProps) {
         if (prevProps.isFocused !== this.props.isFocused) {
             this.setState({
                 activeTab: 'Pending'
             })
         }
-
+    }
+    async componentDidMount() {
+        const pThis = this;
+        var db = firebase.firestore();
+        var complaints = [];
+        
         const user = await firebase.auth().onAuthStateChanged(async function(user) {
           if (user) {
             // User is signed in.
@@ -142,8 +144,8 @@ class Complaints extends Component {
             // No user is signed in.
           }
         });
-
     }
+    
     updateSearch = search => {
         this.setState({ search });
     };

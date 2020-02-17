@@ -33,15 +33,19 @@ class GuestLists extends Component {
             loading: true,
         }
     }
-    async componentDidUpdate(prevProps) {
-        const pThis = this;
-        var db = firebase.firestore();
-        var incomingGuests = [];
+
+    componentDidUpdate(prevProps) {
         if (prevProps.isFocused !== this.props.isFocused) {
             this.setState({
                 activeTab: 'Guest'
             })
         }
+    }
+
+    async componentDidMount() {
+        const pThis = this;
+        var db = firebase.firestore();
+        var incomingGuests = [];
 
         const user = await firebase.auth().onAuthStateChanged(async function(user) {
           if (user) {
@@ -71,9 +75,6 @@ class GuestLists extends Component {
             // No user is signed in.
           }
         });
-
-       
-
     }
 
     currentItem = (index) => {
