@@ -41,6 +41,7 @@ class GuestLists extends Component {
         }
     }
     async componentDidUpdate(prevProps) {
+        const pThis = this;
         var db = firebase.firestore();
         var incomingGuests = [];
         if (prevProps.isFocused !== this.props.isFocused) {
@@ -49,26 +50,36 @@ class GuestLists extends Component {
             })
         }
 
-        await db.collection("gatepasses")
-        // .where("revoked", "==", false)
-        .get()
-        .then(function(querySnapshot) {
-            querySnapshot.forEach(function(doc) {
-                // doc.data() is never undefined for query doc snapshots
-                // console.log(doc.id, " => ", doc.data());
-                incomingGuests.push({
-                    id: doc.id,
-                    ...doc.data(),
+        const user = await firebase.auth().onAuthStateChanged(async function(user) {
+          if (user) {
+            // User is signed in.
+            const { uid } = user;
+             await db.collection("gatepasses")
+                .where("uid", "==", uid)
+                .get()
+                .then(function(querySnapshot) {
+                    querySnapshot.forEach(function(doc) {
+                        // doc.data() is never undefined for query doc snapshots
+                        // console.log(doc.id, " => ", doc.data());
+                        incomingGuests.push({
+                            id: doc.id,
+                            ...doc.data(),
+                        });
+                    });
+                })
+                .catch(function(error) {
+                    console.log("Error getting documents: ", error);
                 });
-            });
-        })
-        .catch(function(error) {
-            console.log("Error getting documents: ", error);
+                pThis.setState({ 
+                    incomingGuests,
+                    loading: false,
+             });
+          } else {
+            // No user is signed in.
+          }
         });
-        this.setState({ 
-            incomingGuests,
-            loading: false,
-         });
+
+       
 
     }
 
@@ -91,7 +102,7 @@ class GuestLists extends Component {
 
     guestComponent = () => (
         <>
-            <View style={{ flex: 1.5, width: resWidth(89), alignSelf: 'center', overflow: 'hidden' }}>
+            <View style={{ flex: 1, width: resWidth(89), alignSelf: 'center', overflow: 'hidden' }}>
                 <View style={{ marginVertical: resHeight(1.5) }}>
                     <Text allowFontScaling={false} style={styles.sectionTitle}>Incoming</Text>
                 </View>
@@ -107,7 +118,7 @@ class GuestLists extends Component {
                 </View>
             </View>
 
-            <View style={{ flex: 3 }}>
+            <View style={{ flex: 1 }}>
                 <View style={[styles.tabsContainer, { justifyContent: 'center', marginTop: resHeight(1.25), }]}>
                     <Text allowFontScaling={false} style={styles.sectionText}>Checked In</Text>
                 </View>
@@ -241,7 +252,8 @@ const styles = StyleSheet.create({
         color: 'rgba(34,36,85, 0.5)',
         fontFamily: 'josefin-sans-semi-bold',
         fontSize: resFont(14),
-        width: resWidth(89),
+        width: resWidth(100),
+        paddingHorizontal: resWidth(6),
         alignSelf: 'center'
     },
     bottomWrapper: {

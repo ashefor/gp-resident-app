@@ -46,8 +46,17 @@ const CreateGatePass = props => {
     const [ checked, setChecked ] = React.useState(false);
     const [ loading, setLoading ] = React.useState(false);
     const [ guestData, setGuestData ] = React.useState({});
+    const [ currentUser, setCurrentUser ] = React.useState(null);
     const [ showSucessModal, setShowSucessModal ] = React.useState(false);
-    const userId = 'alphaId';
+
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        // User is signed in.
+        setCurrentUser(user);
+      } else {
+        // No user is signed in.
+      }
+    });
 
     const openSuccessModal = () => {
         setShowSucessModal(true);
@@ -65,7 +74,6 @@ const CreateGatePass = props => {
 
    const onShare = async () => {
         try {
-            console.log(guestData);
             const {fullName, code} = guestData;
             const message = `Code for ${fullName} is: ${code}`;
             const result = await Share.share({
@@ -91,7 +99,6 @@ const CreateGatePass = props => {
 
     const onCopy = async () => {
         try {
-            console.log(guestData);
             const {fullName, code} = guestData;
             const message = `Code for ${fullName} is: ${code}`;
             Clipboard.setString(message);
@@ -111,10 +118,11 @@ const CreateGatePass = props => {
     const onSubmit = async data => { 
         loadingToast();
         setLoading(true);
+        const { uid } = currentUser;
         let dateCode = Date.now()+'';
-        let docId = userId+'GP'+dateCode;
+        let docId = dateCode+'GP'+uid;
         data['_id'] = docId;
-        data['userId'] = userId;
+        data['uid'] = uid;
         data['code'] = dateCode.substring(7,);
         data['status'] = 'Pending';
         data['checkedIn'] = false;
