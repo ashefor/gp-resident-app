@@ -17,7 +17,7 @@ export default class IncomingGuest extends Component {
     }
     render() {
         const { guest } = this.props
-        const { fullName, name, type, code, status } = guest;
+        const { name, type, code, status } = guest;
         return (
             <Fragment>
                 <Modal transparent={true} visible={this.state.modalVisible}>
@@ -27,8 +27,8 @@ export default class IncomingGuest extends Component {
             </Modal>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: resHeight(1.5) }}>
                 <View>
-                    <Text allowFontScaling={false}    style={styles.guestFullName}>
-                        {type || 'Guest'}: {fullName || name}
+                    <Text allowFontScaling={false}    style={styles.guestName}>
+                        {type || 'Guest'}: {name}
                     </Text>
                     <Text allowFontScaling={false}    style={styles.guestCode}>
                          {code ? `Code: ${code}` : `-`}
@@ -46,7 +46,7 @@ export default class IncomingGuest extends Component {
 }
 
 const styles = StyleSheet.create({
-    guestFullName: {
+    guestName: {
         color: '#3E3F68',
         fontSize: resFont(15),
         fontFamily: 'josefin-sans-semi-bold',

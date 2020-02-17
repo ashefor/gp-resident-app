@@ -21,14 +21,7 @@ class GuestLists extends Component {
         super(props)
         this.state = {
             activeTab: 'Guest',
-            data: [
-                {
-                    checkedIn: 'January 20, 2014 10:30am',
-                },
-                {
-                    checkedIn: 'January 21, 2014 10:30am',
-                },
-            ],
+            data: [],
             modalVisible: false,
             checkedInGuests: [],
             incomingGuests: [],
