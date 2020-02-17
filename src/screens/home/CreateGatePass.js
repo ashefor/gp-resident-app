@@ -74,8 +74,8 @@ const CreateGatePass = props => {
 
    const onShare = async () => {
         try {
-            const {fullName, code} = guestData;
-            const message = `Code for ${fullName} is: ${code}`;
+            const {name, code} = guestData;
+            const message = `Code for ${name} is: ${code}`;
             const result = await Share.share({
                 message,
             });
@@ -99,8 +99,8 @@ const CreateGatePass = props => {
 
     const onCopy = async () => {
         try {
-            const {fullName, code} = guestData;
-            const message = `Code for ${fullName} is: ${code}`;
+            const {name, code} = guestData;
+            const message = `Code for ${name} is: ${code}`;
             Clipboard.setString(message);
             const result = await Clipboard.getString();
         } catch (error) {
@@ -125,7 +125,7 @@ const CreateGatePass = props => {
         data['uid'] = uid;
         data['code'] = dateCode.substring(7,);
         data['status'] = 'Pending';
-        data['checkedIn'] = false;
+        data['checked_in'] = false;
         data['revoked'] = false;
         data['phone'] = data['phone'] ? data['phone'] : '234' ;
 
@@ -162,11 +162,11 @@ const CreateGatePass = props => {
                     <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
                         <View style={styles.middleBlock}>
                             <Input
-                                ref={ register({ name: 'fullName'},{ required: true}) }
-                                name="fullName"
-                                onChangeText={text => setValue('fullName', text, true)}
+                                ref={ register({ name: 'name'},{ required: true}) }
+                                name="name"
+                                onChangeText={text => setValue('name', text, true)}
                                 placeholder='Full Name' style={{ marginTop: resHeight(1.5) }} />
-                            {errors.fullName && <Text style={styles.errorMessage}>Full Name is required.</Text>}    
+                            {errors.name && <Text style={styles.errorMessage}>Full Name is required.</Text>}    
                             <Input
                                 ref={ register({ name: 'phone'},{ required: false}) }
                                 name="phone"
@@ -176,11 +176,11 @@ const CreateGatePass = props => {
                                  defaultValue={234}
                              />
                             <Input
-                                ref={ register({ name: 'arrivalDate'},{ required: true}) }
-                                name="arrivalDate"
-                                onChangeText={text => setValue('arrivalDate', text, true)}
-                             placeholder='Arrival Date' style={{ marginTop: resHeight(1.5) }} />
-                            {errors.arrivalDate && <Text style={styles.errorMessage}>Arrival Date is required.</Text>}    
+                                ref={ register({ name: 'start_date'},{ required: true}) }
+                                name="start_date"
+                                onChangeText={text => setValue('start_date', text, true)}
+                             placeholder='Start Date' style={{ marginTop: resHeight(1.5) }} />
+                            {errors.start_date && <Text style={styles.errorMessage}>Start Date is required.</Text>}    
                              <Controller 
                                 as={(
                                     <Textarea
@@ -258,7 +258,7 @@ const CreateGatePass = props => {
                 >
                     <Text allowFontScaling={false} style={styles.cardTitle}>{`Done!`}</Text>
                     <Text allowFontScaling={false} style={styles.cardSubtitle}>{`A GatePass has been created for`}</Text>
-                    <Text allowFontScaling={false} style={styles.cardTitle}>{guestData.fullName}</Text>
+                    <Text allowFontScaling={false} style={styles.cardTitle}>{guestData.name}</Text>
                 
                     <Text allowFontScaling={false} style={[styles.cardContent,styles.title, styles.codeShare]}
                         onPress={onCopy}
