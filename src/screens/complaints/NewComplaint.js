@@ -8,34 +8,116 @@ import { SafeAreaView } from 'react-navigation';
 import Header from '../../components/Header';
 import { resWidth, resHeight } from '../../utils/utils';
 
-const { width } = Dimensions.get('window')
-export default class NewComplaint extends Component {
-    render() {
-        const { navigation } = this.props
-        return (
-            <LinearGradient colors={['#fff', '#fff']} style={[StyleSheet.absoluteFillObject]}>
-                <SafeAreaView style={StyleSheet.absoluteFillObject}>
-                    <View style={{ flex: 1, backgroundColor: 'transparent' }}>
-                        <Header navigation={navigation} />
-                        <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
-                            <View style={styles.middleBlock}>
-                                <Input placeholder='Category' />
-                                <Input placeholder='Subject' style={{ marginVertical: resHeight(2.5) }} />
-                                <Input placeholder='Select Proprity' style={{ marginVertical: resHeight(2.5) }} />
-                                <Textarea placeholder='Description'  style={{ marginVertical: resHeight(2.5) }} />
-                            </View>
-                            <View style={styles.bottomContainer}>
-                                <Button
-                                    title='Submit'
-                                    textColor='#fff'
-                                    backgroundColor='#5766BA' />
-                            </View>
+import { Toast, } from '@ant-design/react-native';
+import { Controller, useForm } from 'react-hook-form'
+import firebase from "firebase";
+import firestore from "firebase/firestore";
+
+const { width, height } = Dimensions.get('window')
+
+
+function successToast() {
+  Toast.success('Success', 2);
+}
+function failToast() {
+  Toast.fail('Something failed! Please try again or contact an admin',3);
+}
+function offline() {
+  Toast.offline('Network connection seems to be having issues!',3);
+}
+function loadingToast() {
+  Toast.loading('Loading...', 2, () => {
+    console.log('Load complete!');
+  });
+}
+
+function successToastCopied() {
+  Toast.success('Code copied to your clipboard', 2);
+}
+
+const NewComplaint = props => {
+
+    const { navigation } = props;
+    const { register, handleSubmit, watch, control, errors, setValue, getValues  } = useForm();
+    const [ loading, setLoading ] = React.useState(false);
+
+    const onSubmit = async data => { 
+        loadingToast();
+        setLoading(true);
+        const { uid } = currentUser;
+        let dateCode = Date.now()+'';
+        let docId = dateCode.substring(5,)+'GPComplaint'+uid;
+        data['_id'] = docId;
+        data['uid'] = uid;
+        data['status'] = 'Pending';
+        data['resolved'] = false;
+        data['issueDate'] = new Date();
+        data['completionDate'] = null;
+        data['comments'] = [];
+
+        let addDoc = await db.collection('complaints').add(data)
+        .then( () => {
+            setGuestData(data);
+            openSuccessModal();
+        })
+        .catch( e => {
+            console('GatePass Creation error');
+            console.log(e);
+            failToast();
+            throw e;
+        });
+        setLoading(false);
+    }
+
+    return (
+        <LinearGradient colors={['#fff', '#fff']} style={[StyleSheet.absoluteFillObject]}>
+            <SafeAreaView style={StyleSheet.absoluteFillObject}>
+                <View style={{ flex: 1, backgroundColor: 'transparent' }}>
+                    <Header navigation={navigation} />
+                    <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
+                        <View style={styles.middleBlock}>
+                            <Input 
+                                placeholder='Category' 
+                                ref={ register({ name: 'category'},{ required: true}) }
+                                name="category"
+                                onChangeText={text => setValue('category', text, true)}
+                                style={{ marginTop: resHeight(1.5) }} 
+                            />
+                            <Input 
+                                placeholder='Subject' 
+                                style={{ marginVertical: resHeight(2.5) }} 
+                                ref={ register({ name: 'subject'},{ required: true}) }
+                                name="subject"
+                                onChangeText={text => setValue('subject', text, true)}
+                            />
+                            <Input 
+                                placeholder='Select Property' 
+                                style={{ marginVertical: resHeight(2.5) }} 
+                                ref={ register({ name: 'property'},{ required: true}) }
+                                name="property"
+                                onChangeText={text => setValue('property', text, true)}
+                            />
+                            <Textarea 
+                                placeholder='Description' 
+                                style={{ marginVertical: resHeight(2.5) }} 
+                                ref={ register({ name: 'description'},{ required: true}) }
+                                name="description"
+                                onChangeText={text => setValue('description', text, true)}
+                            />
+                        </View>
+                        <View style={styles.bottomContainer}>
+                            <Button
+                                title='Submit'
+                                textColor='#fff'
+                                backgroundColor='#5766BA' 
+                                onPress={handleSubmit(onSubmit)}
+                            />
                         </View>
                     </View>
-                </SafeAreaView>
-            </LinearGradient>
-        )
-    }
+                </View>
+            </SafeAreaView>
+        </LinearGradient>
+    )
 }
 
 const styles = StyleSheet.create({
@@ -62,3 +144,5 @@ const styles = StyleSheet.create({
         width: resWidth(55),
     },
 })
+
+export default NewComplaint;

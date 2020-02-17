@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Dimensions, ActivityIndicator, TouchableOpacity, Share, Clipboard, } from 'react-native';
+import { View, ScrollView, StyleSheet, Dimensions, ActivityIndicator, TouchableOpacity, Share, Clipboard, Picker } from 'react-native';
 import Input from '../../components/Input';
+import DateInput from '../../components/DateInput';
+import SelectInput from '../../components/SelectInput';
 import { CheckBox, Text  } from 'react-native-elements'
 import Button from '../../components/Button';
 import ButtonWithIcon from '../../components/ButtonWithIcon';
@@ -12,9 +14,11 @@ import { resWidth, resFont, resHeight } from '../../utils/utils';
 import {
   Toast,
 } from '@ant-design/react-native';
-import { Controller, useForm } from 'react-hook-form'
 import Modal from "react-native-modal";
 
+import DateTimePicker from '@react-native-community/datetimepicker';
+
+import { Controller, useForm } from 'react-hook-form'
 import firebase from "firebase";
 import firestore from "firebase/firestore";
 
@@ -42,12 +46,19 @@ function successToastCopied() {
 const CreateGatePass = props => {
     var db = firebase.firestore();
     const { navigation } = props;
-    const { register, handleSubmit, watch, control, errors, setValue } = useForm();
+    const { register, handleSubmit, watch, control, errors, setValue, getValues  } = useForm();
     const [ checked, setChecked ] = React.useState(false);
     const [ loading, setLoading ] = React.useState(false);
     const [ guestData, setGuestData ] = React.useState({});
     const [ currentUser, setCurrentUser ] = React.useState(null);
     const [ showSucessModal, setShowSucessModal ] = React.useState(false);
+    // date
+      const [date, setDate] = React.useState(new Date(1598051730000));
+      const [mode, setMode] = React.useState('date');
+      const [showDate, setShowDate] = React.useState(false);
+
+        const [type, setType] = React.useState('Type of Guest');
+      const [showType, setShowType] = React.useState(false);
 
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
@@ -72,10 +83,57 @@ const CreateGatePass = props => {
 
     }
 
+    const onChangeDate = (event, selectedDate) => {
+        const currentDate = selectedDate || date;
+
+        setDate(currentDate);
+        setValue('start_date', currentDate, true)
+        setShowDate(Platform.OS === 'ios' ? true : false);
+    };
+
+    const onChangeType = (itemValue, itemIndex) => {
+        console.log(itemValue);
+        const currentType = itemValue || type;
+
+        setType(currentType);
+        setValue('type', currentType, true);
+    };
+
+    const showMode = currentMode => {
+        setShowDate(true);
+        setMode(currentMode);
+    };
+
+    const showDatepicker = () => {
+        showMode('date');
+    };
+    const closeDatepicker = () => {
+        setShowDate(false);
+    };
+
+    const toggleDatepicker = () => {
+        setMode('date');
+        setShowDate(!showDate);
+    };
+
+    const showTypepicker = () => {
+        setShowType(true);
+    };
+    const closeTypepicker = () => {
+        setShowType(false);
+    };
+
+    const toggleTypepicker = () => {
+        setShowType(!type)
+    };
+  // const showTimepicker = () => {
+  //   showMode('time');
+  // };
+
    const onShare = async () => {
         try {
-            const {fullName, code} = guestData;
-            const message = `Code for ${fullName} is: ${code}`;
+            const {name, code} = guestData;
+            const message = `Code for ${name} is: ${code}`;
             const result = await Share.share({
                 message,
             });
@@ -99,8 +157,8 @@ const CreateGatePass = props => {
 
     const onCopy = async () => {
         try {
-            const {fullName, code} = guestData;
-            const message = `Code for ${fullName} is: ${code}`;
+            const {name, code} = guestData;
+            const message = `Code for ${name} is: ${code}`;
             Clipboard.setString(message);
             const result = await Clipboard.getString();
         } catch (error) {
@@ -125,7 +183,7 @@ const CreateGatePass = props => {
         data['uid'] = uid;
         data['code'] = dateCode.substring(7,);
         data['status'] = 'Pending';
-        data['checkedIn'] = false;
+        data['checked_in'] = false;
         data['revoked'] = false;
         data['phone'] = data['phone'] ? data['phone'] : '234' ;
 
@@ -159,14 +217,15 @@ const CreateGatePass = props => {
             <SafeAreaView style={StyleSheet.absoluteFillObject}>
                 <View style={{ flex: 1, backgroundColor: 'transparent' }}>
                     <Header navigation={navigation} Cancel='Home' textColor='#8A98BA' />
-                    <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
+                    <ScrollView 
+                        contentContainerStyle={{ justifyContent: 'flex-start', alignItems: 'center' }}>
                         <View style={styles.middleBlock}>
                             <Input
-                                ref={ register({ name: 'fullName'},{ required: true}) }
-                                name="fullName"
-                                onChangeText={text => setValue('fullName', text, true)}
+                                ref={ register({ name: 'name'},{ required: true}) }
+                                name="name"
+                                onChangeText={text => setValue('name', text, true)}
                                 placeholder='Full Name' style={{ marginTop: resHeight(1.5) }} />
-                            {errors.fullName && <Text style={styles.errorMessage}>Full Name is required.</Text>}    
+                            {errors.name && <Text style={styles.errorMessage}>Full Name is required.</Text>}    
                             <Input
                                 ref={ register({ name: 'phone'},{ required: false}) }
                                 name="phone"
@@ -175,12 +234,90 @@ const CreateGatePass = props => {
                                  style={{ marginTop: resHeight(1.5) }} 
                                  defaultValue={234}
                              />
-                            <Input
-                                ref={ register({ name: 'arrivalDate'},{ required: true}) }
-                                name="arrivalDate"
-                                onChangeText={text => setValue('arrivalDate', text, true)}
-                             placeholder='Arrival Date' style={{ marginTop: resHeight(1.5) }} />
-                            {errors.arrivalDate && <Text style={styles.errorMessage}>Arrival Date is required.</Text>}    
+                                <View
+                                    style={{
+                                        flex:1,
+                                        width: '100%',
+                                    }}
+                                >
+                                    <TouchableOpacity 
+                                        onPress={toggleTypepicker} 
+                                        style={{
+                                            flex:1,
+                                            height: '100%',
+                                            width: '100%',
+                                        }}
+                                    >
+
+                                        <SelectInput
+                                            ref={ register({ name: 'type'},{ required: true}) }
+                                            name="type"
+                                            value={type}
+                                            onFocus={showTypepicker}
+                                            onBlur={closeTypepicker}
+                                            onChangeText={text => console.log(text)}
+                                         placeholder='Type' 
+                                         style={{ marginTop: resHeight(1.5) }} 
+                                         showType={showType}
+                                         />
+
+                                    </TouchableOpacity>
+      
+                                  {showType && (
+                                    <Picker
+                                      selectedValue={type}
+                                      style={{
+                                      }}
+                                      onValueChange={onChangeType}>
+                                      <Picker.Item label="Family/Friends" value="Family/Friends" />
+                                      <Picker.Item label="Staff" value="Staff" />
+                                      <Picker.Item label="Contractor" value="Contractor" />
+                                    </Picker>
+                                  )}
+                                </View>
+
+                               <View
+                                    style={{
+                                        flex:1,
+                                        width: '100%',
+                                    }}
+                                >
+                                    <TouchableOpacity 
+                                        onPress={toggleDatepicker} 
+                                        style={{
+                                            flex:1,
+                                            height: '100%',
+                                            width: '100%',
+                                        }}
+                                    >
+
+                                        <DateInput
+                                            ref={ register({ name: 'start_date'},{ required: true}) }
+                                            name="start_date"
+                                            value={getValues()['start_date'] && new Date(getValues()['start_date']).toDateString()}
+                                            onFocus={showDatepicker}
+                                            onBlur={closeDatepicker}
+                                            onChangeText={text => console.log(text)}
+                                         placeholder='Start Date' 
+                                         style={{ marginTop: resHeight(1.5) }} 
+                                         showDate={showDate}
+                                         />
+
+                                    </TouchableOpacity>
+      
+                                  {showDate && (
+                                    <DateTimePicker
+                                      testID="dateTimePicker"
+                                      timeZoneOffsetInMinutes={0}
+                                      value={date}
+                                      mode={mode}
+                                      is24Hour={true}
+                                      display="default"
+                                      onChange={onChangeDate}
+                                    />
+                                  )}
+                                </View>
+                            {errors.start_date && <Text style={styles.errorMessage}>Start Date is required.</Text>}    
                              <Controller 
                                 as={(
                                     <Textarea
@@ -229,7 +366,7 @@ const CreateGatePass = props => {
                                 onPress={handleSubmit(onSubmit)}
                                 />
                         </View>
-                    </View>
+                    </ScrollView>
                 </View>
                 <Modal
                     testID={'modal'}
@@ -258,7 +395,7 @@ const CreateGatePass = props => {
                 >
                     <Text allowFontScaling={false} style={styles.cardTitle}>{`Done!`}</Text>
                     <Text allowFontScaling={false} style={styles.cardSubtitle}>{`A GatePass has been created for`}</Text>
-                    <Text allowFontScaling={false} style={styles.cardTitle}>{guestData.fullName}</Text>
+                    <Text allowFontScaling={false} style={styles.cardTitle}>{guestData.name}</Text>
                 
                     <Text allowFontScaling={false} style={[styles.cardContent,styles.title, styles.codeShare]}
                         onPress={onCopy}
