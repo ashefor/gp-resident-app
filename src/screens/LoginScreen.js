@@ -86,11 +86,13 @@ function LoginScreen(props){
                                 <Image source={require('../assets/images/userIcon.png')} style={{width: resFont(25),
                                                     height: resFont(25),
                                                     resizeMode: 'contain'}}/>
-                                <TextInput style={styles.customInput} placeholder='Email'
-                                    placeholderTextColor='#000' 
-                                    name="email"
-                                      ref={register({ name: 'email'}, { required: true })}
-                                      onChangeText={text => setValue('email', text.replace(/\s/g,''), true)}
+                                    <TextInput 
+                                        style={styles.customInput} 
+                                        placeholder='Email'
+                                        placeholderTextColor='#000' 
+                                        name="email"
+                                        ref={register({ name: 'email'}, { required: true })}
+                                        onChangeText={text => setValue('email', text.replace(/\s/g,''), true)}
                                     />
                                     {errors.email && <Text style={{color: 'red', marginHorizontal: 4}}>Required</Text>}
                             </View>
@@ -98,10 +100,13 @@ function LoginScreen(props){
                                 <Image source={require('../assets/images/lock.png')} style={{width: resFont(25),
                                                     height: resFont(25),
                                                     resizeMode: 'contain'}}/>
-                                <TextInput style={styles.customInput} placeholder='Password' placeholderTextColor='#000'
-                                    name="password"
-                                      ref={register({ name: 'password'}, { required: true })}
-                                      onChangeText={text => setValue('password', text, true)}
+                                    <TextInput 
+                                    secureTextEntry
+                                        style={styles.customInput} 
+                                        placeholder='Password' placeholderTextColor='#000'
+                                        name="password"
+                                        ref={register({ name: 'password'}, { required: true })}
+                                        onChangeText={text => setValue('password', text, true)}
                                     />
                                     {errors.password && <Text style={{color: 'red', marginHorizontal: 4}}>Required</Text>}
                             </View>

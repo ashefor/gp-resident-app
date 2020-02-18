@@ -3,7 +3,7 @@
   "displayName": "GatePass",
   "expo": {
     "name": "GatePass",
-    "icon": "src/assets/images/logo.png",
+    "icon": "src/assets/images/logo_ios.png",
     "slug": "gatepass",
     "privacy": "unlisted",
     "version": "1.0.0",
