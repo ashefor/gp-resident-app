@@ -1,49 +1,69 @@
-import firebase from 'react-native-firebase';
+import firebase from "firebase";
+import firestore from "firebase/firestore";
 import uuid4 from 'uuid/v4';
 
-export function updateFood(food, updateComplete) {
-  food.updatedAt = firebase.firestore.FieldValue.serverTimestamp();
-  console.log("Updating food in firebase");
+export function revokeGatepass(gatepass, updateComplete) {
+  gatepass.updatedAt = firebase.firestore.FieldValue.serverTimestamp();
+  console.log("Updating gatepass in firebase");
 
   firebase.firestore()
-    .collection('Foods')
-    .doc(food.id).set(food)
-    .then(() => updateComplete(food))
+    .collection('gatepasses')
+    .doc(gatepass.id)
+    .update({
+      revoked: true,
+      status: 'revoked',
+    })
+    .then(() => updateComplete(gatepass))
+    .catch((error) => console.log(error))
+    .then(() => console.log("Done Updating gatepass"));
+}
+
+export function updateGatepass(gatepass, updateComplete) {
+  gatepass.updatedAt = firebase.firestore.FieldValue.serverTimestamp();
+  console.log("Updating gatepass in firebase");
+
+  firebase.firestore()
+    .collection('gatepasses')
+    .doc(gatepass.id)
+    .set(gatepass)
+    .then(() => updateComplete(gatepass))
     .catch((error) => console.log(error));
 }
 
-export function deleteFood(food, deleteComplete) {
-  console.log(food);
+export function deletegatepass(gatepass, deleteComplete) {
+  console.log(gatepass);
 
   firebase.firestore()
-    .collection('Foods')
-    .doc(food.id).delete()
+    .collection('gatepasses')
+    .doc(gatepass.id)
+    .delete()
     .then(() => deleteComplete())
     .catch((error) => console.log(error));
 }
 
-export async function getFoods(foodsRetreived) {
+export async function getGatepasses(GatepassesRetreived) {
 
-  var foodList = [];
+  var gatepassList = [];
 
   var snapshot = await firebase.firestore()
-    .collection('Foods')
+    .collection('gatepasses')
     .orderBy('createdAt')
     .get()
 
   snapshot.forEach((doc) => {
-    const foodItem = doc.data();
-    foodItem.id = doc.id;
-    foodList.push(foodItem);
+    const gatepassItem = doc.data();
+    gatepassItem.id = doc.id;
+    gatepassList.push(gatepassItem);
   });
 
-  foodsRetreived(foodList);
+  GatepassesRetreived(gatepassList);
 }
 
-export function uploadFood(food, onFoodUploaded, { updating }) {
+export function uploadgatepass(gatepass, ongatepassUploaded, { updating }) {
 
-  if (food.imageUri) {
-    const fileExtension = food.imageUri.split('.').pop();
+  if (gatepass.imageUri) {
+    const fileExtension = gatepass.imageUri.split('.')
+    .pop();
     console.log("EXT: " + fileExtension);
 
     var uuid = uuid4();
@@ -51,9 +71,10 @@ export function uploadFood(food, onFoodUploaded, { updating }) {
     const fileName = `${uuid}.${fileExtension}`;
     console.log(fileName);
 
-    var storageRef = firebase.storage().ref(`foods/images/${fileName}`);
+    var storageRef = firebase.storage()
+    .ref(`Gatepasses/images/${fileName}`);
 
-    storageRef.putFile(food.imageUri)
+    storageRef.putFile(gatepass.imageUri)
       .on(
         firebase.storage.TaskEvent.STATE_CHANGED,
         snapshot => {
@@ -73,16 +94,16 @@ export function uploadFood(food, onFoodUploaded, { updating }) {
             .then((downloadUrl) => {
               console.log("File available at: " + downloadUrl);
 
-              food.image = downloadUrl;
+              gatepass.image = downloadUrl;
 
-              delete food.imageUri;
+              delete gatepass.imageUri;
 
               if (updating) {
                 console.log("Updating....");
-                updateFood(food, onFoodUploaded);
+                updategatepass(gatepass, ongatepassUploaded);
               } else {
                 console.log("adding...");
-                addFood(food, onFoodUploaded);
+                addgatepass(gatepass, ongatepassUploaded);
               }
             })
         }
@@ -90,27 +111,28 @@ export function uploadFood(food, onFoodUploaded, { updating }) {
   } else {
     console.log("Skipping image upload");
 
-    delete food.imageUri;
+    delete gatepass.imageUri;
 
     if (updating) {
       console.log("Updating....");
-      updateFood(food, onFoodUploaded);
+      updategatepass(gatepass, ongatepassUploaded);
     } else {
       console.log("adding...");
-      addFood(food, onFoodUploaded);
+      addgatepass(gatepass, ongatepassUploaded);
     }
   }
 }
 
-export function addFood(food, addComplete) {
-  food.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+export function addgatepass(gatepass, addComplete) {
+  gatepass.createdAt = firebase.firestore.FieldValue.serverTimestamp();
 
   firebase.firestore()
-    .collection('Foods')
-    .add(food)
+    .collection('gatepasses')
+    .add(gatepass)
     .then((snapshot) => {
-      food.id = snapshot.id;
-      snapshot.set(food);
-    }).then(() => addComplete(food))
+      gatepass.id = snapshot.id;
+      snapshot.set(gatepass);
+    })
+    .then(() => addComplete(gatepass))
     .catch((error) => console.log(error));
 }

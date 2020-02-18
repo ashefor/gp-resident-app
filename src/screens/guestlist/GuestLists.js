@@ -42,39 +42,25 @@ class GuestLists extends Component {
         }
     }
 
-    async componentDidMount() {
+    componentDidMount() {
         const pThis = this;
         var db = firebase.firestore();
-        var incomingGuests = [];
 
-        const user = await firebase.auth().onAuthStateChanged(async function(user) {
-          if (user) {
-            // User is signed in.
-            const { uid } = user;
-             await db.collection("gatepasses")
-                .where("uid", "==", uid)
-                .get()
-                .then(function(querySnapshot) {
-                    querySnapshot.forEach(function(doc) {
-                        // doc.data() is never undefined for query doc snapshots
-                        // console.log(doc.id, " => ", doc.data());
-                        incomingGuests.push({
-                            id: doc.id,
-                            ...doc.data(),
-                        });
+       db.collection("gatepasses")
+            .onSnapshot(function(querySnapshot) {
+                var incomingGuests = [];
+                querySnapshot.forEach(function(doc) {
+                    incomingGuests.push({
+                        id: doc.id,
+                        ...doc.data(),
                     });
-                })
-                .catch(function(error) {
-                    console.log("Error getting documents: ", error);
                 });
                 pThis.setState({ 
                     incomingGuests,
                     loading: false,
-             });
-          } else {
-            // No user is signed in.
-          }
-        });
+                });
+            })
+            
     }
 
     currentItem = (index) => {
@@ -137,7 +123,7 @@ class GuestLists extends Component {
                         icon='plus'
                         iconColor='#65658A'
                         backgroundColor='#fff'
-                        onPress={() => navigation.navigate('Create Gatepass')} />
+                        onPress={() => this.props.navigation.navigate('Create Gatepass')} />
                 </View>
             </View>
         </View>
@@ -170,7 +156,8 @@ class GuestLists extends Component {
         })
     }
     render() {
-        const { navigation } = this.props
+        const { navigation } = this.props;
+
         return (
             <Animated.View
                 style={[

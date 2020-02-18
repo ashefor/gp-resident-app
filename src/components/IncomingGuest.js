@@ -3,27 +3,43 @@ import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Modal } from 'rea
 import CheckedInGuestDetail from './CheckedInGuestDetail';
 import { resFont, resHeight, resWidth } from '../utils/utils';
 
-import firebase from "firebase";
-import firestore from "firebase/firestore";
+import { revokeGatepass } from '../../api/Store';
+
 
 export default class IncomingGuest extends Component {
     constructor(props) {
         super(props);
         this.state = {
             modalVisible: false,
+            guest: {},
         }
     }
+
+    componentDidMount() {
+        const { guest } = this.props;
+        this.setState({
+            guest
+        })
+    }
+
     toggleModal = () => {
         this.setState({
             modalVisible: !this.state.modalVisible
         })
     }
 
-    revokePass = () => {
+    onGatepassReceived = (guest) => {
+        this.setState( prevState => ({
+            guest: prevState.guest = guest
+        }));
+    }
 
+    revokeGuest = () => {
+        const { guest } = this.state;
+        revokeGatepass(guest,this.onGatepassReceived);
     }
     render() {
-        const { guest } = this.props
+        const { guest } = this.state
         const { id, name, type, code, start_date, status } = guest;
         return (
             <Fragment>
@@ -46,11 +62,21 @@ export default class IncomingGuest extends Component {
                     </Text>
                 */}
                 </View>
-                {type === 'Staff' ? <TouchableOpacity style={styles.revokeBtn} onPress={this.toggleModal}>
-                    <Text allowFontScaling={false}    style={styles.revokeBtnText}>Details</Text>
-                </TouchableOpacity> : <TouchableOpacity style={styles.revokeBtn}>
-                        <Text allowFontScaling={false}    style={styles.revokeBtnText}>Revoke</Text>
-                    </TouchableOpacity>}
+                {type === 'Staff' ? (
+                    <TouchableOpacity style={styles.revokeBtn} onPress={this.toggleModal}>
+                        <Text allowFontScaling={false}    style={styles.revokeBtnText}>
+                            Details
+                        </Text>
+                    </TouchableOpacity>
+                ) : (
+                    <TouchableOpacity style={styles.revokeBtn}
+                        onPress={this.revokeGuest}
+                    >
+                        <Text allowFontScaling={false}    style={styles.revokeBtnText}>
+                            Revoke
+                        </Text>
+                    </TouchableOpacity>
+                    )}
             </View>
             </Fragment>
         )
