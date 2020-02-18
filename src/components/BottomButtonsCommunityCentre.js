@@ -29,7 +29,7 @@ const data = [
         color2: 'rgba(222, 222, 222, .08)',
     },
     {
-        title: '',
+        title: 'Marketplace',
         color1: 'rgba(111, 111, 111, 0)',
         color2: 'rgba(222, 222, 222, 0)',
     },
@@ -121,25 +121,53 @@ const BottomButtonsCommunityCentre = props => {
     )
   }
   const button3 = () => {
+    const thisIndex = 3;
+    const { title, color1, color2, url } = data[thisIndex];
     return (
-      <View style={{}}>
-      <FloatingButton 
-        style={{ 
-          top: resHeight(4.4), 
-        }} 
-      />
-
+      <View style={{justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
+            <TouchableWithoutFeedback onPress={()=> props.navigation.navigate(title)}>
+            <View style={styles.imgBkg}>
+               <View 
+                style={styles.comCenImg}
+               >
+               <Image 
+               source={require('../assets/images/staff.png')}  
+               style={{width:resFont(25), 
+                  height:resFont(25),
+                  resizeMode: 'contain'
+                }}
+                />
+               </View>
+            </View>
+            </TouchableWithoutFeedback>
+            <Text allowFontScaling={false}   
+                
+            style={styles.comCenImgText}
+        >{title}
+        </Text>
       </View>
     )
   }
+  // const button3 = () => {
+  //   return (
+  //     <View style={{}}>
+  //     <FloatingButton 
+  //       style={{ 
+  //         top: resHeight(4.4), 
+  //       }} 
+  //     />
+
+  //     </View>
+  //   )
+  // }
 
     return (
       <View
         style={{
-          flex:1,
           flexDirection: 'row',
+          width: resWidth(89),
+          alignSelf: 'center',
           justifyContent: 'space-between',
-          width: width*0.74
         }}
       >
       {button0()}
@@ -192,31 +220,26 @@ const styles = StyleSheet.create({
         height: resHeight(12),
     },
     comCenImg: {
+      width: resHeight(8), 
       backgroundColor: '#fff',
-        width: resHeight(8), 
-        height: resHeight(8), 
-        marginBottom: resHeight(1),
-        alignItems: 'center', 
-        justifyContent: 'center', 
-        borderRadius: resHeight(8)/ 2, 
-        shadowColor: "#000000",
-        shadowOffset: {
-            width: 0,
-            height: 5,
-        },
-        shadowOpacity: 0,
-        shadowRadius: 2,
-        elevation: 5,
-    },
+      height: resHeight(8), 
+      marginBottom: resHeight(1),
+      alignItems: 'center', 
+      justifyContent: 'center', 
+      borderRadius: resHeight(8)/ 2, 
+      shadowColor: "#000000",
+      shadowOffset: {
+          width: 0,
+          height: 5,
+      },
+      shadowOpacity: 0.16,
+      shadowRadius: 2,
+      elevation: 3,
+      borderWidth: 0.25, 
+      borderColor: '#BEBEBE',
+  },
     imgBkg: {
-        shadowColor: "#000000",
-        shadowOffset: {
-            width: 0,
-            height: 5,
-        },
-        shadowOpacity: 0.2,
-        shadowRadius: 2,
-        elevation: 3,
+       backgroundColor: 'white'
     },
     comCenImgText: { 
         color: '#222455', 
