@@ -208,6 +208,7 @@ const CreateGatePass = props => {
         data['code'] = dateCode.substring(7,);
         data['status'] = 'Pending';
         data['checked_in'] = false;
+        data['checked_out'] = false;
         data['revoked'] = false;
         data['phone'] = data['phone'] ? data['phone'] : '234' ;
 

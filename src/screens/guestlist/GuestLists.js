@@ -13,6 +13,7 @@ import { resHeight, resFont, resWidth } from '../../utils/utils';
 
 import firebase from "firebase";
 import firestore from "firebase/firestore";
+import { getGatepasses } from '../../../api/Store';
 
 const { width, height } = Dimensions.get('window');
 
@@ -30,7 +31,7 @@ class GuestLists extends Component {
             translateY: new Animated.Value(1),
             translateX: translateX,
             contentHeight: 0,
-            loading: true,
+            loading: false,
         }
     }
 
@@ -42,25 +43,16 @@ class GuestLists extends Component {
         }
     }
 
-    componentDidMount() {
-        const pThis = this;
-        var db = firebase.firestore();
+    onGatepassesReceived = (incomingGuests) => {
+        console.log('incomingGuests');
+        console.log(incomingGuests);
+        this.setState( prevState => ({
+            incomingGuests: prevState.incomingGuests = incomingGuests
+        }));
+    }
 
-       db.collection("gatepasses")
-            .onSnapshot(function(querySnapshot) {
-                var incomingGuests = [];
-                querySnapshot.forEach(function(doc) {
-                    incomingGuests.push({
-                        id: doc.id,
-                        ...doc.data(),
-                    });
-                });
-                pThis.setState({ 
-                    incomingGuests,
-                    loading: false,
-                });
-            })
-            
+    componentDidMount() {
+        getGatepasses(this.onGatepassesReceived);
     }
 
     currentItem = (index) => {
@@ -108,7 +100,12 @@ class GuestLists extends Component {
                     <ScrollView showsVerticalScrollIndicator={false}>
                         {this.state.loading ? (
                             <ActivityIndicator />
-                        ) : this.state.incomingGuests.map((guest, index) => (
+                        ) : this.state.incomingGuests
+                            .filter( ({checked_in, checked_out }) => {
+                                return checked_in == true
+                                    && checked_out != true;
+                            })
+                            .map((guest, index) => (
                                 <CheckedInGuest key={index} guest={guest} />
                             )
                         )}

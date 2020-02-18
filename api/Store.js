@@ -41,22 +41,25 @@ export function deletegatepass(gatepass, deleteComplete) {
     .catch((error) => console.log(error));
 }
 
-export async function getGatepasses(GatepassesRetreived) {
 
-  var gatepassList = [];
+export function getGatepasses(gatepassesRetreived) {
 
-  var snapshot = await firebase.firestore()
+  firebase.firestore()
     .collection('gatepasses')
-    .orderBy('createdAt')
-    .get()
+    .where("revoked", "==", false )
+    .onSnapshot(function(querySnapshot) {
 
-  snapshot.forEach((doc) => {
-    const gatepassItem = doc.data();
-    gatepassItem.id = doc.id;
-    gatepassList.push(gatepassItem);
-  });
+      var gatepassList = [];
 
-  GatepassesRetreived(gatepassList);
+      querySnapshot.forEach((doc) => {
+        const gatepassItem = doc.data();
+        gatepassItem.id = doc.id;
+        gatepassList.push(gatepassItem);
+      });
+
+      gatepassesRetreived(gatepassList);
+    })
+  
 }
 
 export function uploadgatepass(gatepass, ongatepassUploaded, { updating }) {
