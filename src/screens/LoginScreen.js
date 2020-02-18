@@ -120,9 +120,9 @@ function LoginScreen(props){
                         </View>
                         <View style={styles.bottomContainer}>
                             <TouchableOpacity style={styles.customBtn} onPress={handleSubmit(onSubmit)}>
-                                <Text allowFontScaling={false} style={styles.btnText}>
-                                {loading ? (<ActivityIndicator color="#fff" />) : 'Login' }
-                                </Text>
+                                {loading ? (<ActivityIndicator color="#fff" />) : <Text allowFontScaling={false} style={styles.btnText}>
+                                Login
+                                </Text> }
                             </TouchableOpacity>
 
                             <TouchableOpacity style={styles.termsBlock}>
