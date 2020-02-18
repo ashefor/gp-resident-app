@@ -257,6 +257,9 @@ class CommunityCentre extends Component {
 
 const styles = StyleSheet.create({
     item: {
+        height: resHeight(20),
+        justifyContent: 'center',
+        alignItems: 'flex-start',
         shadowColor: "#000000",
         shadowOffset: {
             width: 0,
@@ -266,23 +269,20 @@ const styles = StyleSheet.create({
         shadowRadius: 2,
         paddingLeft: 1,
         elevation: 1,
-        height: resHeight(22),
-        justifyContent: 'center',
-        alignItems: 'flex-start',
     },
     imageContainer: {
         marginBottom: Platform.select({ ios: 0, android: 1 }), // Prevent a random Android rendering issue
-        backgroundColor: 'blue',
     },
     image: {
         flex: 1,
         resizeMode: 'contain',
         borderRadius: 5,
-        width: resWidth(92),
+        width: resWidth(60),
         // height: resHeight(13),
     },
     containerCustomStyle: {
-        alignSelf: 'center',
+        // alignSelf: 'center',
+        width: resWidth(89),
     },
     content: {
         alignItems: 'center',
