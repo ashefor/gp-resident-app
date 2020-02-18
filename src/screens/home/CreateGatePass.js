@@ -358,7 +358,7 @@ const CreateGatePass = props => {
 
                         <View style={styles.bottomContainer}>
                             <ButtonWithIcon
-                                title={loading ? <ActivityIndicator style={{ marginLeft: 8}} color="#fff" /> : 'Create Gatepass'}
+                                title={loading ? '...' : 'Create Gatepass'}
                                 textColor='#fff'
                                 icon='user-plus'
                                 iconColor='#fff'

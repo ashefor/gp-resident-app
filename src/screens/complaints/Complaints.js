@@ -13,15 +13,15 @@ import { resWidth, resHeight, resFont } from '../../utils/utils';
 import firebase from "firebase";
 import firestore from "firebase/firestore";
 
-const CardElement = ({ subject, category, issueDate, status, pressed }) => (
+const CardElement = ({ title, type, issueDate, status, pressed }) => (
     <View style={styles.card}>
         <View style={styles.cardHeader}>
             <View style={{ marginRight: resWidth(5) }}>
                 <Text allowFontScaling={false} style={styles.cardTitle}>
-                    {subject}
+                    {title}
                 </Text>
                 <Text allowFontScaling={false} style={styles.cardSubtitle}>
-                    {category}
+                    {type}
                 </Text>
             </View>
             <View
@@ -32,7 +32,7 @@ const CardElement = ({ subject, category, issueDate, status, pressed }) => (
         <View style={styles.cardFooter}>
             <View>
                 <Text allowFontScaling={false} style={[styles.cardTime, styles.cardSubtitle]}>
-                    {new Date(issueDate).toDateString()}
+                    {new Date(Date(issueDate)).toDateString()}
         </Text>
             </View>
             <View style={styles.cardBody}>

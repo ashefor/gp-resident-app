@@ -1,5 +1,5 @@
 import React, { useState, Component } from 'react';
-import { StyleSheet, Dimensions, View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Dimensions, View, Text, TextInput, TouchableOpacity, Image, ActivityIndicator } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient'
 import SafeAreaView from 'react-native-safe-area-view';
 import { resFont, resHeight, resWidth } from '../utils/utils';
@@ -50,7 +50,11 @@ function LoginScreen(props){
 
     const onSubmit = async data => {
         setLoading(true);
-        const { email, password } = data;
+
+        // DEV REMOVE FOR PRODUCTION
+        // const { email, password } = data;
+        const email = 'andrew@3wp.io';
+        const password = '212121';
         await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
             .then(function() {
                 return firebase.auth().signInWithEmailAndPassword(email, password)
@@ -91,24 +95,24 @@ function LoginScreen(props){
                                         placeholder='Email'
                                         placeholderTextColor='#000' 
                                         name="email"
-                                        ref={register({ name: 'email'}, { required: true })}
+                                        ref={register({ name: 'email'}, { required: false })}
                                         onChangeText={text => setValue('email', text.replace(/\s/g,''), true)}
                                     />
-                                    {errors.email && <Text style={{color: 'red', marginHorizontal: 4}}>Required</Text>}
+                                    {errors.email && <Text style={{color: 'red', marginHorizontal: 8}}>Required</Text>}
                             </View>
                             <View style={[styles.inputBorders, styles.SectionStyle]}>
                                 <Image source={require('../assets/images/lock.png')} style={{width: resFont(25),
                                                     height: resFont(25),
                                                     resizeMode: 'contain'}}/>
                                     <TextInput 
-                                        secureTextEntry={}
+                                        secureTextEntry={true}
                                         style={styles.customInput} 
                                         placeholder='Password' placeholderTextColor='#000'
                                         name="password"
-                                        ref={register({ name: 'password'}, { required: true })}
+                                        ref={register({ name: 'password'}, { required: false })}
                                         onChangeText={text => setValue('password', text, true)}
                                     />
-                                    {errors.password && <Text style={{color: 'red', marginHorizontal: 4}}>Required</Text>}
+                                    {errors.password && <Text style={{color: 'red', marginHorizontal: 8}}>Required</Text>}
                             </View>
                             <TouchableOpacity onPress={forgotPassword}>
                                 <Text allowFontScaling={false} style={styles.forgotPwd}>Forgot Password?</Text>
@@ -116,7 +120,9 @@ function LoginScreen(props){
                         </View>
                         <View style={styles.bottomContainer}>
                             <TouchableOpacity style={styles.customBtn} onPress={handleSubmit(onSubmit)}>
-                                <Text allowFontScaling={false} style={styles.btnText}>Login</Text>
+                                <Text allowFontScaling={false} style={styles.btnText}>
+                                {loading ? (<ActivityIndicator color="#fff" />) : 'Login' }
+                                </Text>
                             </TouchableOpacity>
 
                             <TouchableOpacity style={styles.termsBlock}>
@@ -206,6 +212,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#5666ba',
         height: resHeight(8),
         justifyContent: 'center',
+        alignItems: 'center',
         borderRadius: 5,
         marginBottom: resHeight(2.5)
     },

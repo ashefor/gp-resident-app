@@ -35,7 +35,8 @@ export default class ComplaintDetails extends Component {
                                                 {complaint.title}
                                         </Text>
                                             <Text allowFontScaling={false} style={styles.cardSubtitle}>
-                                            Jan. 2, 2020
+                                                {new Date(Date(complaint.issueDate)).toDateString()}
+
                                         </Text>
                                         </View>
                                         <View
@@ -49,43 +50,21 @@ export default class ComplaintDetails extends Component {
                                             <View style={[styles.cardContent]}>
                                                 <Text allowFontScaling={false}
                                                     style={styles.cardContentText1}>
-                                                    Category
+                                                    Type
                                             </Text>
                                                 <Text allowFontScaling={false}
                                                     style={styles.cardContentText2}>
-                                                    Noise
+                                                    {complaint.type}
                                             </Text>
                                             </View>
-                                            <View style={[styles.cardContent]}>
-                                                <Text allowFontScaling={false}
-                                                    style={styles.cardContentText1}>
-                                                    Priority
-                                            </Text>
-                                                <Text allowFontScaling={false}
-                                                    style={styles.cardContentText2}>
-                                                    High
-                                            </Text>
-                                            </View>
-                                        </View>
-                                        <View style={styles.subcontent}>
-                                            <View style={[styles.cardContent]}>
-                                                <Text allowFontScaling={false}
-                                                    style={styles.cardContentText1}>
-                                                    Issue Time/Date:
-                                            </Text>
-                                                <Text allowFontScaling={false}
-                                                    style={styles.cardContentText2}>
-                                                    01-01-20
-                                            </Text>
-                                            </View>
-                                            <View style={[styles.cardContent]}>
+                                           <View style={[styles.cardContent]}>
                                                 <Text allowFontScaling={false}
                                                     style={styles.cardContentText1}>
                                                     Status
                                             </Text>
                                                 <Text allowFontScaling={false}
                                                     style={styles.cardContentText2}>
-                                                    Completed
+                                                    {complaint.status}
                                             </Text>
                                             </View>
                                         </View>
