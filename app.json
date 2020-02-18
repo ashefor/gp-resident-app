@@ -13,7 +13,7 @@
     },
     "android": {
       "package": "com.gatepass.resident",
-      "versionCode": 3
+      "versionCode": 4
     },
     "splash": {
       "image": "./src/assets/images/splashscreen.png",
