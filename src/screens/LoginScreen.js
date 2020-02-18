@@ -101,7 +101,7 @@ function LoginScreen(props){
                                                     height: resFont(25),
                                                     resizeMode: 'contain'}}/>
                                     <TextInput 
-                                    secureTextEntry
+                                        secureTextEntry={}
                                         style={styles.customInput} 
                                         placeholder='Password' placeholderTextColor='#000'
                                         name="password"
