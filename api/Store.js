@@ -84,7 +84,7 @@ export function addUser(user, addComplete) {
   var actionCodeSettings = {
     // URL you want to redirect back to. The domain (www.example.com) for this
     // URL must be whitelisted in the Firebase Console.
-    // url: 'https://www.example.com/finishSignUp?cartId=1234',
+    url: 'gatepass-228e2.web.app',
     // This must be true.
     handleCodeInApp: true,
     iOS: {

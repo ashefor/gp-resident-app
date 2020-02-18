@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Dimensions, Text } from 'react-native';
+import { View, StyleSheet, Dimensions, Text, ActivityIndicator } from 'react-native';
 import Input from '../../components/Input';
 import ButtonWithIcon from '../../components/ButtonWithIcon';
 import { LinearGradient } from 'expo-linear-gradient'
@@ -18,6 +18,7 @@ class CreateUser extends Component {
         this.state = {
             email: '',
             name: '',
+            loading: false,
         }
     }
     
