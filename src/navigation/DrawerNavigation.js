@@ -13,6 +13,8 @@ import Null from '../components/Null';
 import { Feather, Entypo, FontAwesome } from '@expo/vector-icons';
 import EstatePassport from '../screens/EstatePassport';
 import ComplaintsStack from './stacks/ComplaintsStack';
+import NoticeBoardStack from './stacks/NoticeBoardStack';
+import MarketStack from './stacks/MarketStack';
 import { resFont, resHeight, resWidth } from '../utils/utils';
 import SettingsStack from './stacks/SettingsStack';
 
@@ -67,6 +69,18 @@ const DrawerNavigation = createDrawerNavigator({
             drawerLabel: <Null />
         }
     },
+    'Notice Board' : {
+        screen: NoticeBoardStack,
+        navigationOptions: {
+            drawerLabel: <Null />
+        }
+    }, 
+    'Marketplace' : {
+        screen: MarketStack,
+        navigationOptions: {
+            drawerLabel: <Null />
+        }
+    }, 
 }, {
     drawerType: 'front',
     backBehavior: 'history',

@@ -192,7 +192,8 @@ class Complaints extends Component {
         }
     }
     render() {
-        const { navigation } = this.props
+        const { navigation } = this.props;
+        console.log(navigation)
         return (
             <Animated.View
                 style={[
@@ -201,7 +202,7 @@ class Complaints extends Component {
                 <LinearGradient colors={['#fff', '#fff', '#5766BA', '#5766BA']} style={[StyleSheet.absoluteFill]}>
                     <SafeAreaView style={{ flex: 1 }}>
                         <View style={styles.mainContainer}>
-                            <Header navigation={navigation} />
+                        <Header navigation={navigation} goBack='Home' />
                             <View style={{ flex: 5, alignItems: 'center', marginBottom: 5 }}>
                                 <View style={styles.tabsContainer}>
                                     <TouchableWithoutFeedback onPress={() => this.setActiveTab('Pending')}>

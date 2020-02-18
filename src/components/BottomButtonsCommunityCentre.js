@@ -12,7 +12,7 @@ const { height, width } = Dimensions.get('screen');
 const data = [
     {
         url: '../assets/images/noticeboard.png',
-        title: 'Notices',
+        title: 'Notice Board',
         color1: 'rgba(111, 111, 111, .1)',
         color2: 'rgba(222, 222, 222, .08)',
     },
@@ -129,9 +129,9 @@ const BottomButtonsCommunityCentre = props => {
             <View style={styles.imgBkg}>
                <View 
                 style={styles.comCenImg}
-               >
+               > 
                <Image 
-               source={require('../assets/images/staff.png')}  
+               source={require('../assets/images/noticeboard.png')}  
                style={{width:resFont(25), 
                   height:resFont(25),
                   resizeMode: 'contain'

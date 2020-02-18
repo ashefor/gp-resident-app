@@ -52,7 +52,7 @@ const CloseButton = ({ navigation }) => (
 )
 class Header extends Component {
     handleCustomHeader = () => {
-        const { title, navigation, history, Cancel, textColor, backColor } = this.props;
+        const { title, navigation, history, Cancel, textColor, backColor} = this.props;
         const { routeName, params } = navigation.state;
         const goBack =  params && params.back || false;
 
@@ -222,8 +222,7 @@ class Header extends Component {
                         titleStyle={[styles.pageTitle, { color: textColor }]}
                         rightStyle={styles.rightStyle}
                         style={styles.headerStyle}
-                        left={<MenuButton navigation={navigation} />}
-                        title={title ? title : routeName}
+                        left={<MenuButton navigation={navigation} />}                        title={title ? title : routeName}
                         right={<SearchButton navigation={navigation} />} />
                 )
             case 'New Complaint':
@@ -281,6 +280,42 @@ class Header extends Component {
                         title={title ? title : routeName}
                         right={<UserIconButton navigation={navigation} />} />
                 )
+                case 'Staff History':
+                    return (
+                        <NavBar
+                            transparent={true}
+                            titleStyle={styles.pageTitle}
+                            rightStyle={styles.rightStyle}
+                            style={styles.headerStyle}
+                            left={<BackButton navigation={navigation} textColor={backColor} />}
+                            title={title ? title : routeName}
+                            right={<HistoryButton navigation={navigation} route={history} />} />
+                    )
+                case 'Notice Board':
+                    return (
+                        <NavBar
+                            transparent={true}
+                            titleStyle={styles.pageTitle}
+                            rightStyle={styles.rightStyle}
+                            style={styles.headerStyle}
+                            left={<MenuButton navigation={navigation} />}
+                            title={title ? title : routeName}
+                            right={null} />
+                    )
+                    case 'New Post':
+                        return (
+                            <NavBar
+                                transparent={true}
+                                titleStyle={styles.pageTitle}
+                                rightStyle={styles.rightStyle}
+                                style={styles.headerStyle}
+                                left={<BackButton navigation={navigation} textColor={backColor} />}
+                                title={title ? title : routeName}
+                                right={<View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                                        <FeedbackButton navigation={navigation} style={{marginRight: resWidth(2)}}/>
+                                        <HeartButton navigation={navigation} style={{marginLeft: resWidth(2)}}/>
+                                </View>} />
+                        )
             default:
                 return (
                     <NavBar

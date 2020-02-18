@@ -158,7 +158,7 @@ class GuestLists extends Component {
     }
     render() {
         const { navigation } = this.props;
-
+        console.log(navigation)
         return (
             <Animated.View
                 style={[
