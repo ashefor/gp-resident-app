@@ -47,11 +47,15 @@ class GuestLists extends Component {
         console.log('incomingGuests');
         console.log(incomingGuests);
         this.setState( prevState => ({
-            incomingGuests: prevState.incomingGuests = incomingGuests
+            incomingGuests: prevState.incomingGuests = incomingGuests,
+            loading: false
         }));
     }
 
     componentDidMount() {
+        this.setState({
+            loading: true
+        });
         getGatepasses(this.onGatepassesReceived);
     }
 

@@ -13,41 +13,9 @@ export default class GuestHistory extends Component {
         this.state = {
             allGuests: [
                 {
-                    name: 'Martin Kenneth',
+                    name: 'Mr GatePass',
                     type: 'Staff'
                 },
-                {
-                    name: 'Brandon Keeper',
-                    type: 'Staff'
-                },
-                {
-                    name: 'Will Parry',
-                    type: 'Staff'
-                },
-                {
-                    name: 'John Kelly',
-                    type: 'Staff'
-                },
-                {
-                    name: 'Ikay Gundogan',
-                    type: 'Staff'
-                },
-                {
-                    name: 'Paul Pogba',
-                    type: 'Staff'
-                },
-                {
-                    name: 'Lionel Messi',
-                    type: 'Staff'
-                },
-                {
-                    name: 'Mark Noble',
-                    type: 'Staff'
-                },
-                {
-                    name: 'Gabriel Jesus',
-                    type: 'Staff'
-                }
             ],
             scale: scaleValue,
             opacity: new Animated.Value(1),

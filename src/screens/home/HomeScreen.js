@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, SafeAreaView, TouchableWithoutFeedback, Image, StyleSheet, StatusBar, Dimensions, Animated, Easing, ImageBackground, Platform } from 'react-native';
+import { View, Text, SafeAreaView, TouchableWithoutFeedback, Image, StyleSheet, StatusBar, Dimensions, Animated, Easing, ImageBackground, Platform, ActivityIndicator } from 'react-native';
 import { withNavigationFocus } from 'react-navigation';
 import { Feather } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -26,6 +26,7 @@ class HomeScreen extends Component {
             translateY: new Animated.Value(1),
             translateX: translateX,
             incomingGuestsCount: '',
+            loading: false
         }
     }
 
@@ -38,6 +39,9 @@ class HomeScreen extends Component {
     }
 
     async componentDidMount() {
+        this.setState({
+            loading: true
+        });
         const pThis = this;
         var db = firebase.firestore();
         var incomingGuests = [];
@@ -69,11 +73,14 @@ class HomeScreen extends Component {
             // No user is signed in.
           }
         });
+        this.setState({
+            loading: false
+        });
     }
     
     render() {
         const { navigation } = this.props;
-        const { incomingGuestsCount } = this.state;
+        const { incomingGuestsCount, loading } = this.state;
         
         return (
             <Animated.View
@@ -135,7 +142,7 @@ class HomeScreen extends Component {
                                                         <View style={styles.guestNum}>
                                                             <Text allowFontScaling={false} style={styles.guestNumText} 
                                                             >
-                                                                {incomingGuestsCount}
+                                                                {loading ? <ActivityIndicator /> : incomingGuestsCount}
                                                             </Text>
                                                         </View>
                                                         <View style={{ marginLeft: 5, alignSelf: 'center' }}>
