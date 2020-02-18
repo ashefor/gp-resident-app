@@ -30,14 +30,6 @@ class HomeScreen extends Component {
         }
     }
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.isFocused !== this.props.isFocused) {
-            this.setState({
-                activeTab: 'Guest'
-            })
-        }
-    }
-
     async componentDidMount() {
         this.setState({
             loading: true
@@ -95,7 +87,7 @@ class HomeScreen extends Component {
                                 <View style={styles.container}>
                                  <View
                                     style={{
-                                        flex:2,
+                                        flex:1,
                                     }}
                                 >
                                     <TouchableWithoutFeedback 
@@ -114,9 +106,12 @@ class HomeScreen extends Component {
                                             >
                                                 <View 
                                                     style={{ 
-                                                        top: -resHeight(4),
-                                                        justifyContent: 'flex-start',
-                                                        marginHorizontal: resHeight(3) 
+                                                        flex: 1,
+                                                        top: resHeight(-4),
+                                                        justifyContent: 'space-between', 
+                                                        alignItems: 'center',
+                                                        flexDirection: 'row',
+                                                        marginHorizontal: resWidth(4) 
                                                     }}
                                                 >
                                                     <Text 
@@ -125,6 +120,13 @@ class HomeScreen extends Component {
                                                     >
                                                         Guests
                                                     </Text>
+                                                    <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate("Create Gatepass", { previous: 'Home' })}>
+                                                         <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate("Create Gatepass", { previous: 'Home' })}>
+                                                        <View style={[styles.addActionBtns, { backgroundColor: '#6271C6', }]}>
+                                                        <Feather name='user-plus' color='#fff' size={resFont(21)} />
+                                                        </View>
+                                                    </TouchableWithoutFeedback>
+                                                    </TouchableWithoutFeedback>
                                                 </View>
                                                 <View 
                                                     style={{ 
@@ -150,23 +152,13 @@ class HomeScreen extends Component {
                                                         </View>
                                                     </View>
                                                 </View>
-
-                                                <View style={{ position: 'absolute', right: resWidth(4), bottom: resHeight(2.4) }}>
-                                                    <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate("Create Gatepass", { previous: 'Home' })}>
-                                                        <View style={[styles.addActionBtns, { backgroundColor: '#34D881', }]}>
-                                                            <Feather name='user-plus' color='#fff' size={resFont(25)} />
-                                                        </View>
-                                                    </TouchableWithoutFeedback>
-                                                </View>
                                             </Card>
                                     </TouchableWithoutFeedback>
                                 </View>
 
-                                <View
-                                    style={{
-                                        flex:3,
-                                        justifyContent: 'space-between',
-                                    }}
+                               <View 
+                               style={{flex: 3}}>
+                               <View
                                 >
                                     <View style={styles.spotlight}>
                                         <Text allowFontScaling={false} style={styles.spotlightText}
@@ -174,14 +166,13 @@ class HomeScreen extends Component {
                                             Community Spotlight
                                         </Text>
                                     </View>
+                                    <View style={{width: resWidth(89), height: resHeight(20)}}>
                                     <CommunitySpotlightCarousel />
+                                    </View>
                                     
                                 </View>
 
                                 <View
-                                    style={{
-                                        flex:2
-                                    }}
                                 >
                                     <View style={styles.spotlight}>
                                         <Text allowFontScaling={false} style={styles.spotlightText}
@@ -189,16 +180,12 @@ class HomeScreen extends Component {
                                             Community Centre
                                         </Text>
                                     </View>
-                                        <BottomButtonsCommunityCentre />
-                                    {/* 
-                                    <CommunityCentre navigation={navigation} />
-                                    <FloatingButton style={{ top: resHeight(6.6), alignSelf: 'center', right: 0 }} />
-                                    */}
+                                    <BottomButtonsCommunityCentre />
                                 </View>
-
+                               </View>
                             </View>
+                            <FloatingButton style={{ bottom: resHeight(1), alignSelf: 'center', right: resWidth(5.5) }} />
                         </View>
-
                     </SafeAreaView>
                 </LinearGradient>
             </Animated.View>
@@ -238,6 +225,18 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         backgroundColor: '#fff',
+        shadowColor: "#000000",
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity: 0.16,
+        shadowRadius: 2,
+        elevation: 3,
+        borderWidth: 0.25, 
+        borderColor: '#BEBEBE',
+        borderWidth: 0.25, 
+        borderColor: '#BEBEBE',
     },
     house: {
         color: '#5766BA',
@@ -267,12 +266,22 @@ const styles = StyleSheet.create({
         fontFamily: 'josefin-sans-semi-bold'
     },
     addActionBtns: {
-        width: resHeight(8),
-        height: resHeight(8),
-        borderRadius: resHeight(8) / 2,
+        width: resHeight(6),
+        height: resHeight(6),
+        borderRadius: resHeight(6) / 2,
         marginVertical: resHeight(1),
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        shadowColor: "#000000",
+        shadowOffset: {
+            width: 0,
+            height: 5,
+        },
+        shadowOpacity: 0.16,
+        shadowRadius: 2,
+        elevation: 3,
+        borderWidth: 0.25, 
+        borderColor: '#BEBEBE',
     },
     spotlight: {
         width: '100%',
