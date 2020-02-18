@@ -17,7 +17,7 @@ const CardElement = ({ title, type, issueDate, status, pressed }) => (
     <View style={styles.card}>
         <View style={styles.cardHeader}>
             <View style={{ marginRight: resWidth(5) }}>
-                <Text allowFontScaling={false} style={styles.cardTitle}>
+                <Text allowFontScali ng={false} style={styles.cardTitle}>
                     {title}
                 </Text>
                 <Text allowFontScaling={false} style={styles.cardSubtitle}>
@@ -156,6 +156,7 @@ class Complaints extends Component {
 
     pendingComplaintsTab = () => (
         <Fragment>
+    {/*
             <SearchBar
                 placeholder="Type Here..."
                 onChangeText={this.updateSearch}
@@ -164,6 +165,7 @@ class Complaints extends Component {
                 inputStyle={styles.searchBar}
                 inputContainerStyle={styles.inputContainer}
             />
+    */}
             <ScrollView showsVerticalScrollIndicator={false}>
                 {this.state.complaints.filter(complaint => complaint.status === 'pending').map((item, index) => <CardElement
                     {...item}

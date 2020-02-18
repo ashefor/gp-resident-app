@@ -12,7 +12,7 @@ import Header from '../../components/Header';
 import Textarea from '../../components/Textarea';
 import { resWidth, resFont, resHeight } from '../../utils/utils';
 import {
-  Toast,
+  Toast, PickerView, Modal as ModalAnt,
 } from '@ant-design/react-native';
 import Modal from "react-native-modal";
 
@@ -43,6 +43,22 @@ function successToastCopied() {
   Toast.success('Code copied to your clipboard', 2);
 }
 
+const guestTypeOptions = 
+[
+    {
+        label: "Family/Friends",
+        value: "Family/Friends"
+    },
+    {
+        label: "Staff",
+        value: "Staff"
+    },
+    {
+        label: "Contractor",
+        value: "Contractor"
+    }
+]
+
 const CreateGatePass = props => {
     var db = firebase.firestore();
     const { navigation } = props;
@@ -53,11 +69,11 @@ const CreateGatePass = props => {
     const [ currentUser, setCurrentUser ] = React.useState(null);
     const [ showSucessModal, setShowSucessModal ] = React.useState(false);
     // date
-      const [date, setDate] = React.useState(new Date(1598051730000));
+      const [date, setDate] = React.useState(new Date());
       const [mode, setMode] = React.useState('date');
       const [showDate, setShowDate] = React.useState(false);
 
-        const [type, setType] = React.useState('Type of Guest');
+        const [type, setType] = React.useState(undefined);
       const [showType, setShowType] = React.useState(false);
 
     firebase.auth().onAuthStateChanged(function(user) {
@@ -83,7 +99,7 @@ const CreateGatePass = props => {
 
     }
 
-    const onChangeDate = (event, selectedDate) => {
+    function onChangeDate (event, selectedDate) {
         const currentDate = selectedDate || date;
 
         setDate(currentDate);
@@ -91,12 +107,24 @@ const CreateGatePass = props => {
         setShowDate(Platform.OS === 'ios' ? true : false);
     };
 
-    const onChangeType = (itemValue, itemIndex) => {
-        console.log(itemValue);
-        const currentType = itemValue || type;
+    const toSetType = (itemValue, itemIndex) => {
+        ModalAnt.operation(guestTypeOptions.map(option => {
+            let currentType = option['value'];
+            console.log(currentType);
+            return {
+                text: currentType,
+                onPress: () => {
+                    setType(currentType);
+                    setValue('type', currentType, true);
+                }
+            }
+        }));
+        // ModalAnt.operation([
+        //     { text: '标为未读', onPress: () => console.log('标为未读被点击了') },
+        //     { text: '置顶聊天', onPress: () => console.log('置顶聊天被点击了') },
+        // ]);
 
-        setType(currentType);
-        setValue('type', currentType, true);
+        
     };
 
     const showMode = currentMode => {
@@ -253,7 +281,7 @@ const CreateGatePass = props => {
                                             ref={ register({ name: 'type'},{ required: true}) }
                                             name="type"
                                             value={type}
-                                            onFocus={showTypepicker}
+                                            onFocus={toSetType}
                                             onBlur={closeTypepicker}
                                             onChangeText={text => console.log(text)}
                                          placeholder='Type' 
@@ -262,18 +290,7 @@ const CreateGatePass = props => {
                                          />
 
                                     </TouchableOpacity>
-      
-                                  {showType && (
-                                    <Picker
-                                      selectedValue={type}
-                                      style={{
-                                      }}
-                                      onValueChange={onChangeType}>
-                                      <Picker.Item label="Family/Friends" value="Family/Friends" />
-                                      <Picker.Item label="Staff" value="Staff" />
-                                      <Picker.Item label="Contractor" value="Contractor" />
-                                    </Picker>
-                                  )}
+                                  
                                 </View>
 
                                <View
@@ -295,7 +312,7 @@ const CreateGatePass = props => {
                                             ref={ register({ name: 'start_date'},{ required: true}) }
                                             name="start_date"
                                             value={getValues()['start_date'] && new Date(getValues()['start_date']).toDateString()}
-                                            onFocus={showDatepicker}
+                                            onFocus={toggleDatepicker}
                                             onBlur={closeDatepicker}
                                             onChangeText={text => console.log(text)}
                                          placeholder='Start Date' 
@@ -314,6 +331,7 @@ const CreateGatePass = props => {
                                       is24Hour={true}
                                       display="default"
                                       onChange={onChangeDate}
+                                      minimumDate={new Date()}
                                     />
                                   )}
                                 </View>
