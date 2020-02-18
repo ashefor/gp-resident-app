@@ -69,12 +69,12 @@ const CreateGatePass = props => {
     const [ currentUser, setCurrentUser ] = React.useState(null);
     const [ showSucessModal, setShowSucessModal ] = React.useState(false);
     // date
-      const [date, setDate] = React.useState(new Date());
-      const [mode, setMode] = React.useState('date');
-      const [showDate, setShowDate] = React.useState(false);
+    const [date, setDate] = React.useState(new Date());
+    const [mode, setMode] = React.useState('date');
+    const [showDate, setShowDate] = React.useState(false);
 
-        const [type, setType] = React.useState(undefined);
-      const [showType, setShowType] = React.useState(false);
+    const [type, setType] = React.useState(undefined);
+    const [showType, setShowType] = React.useState(false);
 
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
@@ -101,28 +101,24 @@ const CreateGatePass = props => {
 
     function onChangeDate (event, selectedDate) {
         const currentDate = selectedDate || date;
-
+        setShowDate(Platform.OS === 'ios' ? true : false);
         setDate(currentDate);
         setValue('start_date', currentDate, true)
-        setShowDate(Platform.OS === 'ios' ? true : false);
     };
 
     const toSetType = (itemValue, itemIndex) => {
-        ModalAnt.operation(guestTypeOptions.map(option => {
-            let currentType = option['value'];
-            console.log(currentType);
-            return {
-                text: currentType,
-                onPress: () => {
-                    setType(currentType);
-                    setValue('type', currentType, true);
+        ModalAnt.operation(
+            guestTypeOptions.map( ({value}) => {
+                return {
+                    text: value,
+                    onPress: () => {
+                        setType(value);
+                        setValue('type', value, true);
+                    }
                 }
-            }
-        }));
-        // ModalAnt.operation([
-        //     { text: '标为未读', onPress: () => console.log('标为未读被点击了') },
-        //     { text: '置顶聊天', onPress: () => console.log('置顶聊天被点击了') },
-        // ]);
+            })
+        );
+       
 
         
     };
@@ -262,79 +258,80 @@ const CreateGatePass = props => {
                                  style={{ marginTop: resHeight(1.5) }} 
                                  defaultValue={234}
                              />
-                                <View
+                            <View
+                                style={{
+                                    flex:1,
+                                    width: '100%',
+                                }}
+                            >
+                                <TouchableOpacity 
+                                    onPress={toggleTypepicker} 
                                     style={{
                                         flex:1,
+                                        height: '100%',
                                         width: '100%',
                                     }}
                                 >
-                                    <TouchableOpacity 
-                                        onPress={toggleTypepicker} 
-                                        style={{
-                                            flex:1,
-                                            height: '100%',
-                                            width: '100%',
-                                        }}
-                                    >
 
-                                        <SelectInput
-                                            ref={ register({ name: 'type'},{ required: true}) }
-                                            name="type"
-                                            value={type}
-                                            onFocus={toSetType}
-                                            onBlur={closeTypepicker}
-                                            onChangeText={text => console.log(text)}
-                                         placeholder='Type' 
-                                         style={{ marginTop: resHeight(1.5) }} 
-                                         showType={showType}
-                                         />
+                                    <SelectInput
+                                        ref={ register({ name: 'type'},{ required: true}) }
+                                        name="type"
+                                        value={type}
+                                        onFocus={toSetType}
+                                        onBlur={closeTypepicker}
+                                        onChangeText={text => console.log(text)}
+                                     placeholder='Type' 
+                                     style={{ marginTop: resHeight(1.5) }} 
+                                     showType={showType}
+                                     />
 
-                                    </TouchableOpacity>
-                                  
-                                </View>
+                                </TouchableOpacity>
+                              
+                            </View>
+                            {errors.type && <Text style={styles.errorMessage}>Type is required.</Text>}    
 
-                               <View
+                           <View
+                                style={{
+                                    flex:1,
+                                    width: '100%',
+                                }}
+                            >
+                                <TouchableOpacity 
+                                    onPress={toggleDatepicker} 
                                     style={{
                                         flex:1,
+                                        height: '100%',
                                         width: '100%',
                                     }}
                                 >
-                                    <TouchableOpacity 
-                                        onPress={toggleDatepicker} 
-                                        style={{
-                                            flex:1,
-                                            height: '100%',
-                                            width: '100%',
-                                        }}
-                                    >
 
-                                        <DateInput
-                                            ref={ register({ name: 'start_date'},{ required: true}) }
-                                            name="start_date"
-                                            value={getValues()['start_date'] && new Date(getValues()['start_date']).toDateString()}
-                                            onFocus={toggleDatepicker}
-                                            onBlur={closeDatepicker}
-                                            onChangeText={text => console.log(text)}
-                                         placeholder='Start Date' 
-                                         style={{ marginTop: resHeight(1.5) }} 
-                                         showDate={showDate}
-                                         />
+                                    <DateInput
+                                        ref={ register({ name: 'start_date'},{ required: true}) }
+                                        name="start_date"
+                                        value={getValues()['start_date'] && new Date(getValues()['start_date']).toDateString()}
+                                        onFocus={toggleDatepicker}
+                                        onBlur={closeDatepicker}
+                                        onChangeText={text => console.log(text)}
+                                     placeholder='Start Date' 
+                                     style={{ marginTop: resHeight(1.5) }} 
+                                     showDate={showDate}
+                                     />
 
-                                    </TouchableOpacity>
-      
-                                  {showDate && (
-                                    <DateTimePicker
-                                      testID="dateTimePicker"
-                                      timeZoneOffsetInMinutes={0}
-                                      value={date}
-                                      mode={mode}
-                                      is24Hour={true}
-                                      display="default"
-                                      onChange={onChangeDate}
-                                      minimumDate={new Date()}
-                                    />
-                                  )}
-                                </View>
+                                </TouchableOpacity>
+  
+                              {showDate && (
+                                <DateTimePicker
+                                  testID="dateTimePicker"
+                                  timeZoneOffsetInMinutes={0}
+                                  value={date}
+                                  mode={mode}
+                                  is24Hour={true}
+                                  display="default"
+                                  onChange={onChangeDate}
+                                  minimumDate={new Date()}
+                                />
+                              )}
+                            </View>
                             {errors.start_date && <Text style={styles.errorMessage}>Start Date is required.</Text>}    
                              <Controller 
                                 as={(
@@ -352,7 +349,7 @@ const CreateGatePass = props => {
                                  <Controller 
                                 as={(
                                     <CheckBox
-                                    title='Add User as favorites'
+                                    title='Add User as favorite?'
                                     checked={checked}
                                     checkedColor='#222455'
                                     textStyle={styles.checkboxLabel}

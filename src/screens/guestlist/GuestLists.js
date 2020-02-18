@@ -83,7 +83,9 @@ class GuestLists extends Component {
         })
     }
     favoritesComponent = () => (
-        this.state.data.map((item, index) =>
+        this.state.incomingGuests
+        .filter( ({favorite}) => favorite == true )
+        .map((item, index) =>
             <Accordion
                 scrollToPosition={this.currentItem}
                 itemIndex={index}
@@ -95,12 +97,12 @@ class GuestLists extends Component {
     )
 
     guestComponent = () => (
-        <>
-            <View style={{ flex: 1, width: resWidth(89), alignSelf: 'center', overflow: 'hidden' }}>
-                <View style={{ marginVertical: resHeight(1.5) }}>
+        <View style={{ flex: 1}} >
+            <View style={{ flex: 5, width: resWidth(89), alignSelf: 'center', overflow: 'hidden' }}>
+                <View style={{ marginVertical: resHeight(1.2) }}>
                     <Text allowFontScaling={false} style={styles.sectionTitle}>Incoming</Text>
                 </View>
-                <View style={{ paddingRight: 10, height: resHeight(18.5) }}>
+                <View style={{ flex:1, paddingRight: 10, }}>
                     <ScrollView showsVerticalScrollIndicator={false}>
                         {this.state.loading ? (
                             <ActivityIndicator />
@@ -112,22 +114,33 @@ class GuestLists extends Component {
                 </View>
             </View>
 
-            <View style={{ flex: 1 }}>
+            <View style={{ flex: 6 }}>
                 <View style={[styles.tabsContainer, { justifyContent: 'center', marginTop: resHeight(1.25), }]}>
                     <Text allowFontScaling={false} style={styles.sectionText}>Checked In</Text>
                 </View>
-                <View style={{ height: resHeight(33) }}>
+                <View style={{ flex:1, paddingRight: 10, }}>
                     <ScrollView showsVerticalScrollIndicator={false}>
                         {this.state.loading ? (
                             <ActivityIndicator />
-                        ) : this.state.checkedInGuests.map((guest, index) => (
+                        ) : this.state.incomingGuests.map((guest, index) => (
                                 <CheckedInGuest key={index} guest={guest} />
                             )
                         )}
                     </ScrollView>
                 </View>
             </View>
-        </>
+            <View style={styles.bottomWrapper}>
+                <View style={{ width: resWidth(55) }}>
+                    <ButtonWithIcon
+                        title='New Gatepass'
+                        textColor='#65658A'
+                        icon='plus'
+                        iconColor='#65658A'
+                        backgroundColor='#fff'
+                        onPress={() => navigation.navigate('Create Gatepass')} />
+                </View>
+            </View>
+        </View>
     )
     setActiveTab = (tabName) => {
         this.setState({
@@ -167,7 +180,7 @@ class GuestLists extends Component {
                     <SafeAreaView style={{ flex: 1 }}>
                         <View style={styles.container}>
                             <Header navigation={navigation} history='Guest History' />
-                            <View style={{ flex: 5, alignItems: 'center', marginBottom: 5 }}>
+                            <View style={{ flex: 7, alignItems: 'center', }}>
                                 <View style={styles.tabsContainer}>
                                     <TouchableWithoutFeedback onPress={() => this.setActiveTab('Guest')} containerStyle={styles.tabs}>
                                         <View>
@@ -185,17 +198,7 @@ class GuestLists extends Component {
                                     {this.guestListComponent()}
                                 </View>
                             </View>
-                            <View style={styles.bottomWrapper}>
-                                <View style={{ width: resWidth(55) }}>
-                                    <ButtonWithIcon
-                                        title='New Gatepass'
-                                        textColor='#65658A'
-                                        icon='plus'
-                                        iconColor='#65658A'
-                                        backgroundColor='#fff'
-                                        onPress={() => navigation.navigate('Create Gatepass')} />
-                                </View>
-                            </View>
+                            
                         </View>
                     </SafeAreaView>
                 </LinearGradient>
@@ -251,11 +254,12 @@ const styles = StyleSheet.create({
         alignSelf: 'center'
     },
     bottomWrapper: {
-        flex: 1,
+        flex: 2,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#5766BA',
         borderTopLeftRadius: 10,
-        borderTopRightRadius: 10
+        borderTopRightRadius: 10,
+        bottom: 0,
     },
 })
