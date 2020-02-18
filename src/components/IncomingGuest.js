@@ -3,6 +3,9 @@ import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Modal } from 'rea
 import CheckedInGuestDetail from './CheckedInGuestDetail';
 import { resFont, resHeight, resWidth } from '../utils/utils';
 
+import firebase from "firebase";
+import firestore from "firebase/firestore";
+
 export default class IncomingGuest extends Component {
     constructor(props) {
         super(props);
@@ -15,9 +18,13 @@ export default class IncomingGuest extends Component {
             modalVisible: !this.state.modalVisible
         })
     }
+
+    revokePass = () => {
+
+    }
     render() {
         const { guest } = this.props
-        const { name, type, code, status } = guest;
+        const { id, name, type, code, start_date, status } = guest;
         return (
             <Fragment>
                 <Modal transparent={true} visible={this.state.modalVisible}>
@@ -31,8 +38,13 @@ export default class IncomingGuest extends Component {
                         {type || 'Guest'}: {name}
                     </Text>
                     <Text allowFontScaling={false}    style={styles.guestCode}>
+                         {start_date ? `${new Date(Date(start_date)).toDateString()}` : `-`}
+                    </Text>
+                {/*
+                    <Text allowFontScaling={false}    style={styles.guestCode}>
                          {code ? `Code: ${code}` : `-`}
                     </Text>
+                */}
                 </View>
                 {type === 'Staff' ? <TouchableOpacity style={styles.revokeBtn} onPress={this.toggleModal}>
                     <Text allowFontScaling={false}    style={styles.revokeBtnText}>Details</Text>

@@ -17,7 +17,8 @@ export default class CheckedInGuest extends Component {
         })
     }
     render() {
-        const {guest} = this.props
+        const {guest} = this.props;
+        const { name, type, code } = guest;
         return (
             <Fragment>
                    <Modal transparent={true} visible={this.state.modalVisible}>
@@ -30,11 +31,26 @@ export default class CheckedInGuest extends Component {
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                             <View style={{ flexDirection: 'column' }}>
                                 <View>
-                                    <Text allowFontScaling={false}    style={styles.cardTitle}>{guest.name}</Text>
-                                    <Text allowFontScaling={false}    style={styles.cardSubtitle}>Guest</Text>
+                                    <Text 
+                                        allowFontScaling={false}
+                                        style={styles.cardTitle}
+                                    >
+                                        {name}
+                                    </Text>
+                                    <Text 
+                                        allowFontScaling={false}
+                                        style={styles.cardSubtitle}
+                                    >
+                                        {type}
+                                    </Text>
                                 </View>
                                 <View style={{ justifyContent: 'center' }}>
-                                    <Text allowFontScaling={false}    style={styles.cardContent}>N8QS80</Text>
+                                    <Text 
+                                        allowFontScaling={false}
+                                        style={styles.cardContent}
+                                    >
+                                        {code}
+                                    </Text>
                                 </View>
                             </View>
                             <View style={{ alignItems: 'flex-end', flexDirection: 'column', justifyContent: 'flex-end' }}>
