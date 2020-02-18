@@ -6,14 +6,14 @@
     "icon": "src/assets/images/logo_ios.png",
     "slug": "gatepass",
     "privacy": "unlisted",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "sdkVersion": "36.0.0",
     "ios": {
-      "bundleIdentifier": "com.gatepass.resident"
+      "bundleIdentifier": "com.gatepass.residents"
     },
     "android": {
       "package": "com.gatepass.resident",
-      "versionCode": 1
+      "versionCode": 4
     },
     "splash": {
       "image": "./src/assets/images/splashscreen.png",

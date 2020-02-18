@@ -1,16 +1,37 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Dimensions } from 'react-native';
+import { View, StyleSheet, Dimensions, Text, ActivityIndicator } from 'react-native';
 import Input from '../../components/Input';
 import ButtonWithIcon from '../../components/ButtonWithIcon';
 import { LinearGradient } from 'expo-linear-gradient'
 import { SafeAreaView } from 'react-navigation';
 import Header from '../../components/Header';
 import { resWidth, resHeight } from '../../utils/utils';
+import { withFormik } from 'formik';
 
-const { width } = Dimensions.get('window')
-export default class CreateUser extends Component {
+import { addUser } from '../../../api/Store';
+
+const { width } = Dimensions.get('window');
+
+class CreateUser extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            email: '',
+            name: '',
+            loading: false,
+        }
+    }
+    
     render() {
-        const { navigation } = this.props
+        const {
+            navigation,
+            values,
+            touched,
+            errors,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+        } = this.props;
         return (
             <LinearGradient colors={['#fff', '#fff']} style={[StyleSheet.absoluteFillObject]}>
                 <SafeAreaView style={StyleSheet.absoluteFillObject}>
@@ -18,16 +39,45 @@ export default class CreateUser extends Component {
                         <Header navigation={navigation} />
                         <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
                             <View style={styles.middleBlock}>
-                                <Input placeholder='Full Name' />
-                                <Input placeholder='Email Address' style={{ marginTop: resHeight(2.5) }} />
+
+                                <Input 
+                                    placeholder='Full Name' 
+                                    style={{ marginTop: resHeight(2.5) }} 
+                                    onChangeText={handleChange('name')}
+                                    onBlur={handleBlur}
+                                    value={values.name}
+                                />
+                              {errors.name && touched.name && 
+                                <Text
+                                    style={styles.feedback}
+                                feedback
+                                >{errors.name}
+                                </Text>}
+
+                                <Input 
+                                    placeholder='Email Address' 
+                                    style={{ marginTop: resHeight(2.5) }} 
+                                    onChangeText={handleChange('email')}
+                                    onBlur={handleBlur}
+                                    value={values.email}
+                                />
+                              {errors.email && touched.email && 
+                                <Text
+                                    style={styles.feedback}
+                                feedback
+                                >{errors.email}
+                                </Text>}
+
                             </View>
                             <View style={styles.bottomContainer}>
-                                <ButtonWithIcon
-                                    title='Create user'
-                                    textColor='#fff'
-                                    icon='user-plus'
-                                    iconColor='#fff'
-                                    backgroundColor='#5766BA' />
+                            <ButtonWithIcon
+                                title='Create User'
+                                textColor='#fff'
+                                icon='user-plus'
+                                iconColor='#fff'
+                                backgroundColor='#5766BA' 
+                                onPress={handleSubmit}
+                            />
                             </View>
                         </View>
                     </View>
@@ -36,6 +86,43 @@ export default class CreateUser extends Component {
         )
     }
 }
+
+function confirmUser(user){
+  alert(user.email+' has been emailed login instructions');
+}
+
+const MyEnhancedForm = withFormik({
+  mapPropsToValues: () => ({ 
+    name: '',
+    email: '',
+   }),
+
+  // Custom sync validation
+  validate: values => {
+    const errors = {};
+
+    if (!values.name) {
+      errors.name = 'Required';
+    }
+    if (!values.email) {
+      errors.email = 'Required';
+    }
+    return errors;
+  },
+
+
+
+  handleSubmit: (values, { setSubmitting }) => {
+    addUser(values,confirmUser);
+    setTimeout(() => {
+      setSubmitting(false);
+    }, 1000);
+  },
+
+  displayName: 'CreateUserForm',
+})(CreateUser);
+
+export default MyEnhancedForm;
 
 const styles = StyleSheet.create({
     middleBlock: {
@@ -58,4 +145,8 @@ const styles = StyleSheet.create({
         marginTop: resHeight(6),
         width: resWidth(55),
     },
+    feedback: {
+        color: 'red',
+        fontSize: 10,
+    }
 })
