@@ -103,7 +103,7 @@ export default class FloatingButton extends Component {
             <View style={[styles.container, this.props.style]}>
                 <Animated.View style={[styles.background, bgStyle]} />
                 <TouchableWithoutFeedback>
-                    <Animated.View style={[styles.button, styles.secondary, styles.crimeBckg, crimeStyle]}>
+                    <Animated.View style={[styles.secondary, styles.crimeBckg, crimeStyle]}>
                         <Animated.View style={[styles.fabTextWrap, animatedStyle]}>
                             <Text allowFontScaling={false}    style={styles.fabText}>Crime</Text>
                         </Animated.View>
@@ -111,7 +111,7 @@ export default class FloatingButton extends Component {
                     </Animated.View>
                 </TouchableWithoutFeedback>
                 <TouchableWithoutFeedback>
-                    <Animated.View style={[styles.button, styles.secondary, styles.heartBckg, healthStyle]}>
+                    <Animated.View style={[styles.secondary, styles.heartBckg, healthStyle]}>
                         <Animated.View style={[styles.fabTextWrap, animatedStyle]}>
                             <Text allowFontScaling={false}    style={styles.fabText}>Health</Text>
                         </Animated.View>
@@ -119,7 +119,7 @@ export default class FloatingButton extends Component {
                     </Animated.View>
                 </TouchableWithoutFeedback>
                 <TouchableWithoutFeedback>
-                    <Animated.View style={[styles.button, styles.secondary, styles.violenceBckg, violenceStyle]}>
+                    <Animated.View style={[styles.secondary, styles.violenceBckg, violenceStyle]}>
                         <Animated.View style={[styles.fabTextWrap, animatedStyle]}>
                             <Text allowFontScaling={false}    style={styles.fabText}>Domestic Violence</Text>
                         </Animated.View>
@@ -127,7 +127,7 @@ export default class FloatingButton extends Component {
                     </Animated.View>
                 </TouchableWithoutFeedback>
                 <TouchableWithoutFeedback>
-                    <Animated.View style={[styles.button, styles.secondary, styles.fireBckg, fireStyle]}>
+                    <Animated.View style={[styles.secondary, styles.fireBckg, fireStyle]}>
                         <Animated.View style={[styles.fabTextWrap, animatedStyle]}>
                             <Text allowFontScaling={false}  style={styles.fabText}>Fire</Text>
                         </Animated.View>
@@ -160,20 +160,26 @@ const styles = StyleSheet.create({
     },
     container: {
         position: 'absolute',
+        elevation: 5,
         alignItems: 'center',
+        backgroundColor: 'black',
+        width: resHeight(7),
+        height: resHeight(7),
+        borderRadius: resHeight(7) / 2,
+        // overflow: 'hidden'
     },
     background: {
-        backgroundColor: 'rgba(0,0,0, .4)',
-        position: 'absolute',
-        width: 50,
-        height: 50,
-        borderRadius: 25,
+        backgroundColor: 'rgba(20,0,0, .4)',
+        width: resHeight(7),
+        height: resHeight(7),
+        borderRadius: resHeight(7) / 2,
     },
     button: {
-        // position: 'absolute',
-        width: resHeight(8),
-        height: resHeight(8),
-        borderRadius: resHeight(8) / 2,
+        position: 'absolute',
+        top:0,
+        height: '100%',
+        width: '100%',
+        borderRadius: 100,
         alignItems: 'center',
         justifyContent: 'center',
         shadowRadius: 2,
@@ -185,7 +191,7 @@ const styles = StyleSheet.create({
         elevation: 3
     },
     menu: {
-        backgroundColor: '#cd3f3f'
+        backgroundColor: 'red'
     },
     secondary: {
         position: 'absolute',
