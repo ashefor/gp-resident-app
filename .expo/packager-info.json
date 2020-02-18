@@ -1,10 +1,10 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": null,
-  "packagerPort": null,
-  "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
+  "expoServerPort": 19000,
+  "packagerPort": 19003,
+  "packagerPid": 23261,
+  "expoServerNgrokUrl": "https://j7-56a.ashefor.gp-app-resident.exp.direct",
+  "packagerNgrokUrl": "https://packager.j7-56a.ashefor.gp-app-resident.exp.direct",
+  "ngrokPid": 23281,
   "webpackServerPort": null
 }
