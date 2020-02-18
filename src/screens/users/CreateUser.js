@@ -8,24 +8,9 @@ import Header from '../../components/Header';
 import { resWidth, resHeight } from '../../utils/utils';
 import { withFormik } from 'formik';
 
-const { width } = Dimensions.get('window');
+import { addUser } from '../../../api/Store';
 
-var actionCodeSettings = {
-  // URL you want to redirect back to. The domain (www.example.com) for this
-  // URL must be whitelisted in the Firebase Console.
-  // url: 'https://www.example.com/finishSignUp?cartId=1234',
-  // This must be true.
-  handleCodeInApp: true,
-  iOS: {
-    bundleId: 'com.gatepass.residents'
-  },
-  android: {
-    packageName: 'com.gatepass.resident',
-    installApp: true,
-    minimumVersion: '12'
-  },
-  dynamicLinkDomain: 'gatepass.residents.link'
-};
+const { width } = Dimensions.get('window');
 
 class CreateUser extends Component {
     constructor(props) {
@@ -46,7 +31,6 @@ class CreateUser extends Component {
             handleBlur,
             handleSubmit,
         } = this.props;
-        console.log(values);
         return (
             <LinearGradient colors={['#fff', '#fff']} style={[StyleSheet.absoluteFillObject]}>
                 <SafeAreaView style={StyleSheet.absoluteFillObject}>
@@ -102,6 +86,10 @@ class CreateUser extends Component {
     }
 }
 
+function confirmUser(user){
+  alert(user.email+' has been emailed login instructions');
+}
+
 const MyEnhancedForm = withFormik({
   mapPropsToValues: () => ({ 
     name: '',
@@ -121,9 +109,11 @@ const MyEnhancedForm = withFormik({
     return errors;
   },
 
+
+
   handleSubmit: (values, { setSubmitting }) => {
+    addUser(values,confirmUser);
     setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
       setSubmitting(false);
     }, 1000);
   },

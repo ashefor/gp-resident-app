@@ -81,14 +81,41 @@ export function addgatepass(gatepass, addComplete) {
 
 
 export function addUser(user, addComplete) {
-  user.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+  var actionCodeSettings = {
+    // URL you want to redirect back to. The domain (www.example.com) for this
+    // URL must be whitelisted in the Firebase Console.
+    // url: 'https://www.example.com/finishSignUp?cartId=1234',
+    // This must be true.
+    handleCodeInApp: true,
+    iOS: {
+      bundleId: 'com.gatepass.residents'
+    },
+    android: {
+      packageName: 'com.gatepass.resident',
+      installApp: true,
+      minimumVersion: '12'
+    },
+    dynamicLinkDomain: 'gatepass.residents.link'
+  };
 
+  user.createdAt = firebase.firestore.FieldValue.serverTimestamp();
   firebase.firestore()
     .collection('users')
     .add(user)
     .then((snapshot) => {
+      console.log(user);
       user.id = snapshot.id;
       snapshot.set(user);
+      const { email } = user;
+
+      firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings)
+      .then(function() {
+        // The link was successfully sent. Inform the user.
+        // Save the email locally so you don't need to ask the user for it again
+        // if they open the link on the same device.
+        window.localStorage.setItem('emailForSignIn', email);
+      })
+      .catch((error) => console.log(error));
     })
     .then(() => addComplete(user))
     .catch((error) => console.log(error));

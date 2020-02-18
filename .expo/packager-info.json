@@ -2,9 +2,9 @@
   "devToolsPort": 19002,
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 9815,
+  "packagerPid": 10224,
   "expoServerNgrokUrl": "https://xy-ics.sargent.gp-app-resident.exp.direct",
   "packagerNgrokUrl": "https://packager.xy-ics.sargent.gp-app-resident.exp.direct",
-  "ngrokPid": 9860,
+  "ngrokPid": 10245,
   "webpackServerPort": null
 }
