@@ -208,14 +208,14 @@ class NoticeBoard extends Component {
                                     </View>
                                 </View>
                             </ScrollView>
-                            <View style={{ width: resWidth(89), justifyContent: 'space-between', alignSelf: 'center', alignItems: 'center', marginBottom: resHeight(1) }}>
+                            <View style={{
+                                justifyContent: 'space-between', alignSelf: 'center', alignItems: 'center', marginBottom: resHeight(1) }}>
                                 <ButtonWithIcon
                                     style={{ backgroundColor: '#5766BA', width: resWidth(50) }}
                                     title='New Post'
                                     textColor='#fff'
                                     icon='plus'
                                     iconColor='#fff'
-                                    backgroundColor='#5766BA'
                                     onPress={() => navigation.navigate('New Post')} />
                             </View>
                         </View>

@@ -28,17 +28,18 @@ export default class Accordion extends Component {
         })
     }
     render() {
+        const {item, goToStaffHistory} = this.props
         return (
-            <View style={{ width: resWidth(89) , flex: 1}}>
-                <View style={[styles.customCard, {backgroundColor: this.props.bgColor}]}>
+            <View style={{ width: resWidth(89)}}>
+                 <View style={[styles.customCard, {backgroundColor: this.props.bgColor}]}>
                     <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                         <View style={{flexDirection: 'column'}}>
                             <View>
-                                <Text allowFontScaling={false}    style={styles.cardTitle}>Martin Kenneth</Text>
-                                <Text allowFontScaling={false}    style={styles.cardSubtitle}>User</Text>
+                                <Text allowFontScaling={false}   style={styles.cardTitle}>{item.name}</Text>
+                                <Text allowFontScaling={false}   style={styles.cardSubtitle}>{item.type}</Text>
                             </View>
                             <View style={{justifyContent: 'center'}}>
-                                <Text allowFontScaling={false}    style={styles.cardContent}>N8QS80</Text>
+                                <Text allowFontScaling={false}    style={styles.cardContent}>{item.code}</Text>
                             </View>
                         </View>
                         <View style={{alignItems: 'flex-end', flexDirection: 'column', justifyContent: 'space-between'}}>
@@ -65,16 +66,16 @@ export default class Accordion extends Component {
                                     <View style={[styles.chid_children, { paddingRight: 2 }]}>
                                         <View style={{ alignItems: 'flex-start', marginVertical: resHeight(1.25) }}>
                                             <Text allowFontScaling={false}    style={styles.chid_children_header}>Last Checked In:</Text>
-                                            <Text allowFontScaling={false}    style={[styles.chid_children_subheader, { textAlign: 'left' }]}>{this.props.checkedIn}</Text>
+                                            <Text allowFontScaling={false}    style={[styles.chid_children_subheader, { textAlign: 'left' }]}>{item.checkedIn}</Text>
                                         </View>
-                                        <TouchableOpacity style={styles.historyBtn}>
+                                        <TouchableOpacity style={styles.historyBtn} onPress={goToStaffHistory}>
                                             <Text allowFontScaling={false}    style={styles.historyBtnText}>View History</Text>
                                         </TouchableOpacity>
                                     </View>
                                     <View style={[styles.chid_children, { paddingLeft: 2 }]}>
                                         <View style={{ alignItems: 'flex-end', marginVertical: resHeight(1.25) }}>
                                             <Text allowFontScaling={false}    style={styles.chid_children_header}>Checkout</Text>
-                                            <Text allowFontScaling={false}    style={[styles.chid_children_subheader, { textAlign: 'right' }]}>{this.props.checkedIn}</Text>
+                                            <Text allowFontScaling={false}    style={[styles.chid_children_subheader, { textAlign: 'right' }]}>{item.checkedIn}</Text>
                                         </View>
                                         <TouchableOpacity style={styles.deleteBtn}>
                                             <Text allowFontScaling={false}    style={styles.deleteBtnText}>Delete</Text>

@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { StatusBar, TouchableOpacity, StyleSheet, Image, Text, Platform } from 'react-native';
+import { StatusBar, TouchableOpacity, StyleSheet, Image, Text, Platform, View } from 'react-native';
 import { Feather, FontAwesome, Entypo, Ionicons } from '@expo/vector-icons';
 import { NavBar } from 'galio-framework';
 import { NavigationEvents } from 'react-navigation';
@@ -48,6 +48,20 @@ const SkipButton = ({ navigation }) => (
 const CloseButton = ({ navigation }) => (
     <TouchableOpacity onPress={() => navigation.goBack()}>
         <Ionicons name='md-close' color='#ffffff' size={resFont(25)} />
+    </TouchableOpacity>
+)
+const HeartButton = ({ navigation, style }) => (
+    <TouchableOpacity onPress={() => {}} style={{...style}}>
+        <Feather name='heart' color='#222455' size={resFont(25)} />
+    </TouchableOpacity>
+)
+const FeedbackButton = ({ navigation , style}) => (
+    <TouchableOpacity onPress={() => {}} style={{...style}}>
+        <Image source={require('../assets/images/feedback.png')} style={{
+            width: resFont(25),
+            height: resFont(25),
+            resizeMode: 'contain'
+        }} />
     </TouchableOpacity>
 )
 class Header extends Component {

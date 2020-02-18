@@ -16,15 +16,24 @@ class Staff extends Component {
         this.state = {
             data: [
                 {
+                    name: 'Emmanuel Essien',
+                    type: 'staff',
+                    code: 'N8QS80',
                     checkedIn: 'January 20, 2014 10:30am',
                 },
-                {
+                {   name: 'Chioma Ndume',
+                    type: 'staff',
+                    code: 'N8QS70',
                     checkedIn: 'January 21, 2014 10:30am',
                 },
-                {
+                {   name: 'Kayode Peters',
+                    type: 'staff',
+                    code: 'N8QS60',
                     checkedIn: 'January 22, 2014 10:30am',
                 },
-                {
+                {   name: 'Martin Kenneth',
+                    type: 'staff',
+                    code: 'N8QS50',
                     checkedIn: 'January 23, 2014 10:30am',
                 },
             ],
@@ -46,7 +55,8 @@ class Staff extends Component {
                 scrollToPosition={this.currentItem}
                 itemIndex={index}
                 key={index}
-                checkedIn={item.checkedIn}
+                item={item}
+                goToStaffHistory={()=> this.props.navigation.navigate('Staff History', {item: item})}
                 bgColor='#5766BA' />)
     )
     render() {
@@ -70,11 +80,11 @@ class Staff extends Component {
                                 <View style={styles.bottomWrapper}>
                                     <View style={{ width: resWidth(55) }}>
                                         <ButtonWithIcon
+                                        style={{ backgroundColor:'#fff', width: resWidth(50) }}
                                             title='New Staff'
                                             textColor='#65658A'
                                             icon='user-plus'
                                             iconColor='#65658A'
-                                            backgroundColor='#fff'
                                             onPress={() => this.props.navigation.navigate('Create Staff')} />
                                     </View>
                                 </View>

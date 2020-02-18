@@ -1,1 +1,9 @@
-{}
+{
+  "expoServerPort": 19000,
+  "expoServerNgrokUrl": "https://mr-gap.ashefor.gp-app-resident.exp.direct",
+  "packagerNgrokUrl": "https://packager.mr-gap.ashefor.gp-app-resident.exp.direct",
+  "ngrokPid": 28804,
+  "devToolsPort": 19002,
+  "packagerPort": 19004,
+  "packagerPid": 28784
+}

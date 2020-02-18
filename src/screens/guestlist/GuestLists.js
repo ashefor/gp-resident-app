@@ -119,11 +119,11 @@ class GuestLists extends Component {
             <View style={styles.bottomWrapper}>
                 <View style={{ width: resWidth(55) }}>
                     <ButtonWithIcon
+                    style={{ backgroundColor:'#fff', width: resWidth(50) }}
                         title='New Gatepass'
                         textColor='#65658A'
                         icon='plus'
                         iconColor='#65658A'
-                        backgroundColor='#fff'
                         onPress={() => this.props.navigation.navigate('Create Gatepass')} />
                 </View>
             </View>

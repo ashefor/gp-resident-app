@@ -8,9 +8,9 @@ export default class ButtonWithIcon extends Component {
         super(props)
     }
     render() {
-        const {backgroundColor, title, onPress, icon, iconColor, textColor} = this.props
+        const {backgroundColor, title, onPress, icon, iconColor, textColor, style} = this.props
         return (
-            <TouchableOpacity style={[styles.button, {backgroundColor: backgroundColor}]} onPress={onPress}>
+            <TouchableOpacity style={[styles.button, {...style}]} onPress={onPress}>
             <Feather name={icon} color={iconColor} size={resFont(25)} />
                 <Text allowFontScaling={false}    style={[styles.btnText, {color: textColor}]}>{title}</Text>
             </TouchableOpacity>
@@ -22,7 +22,6 @@ const styles = StyleSheet.create({
     button: {
         flexDirection:'row',
         alignItems: 'center',
-        backgroundColor: '#5666ba',
         paddingLeft: resWidth(5),
         borderRadius: 5, 
         height: resHeight(7),
